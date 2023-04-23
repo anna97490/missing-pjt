@@ -1,0 +1,30 @@
+.cont-aside {
+  width: 80% !important;
+  padding-top: 40%;
+  box-shadow: 4px 10px 9px 0px rgb(0 0 0 / 13%);
+  .text-base {
+    font-size: 14px;
+  }
+  .link-aside {
+    font-size: 13px;
+  }
+  svg {
+    width: 19px;
+    color: #6B7280;
+  }
+  .menu-side {
+    width: 200px;
+    height: 100%;
+    background-color: #333;
+    color: #fff;
+    top: 0;
+    left: -200px;
+    transition: left 0.3s ease-out;
+  }
+  .menu-side.open {
+    left: 0;
+  }
+  span {
+    color: #000;
+  }
+}

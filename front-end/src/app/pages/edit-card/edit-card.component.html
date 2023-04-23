@@ -1,0 +1,243 @@
+<div class="container-edit-card">
+
+  <!-- Sidebar -->
+  <app-sidebar></app-sidebar>
+
+  <div class="cont-title">
+    <h1>Modifier les information de la fiche</h1>
+  </div>
+
+  <!-- Form to submit changes of Post -->
+  <form
+    [formGroup]="editPostForm"
+    enctype="multipart/form-data"
+    (submit)="editPost($event, postId)"
+    class="border border-gray-200 rounded-lg shadow dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-c-700"
+  >
+    <div class="grid md:grid-cols-2 md:gap-6">
+
+      <!-- Firstname -->
+      <div class="relative z-0 w-full mb-6 group">
+        <input
+          type="text"
+          name="floating_first_name"
+          id="floating_first_name"
+          formControlName="firstname"
+          class="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 border-gray-300
+            appearance-none dark:text-white dark:border-gray-600 dark:focus:border-grey-500 focus:outline-none
+            focus:ring-0 focus:border-grey-600 peer"
+            placeholder="{{ post.firstname }}"
+          />
+        <label
+          for="floating_first_name"
+          class="peer-focus:font-medium absolute text-sm dark:text-gray-400 duration-300 transform -translate-y-2
+            scale-55 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-grey-600 peer-focus:dark:text-grey-500
+            peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-55 peer-focus:-translate-y-2"
+        >
+          Prénom
+        </label>
+      </div>
+
+      <!-- Lastname -->
+      <div class="relative z-0 w-full mb-6 group">
+        <input
+          type="text"
+          name="floating_last_name"
+          id="floating_last_name"
+          formControlName="lastname"
+          class="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 border-gray-300
+            appearance-none dark:text-white dark:border-gray-600 dark:focus:border-grey-500 focus:outline-none
+            focus:ring-0 focus:border-grey-600 peer"
+          placeholder="{{ post.lastname }}"
+          />
+        <label
+          for="floating_last_name"
+          class="peer-focus:font-medium absolute text-sm dark:text-gray-400 duration-300 transform -translate-y-2
+            scale-55 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-grey-600 peer-focus:dark:text-grey-500
+            peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-55 peer-focus:-translate-y-2"
+        >
+          Nom
+        </label>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-2 md:gap-6">
+
+      <!-- Birth date -->
+      <div class="relative z-0 w-full mb-6 group">
+        <input
+          type="date"
+          name="birthDate"
+          id="birthDate"
+          formControlName="birthDate"
+          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none
+            dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          (input)="validateDate($event)"
+        />
+        <label
+          for="birthDate"
+          class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-2
+            scale-55 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500
+            peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-55 peer-focus:-translate-y-2"
+        >
+          Date de naissance
+        </label>
+      </div>
+
+      <!-- Address -->
+      <div class="relative z-0 w-full mb-6 group">
+        <input
+          type="text"
+          name="address"
+          id="address"
+          formControlName="address"
+          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none
+            dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          placeholder="{{ post.address }}"
+        />
+        <label
+          for="address"
+          class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-2
+            scale-55 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500
+            peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-55 peer-focus:-translate-y-2"
+        >
+          Résidant à:
+        </label>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-2 md:gap-6">
+      <!-- MissingPlace -->
+      <div class="relative z-0 w-full mb-6 group">
+        <input
+          type="text"
+          name="missingPlace"
+          id="missingPlace"
+          formControlName="missingPlace"
+          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none
+            dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            placeholder="{{ post.missingPlace }}"
+        />
+        <label
+          for="missingPlace"
+          class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-2
+            scale-55 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500
+            peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-55 peer-focus:-translate-y-2"
+        >
+          Lieu de disparition
+        </label>
+      </div>
+
+      <!-- MissingDate -->
+      <div class="relative z-0 w-full mb-6 group">
+        <input
+          type="date"
+          name="missing-date"
+          id="missing-date"
+          formControlName="missingDate"
+          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none
+            dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          placeholder=" "
+          (input)="validateDate($event)"
+        />
+        <label
+          for="missing-date"
+          class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-2
+            scale-55 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500
+            peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-55 peer-focus:-translate-y-2"
+        >
+          Date de disparition
+        </label>
+      </div>
+    </div>
+
+     <!-- Description -->
+     <div class="relative z-0 w-full mb-6 group">
+      <div class="relative z-0 w-full mb-6 group">
+        <textarea
+          type="text"
+          name="description"
+          id="description"
+          formControlName="description"
+          class="description-txt block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none
+          dark:text-white dark:border-gray-300 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          placeholder="{{ post.description }}"
+        ></textarea>
+        <label
+          for="description"
+          class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-3
+            scale-60 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500
+            peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-60 peer-focus:-translate-y-3"
+        >
+          Description
+        </label>
+      </div>
+    </div>
+
+    <!-- Post image -->
+    <div class="field-photo">
+      <label class="block text-sm font-medium text-gray-700">Photo</label>
+      <div class="mt-1 flex items-center">
+        <span class="inline-block overflow-hidden rounded-full bg-gray-100">
+          <img src="{{ post.image }}" alt="Missing person's picture">
+        </span>
+      </div>
+    </div>
+
+    <!-- Drag and drop picture -->
+    <div class="field-photo">
+      <div class="mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
+        <div class="space-y-1 text-center">
+          <svg
+            class="mx-auto h-12 w-12 text-gray-400"
+            stroke="currentColor"
+            fill="none"
+            viewBox="0 0 48 48"
+            aria-hidden="true"
+          >
+            <path
+              d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8
+                  32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          <div class="flex text-sm text-gray-600">
+            <label
+              for="image"
+              class="relative cursor-pointer rounded-md bg-white font-medium focus-within:outline-none
+              focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500"
+            >
+              <span class="upload-text">Upload a file</span>
+              <input
+                id="image"
+                name="image"
+                type="file"
+                enctype="multipart/form-data"
+                (change)="onFileSelected($event)"
+                class="sr-only"
+                required="true"
+              />
+            </label>
+            <p class="pl-1">or drag and drop</p>
+          </div>
+          <p id="file-name"></p>
+          <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Button Edit Post -->
+    <button
+      type="submit"
+      class="btn-invalid-form py-2.5 px-5 mr-2 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200
+        focus:z-10 focus:ring-4 focus:outline-none focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800
+        dark:text-gray-400 dark:border-gray-600 inline-flex items-center"
+      >
+       Enregistrer
+     </button>
+     <span *ngIf="isSend" class="message">Votre fiche disparition a bien été crée</span>
+  </form>
+
+</div>

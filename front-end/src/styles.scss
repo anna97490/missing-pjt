@@ -1,0 +1,27 @@
+/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body {
+  background-color: #ffffff;
+  height: 100%;
+  margin: 0 !important;
+}
+body {
+  margin: 0 !important;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.container-home,
+.container-index,
+.container-dashboard,
+.container-form-missing,
+.container-list-missing {
+  height: 100vh;
+  width: 100%;
+  background-color: #dbdbdb14;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

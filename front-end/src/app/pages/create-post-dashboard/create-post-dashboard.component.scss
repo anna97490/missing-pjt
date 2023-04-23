@@ -1,0 +1,39 @@
+.container-form-missing {
+  padding: 10% 2% 0% 20% ;
+  height: 100%;
+  background-color: rgba(219, 219, 219, 0.0784313725);
+  .cont-title {
+    font-weight: bold;
+    font-size: 17px;
+    margin-bottom: 3%;
+    text-align: center;
+  }
+  form {
+    padding: 3%;
+    input {
+      margin-top: 2%;
+    }
+  }
+  .description-txt {
+    height: 9rem;
+  }
+  .change-btn {
+    color: #7ca57c;
+    background-color: #fff;
+    border: 1px solid #7ca57c;
+  }
+  .upload-text {
+    color: #7ca57c;
+  }
+  button {
+    margin-top: 4%;
+  }
+  .btn-invalid-form {
+    color: #ada7a7;
+    background-color: #f2f2f2;
+  }
+  .btn-valid-form {
+    color: #fff;
+    background-color: #7ca57c;
+  }
+}

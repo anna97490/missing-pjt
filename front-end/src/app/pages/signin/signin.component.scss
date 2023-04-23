@@ -1,0 +1,34 @@
+.container-signin {
+  position: relative;
+  height: 100%;
+  padding: 12% 16% 0% 16%;
+
+  .link-index {
+    position: absolute;
+    top: 12%;
+    left: 2%;
+  }
+  .logo {
+    margin-bottom: 5%;
+  }
+  .error-email,
+  .error-birth-date {
+    color: red;
+  }
+  .cont-btn {
+    text-align: center;
+    .btn-invalid-form {
+      color: #ffffff;
+      background-color: #caf8ca;
+    }
+    .btn-valid-form {
+      color: #fff;
+      background-color: #cbffcb;
+    }
+  }
+  span{
+    display: block;
+  }
+}
+
+

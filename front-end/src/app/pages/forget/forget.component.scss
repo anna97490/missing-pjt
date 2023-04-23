@@ -1,0 +1,32 @@
+.container-forget {
+    position: relative;
+    height: 100%;
+    padding: 12% 16% 0% 16%;
+  
+    .link-index {
+      position: absolute;
+      top: 12%;
+      left: 2%;
+    }
+    .logo {
+      margin-bottom:2%;
+    }
+    .btn-login {
+      text-align: center;
+    }
+    .btn-invalid-form {
+      color: #ffffff;
+      background-color: #caf8ca;
+    }
+    .btn-valid-form {
+      color: #fff;
+      background-color: #cbffcb;
+    }
+    .message {
+      margin-top: 1%;
+      color: red;
+      font-size: 12px;
+    }
+  
+  }
+  

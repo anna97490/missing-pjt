@@ -1,0 +1,62 @@
+<div class="container-index">
+
+  <div class="top-of-index">
+    <!-- Modal  -->
+    <div *ngIf="isLoggedIn === false" class="cont-creation">
+      <a href="#" (click)="openModal($event)" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700">
+        <svg aria-hidden="true" class="creation-icon flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 576 512" xmlns="http://www.w3.org/2000/svg" >
+          <path d="M208 48c0 26.5-21.5 48-48 48s-48-21.5-48-48s21.5-48 48-48s48 21.5 48 48zM152 352V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V256.9L59.4 304.5c-9.1 15.1-28.8 20-43.9 10.9s-20-28.8-10.9-43.9l58.3-97c17.4-28.9 48.6-46.6 82.3-46.6h29.7c33.7 0 64.9 17.7 82.3 46.6l44.9 74.7c-16.1 17.6-28.6 38.5-36.6 61.5c-1.9-1.8-3.5-3.9-4.9-6.3L232 256.9V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V352H152zM432 512c-79.5 0-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144s-64.5 144-144 144zm0-48c13.3 0 24-10.7 24-24s-10.7-24-24-24s-24 10.7-24 24s10.7 24 24 24zm0-192c-8.8 0-16 7.2-16 16v80c0 8.8 7.2 16 16 16s16-7.2 16-16V288c0-8.8-7.2-16-16-16z"/>
+        </svg>
+        <span class="span-creation flex-1 ml-3 whitespace-nowrap">Créer une fiche disparition</span>
+        <app-modal *ngIf="modalOpen" (close)="closeModal()"></app-modal>
+      </a>
+    </div>
+
+    <!-- Search bar -->
+    <div class="cont-search-bar">
+      <form class="form-search-bar">
+        <div class="search-bar flex">
+          <div class="relative w-full">
+            <input type="search" id="search-dropdown" [(ngModel)]="selectedDate" [(ngModel)]="searchText" name="searchText" class="block p-2.5 w-full z-20 text-sm  rounded-r-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:border-l-gray-700  dark:border-gray-600 dark:placeholder-gray-400" placeholder="Votre recherche" required>
+            <button (click)="onSearch()" type="submit" class="btn-search absolute top-0 right-0 p-2.5 font-medium text-white rounded-r-lg border hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+              <svg aria-hidden="true" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <!-- Filter bar --> 
+    <div class="container">
+
+      <div class="flex items-center row">
+        <i class="fa-solid fa-arrow-down-a-z col-3"></i>
+        <button (click)="trialphabetique()" type="submit" class="b mr-2"> Ordre Alphabetique 
+        </button>
+        
+        <i class="fa-solid fa-arrow-down-short-wide col-3"></i>
+        <button (click)="tricroissant()" type="submit" class="b mr-2"> Disparition Récente
+        </button>
+        <i class="fa-solid fa-arrow-up-wide-short col-3"></i>
+        <button (click)="tridecroissant()" type="submit" class="b"> Disparition Ancienne
+        </button>
+        
+      </div>     
+      </div>
+      </div>
+
+
+  <hr>
+
+  <!-- Sidebar -->
+  <div *ngIf="isLoggedIn === true" class="cont-sidebar">
+    <app-sidebar></app-sidebar>
+  </div>
+
+  <!-- Page content - List of Posts -->
+  <div *ngFor="let post of posts" class="container-page">
+    <app-card-missing [post]="post"></app-card-missing>
+  </div>
+
+</div>
