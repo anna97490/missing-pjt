@@ -37,7 +37,7 @@ export class LoginComponent {
     if (email && password && this.loginForm.valid) {
       this.authService.login(email, password).subscribe({
         next: (response) => {
-          this.router.navigate(['/index']);
+          this.router.navigate(['/posts-index']);
         },
         error: (error) => {
           console.error(error);

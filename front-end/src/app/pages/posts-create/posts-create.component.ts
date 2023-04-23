@@ -4,11 +4,11 @@ import { AuthService } from '../../service/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-create-post-dashboard',
-  templateUrl: './create-post-dashboard.component.html',
-  styleUrls: ['./create-post-dashboard.component.scss']
+  selector: 'app-posts-create',
+  templateUrl: './posts-create.component.html',
+  styleUrls: ['./posts-create.component.scss']
 })
-export class CreatePostDashboardComponent {
+export class PostsCreateComponent {
   isLoggedIn    : boolean = false;
   createPostForm: any = FormGroup;
   userId        : any;

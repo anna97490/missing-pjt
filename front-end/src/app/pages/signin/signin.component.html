@@ -115,27 +115,7 @@
                        focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
                        dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 required="true" maxlength="18"
-                (input)="checkPasswordValidity()"
-                (focus)="showPasswordInfo = true"
-                (blur)="showPasswordInfo = false"/>
-              <div class="text-sm mt-2" [ngClass]="{'opacity-100': showPasswordInfo, 'opacity-0': !showPasswordInfo}"
-                   [style.visibility]="showPasswordInfo ? 'visible' : 'hidden'">
-                <span id="length-info" class="text-red-500">
-                  Entre 8 et 18 caractères
-                  <i class="fa-solid" [ngClass]="{'fa-xmark': !isLengthValid, 'fa-check': isLengthValid}"
-                     [style.color]="isLengthValid ? '#1eff00' : '#ff0000'"></i>
-                </span>
-                <span id="uppercase-info" class="text-red-500">
-                  Au moins une majuscule
-                  <i class="fa-solid" [ngClass]="{'fa-xmark': !hasUppercase, 'fa-check': hasUppercase}"
-                     [style.color]="hasUppercase ? '#1eff00' : '#ff0000'"></i>
-                </span>
-                <span id="number-info" class="text-red-500">
-                  Au moins 1 chiffre
-                  <i class="fa-solid" [ngClass]="{'fa-xmark': !hasNumber, 'fa-check': hasNumber}"
-                     [style.color]="hasNumber ? '#1eff00' : '#ff0000'"></i>
-                </span>
-              </div>
+              />
             </div>
 
             <!-- Button  -->

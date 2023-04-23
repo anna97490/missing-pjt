@@ -2,7 +2,7 @@ import { Component, OnInit, Input  } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { PostService } from '../../service/post.service';
 import { AuthService } from '../../service/auth.service';
-import { Post } from 'src/app/models/post.model';
+import { Post } from 'src/app/models/Post.model';
 import { Router } from '@angular/router';
 
 @Component({
@@ -30,7 +30,7 @@ export class CardMissingComponent implements OnInit {
   ngOnInit() {
     this.isLoggedIn = this.authService.isLoggedIn();
     this.userId     = localStorage.getItem('userId');
-    
+
     // Get all posts
      this.postService.getPosts().subscribe((posts: Post[]) => {
       this.posts = posts;
@@ -61,7 +61,7 @@ export class CardMissingComponent implements OnInit {
   capitalizeString(string: string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
-  
+
 
   // Edit Post
   editPost(event: Event, postId: string) {

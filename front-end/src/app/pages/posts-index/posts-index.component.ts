@@ -1,15 +1,15 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Post } from '../../models/post.model';
+import { Post } from '../../models/Post.model';
 import { PostService } from '../../service/post.service';
 import { AuthService } from '../../service/auth.service';
 
-@Component({
-  selector: 'app-index',
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.component.scss']
-})
 
-export class IndexComponent implements OnInit {
+@Component({
+  selector: 'app-posts-index',
+  templateUrl: './posts-index.component.html',
+  styleUrls: ['./posts-index.component.scss']
+})
+export class PostsIndexComponent {
   @Input() showContCreation: boolean = true;
   isLoggedIn   : boolean = false;
   posts        : Post[] = [];
@@ -65,28 +65,16 @@ export class IndexComponent implements OnInit {
   // Function for search bar
   onSearch() {
     if (this.searchText) {
-      const searchTerm = this.searchText.toLowerCase(); // Convertir la chaîne de recherche en minuscules
-      // Rechercher par missingPlace
+      // Convert the search string to lowercase.
+      const searchTerm = this.searchText.toLowerCase();
+      // Search by missingPlace
       this.filteredPosts = this.allPosts.filter((post) =>
-      post.missingPlace.toLowerCase().includes(searchTerm) // Convertir la chaîne de l'objet de l'article en minuscules
-  );
-  this.posts = [...this.filteredPosts];
-  } else {
-    this.posts = [...this.allPosts];
-  }
-}
-
-  trialphabetique() {
-    this.posts = [...this.posts.sort((a, b) => a.firstname.localeCompare(b.firstname))];
-  }
-
-  // Tri par date, les plus récentes d'abord
-  tricroissant() {
-    this.posts = [...this.posts.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())];
-  }
-
-  // Tri par date, les plus anciennes d'abord
-  tridecroissant() {
-    this.posts = [...this.posts.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())];
+       //Convert the string of the article object to lowercase
+        post.missingPlace.toLowerCase().includes(searchTerm)
+      );
+    this.posts = [...this.filteredPosts];
+    } else {
+      this.posts = [...this.allPosts];
+    }
   }
 }

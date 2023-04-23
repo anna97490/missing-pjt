@@ -2,18 +2,17 @@ import { Component } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { AuthService } from '../../service/auth.service';
 import { PostService } from '../../service/post.service';
-import { Post } from 'src/app/models/post.model';
+import { Post } from 'src/app/models/Post.model';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector   : 'app-edit-card',
-  templateUrl: './edit-card.component.html',
-  styleUrls  : ['./edit-card.component.scss']
+  selector: 'app-posts-edit',
+  templateUrl: './posts-edit.component.html',
+  styleUrls: ['./posts-edit.component.scss']
 })
-
-export class EditCardComponent {
+export class PostsEditComponent {
   isLoggedIn  : boolean = false;
   editPostForm: any = FormGroup;
   userId      : any;
@@ -94,5 +93,3 @@ export class EditCardComponent {
     }
   }
 }
-
-

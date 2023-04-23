@@ -11,7 +11,6 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ButtonComponent } from './components/button/button.component';
-import { IndexComponent } from './pages/index/index.component';
 import { LoginComponent } from './pages/login/login.component';
 import { SigninComponent } from './pages/signin/signin.component';
 import { SidebarModule } from 'ng-sidebar';
@@ -20,12 +19,12 @@ import { CardMissingComponent } from './components/card-missing/card-missing.com
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ModalComponent } from './components/modal/modal.component';
-import { EditCardComponent } from './pages/edit-card/edit-card.component';
-import { PostsListDashboardComponent } from './pages/posts-list-dashboard/posts-list-dashboard.component';
-import { CreatePostDashboardComponent } from './pages/create-post-dashboard/create-post-dashboard.component';
 import { UserInfosComponent } from './pages/user-infos/user-infos.component';
 import { DatePipe } from '@angular/common';
-import { ForgetComponent } from './pages/forget/forget.component';
+import { PostsIndexComponent } from './pages/posts-index/posts-index.component';
+import { PostsListComponent } from './pages/posts-list/posts-list.component';
+import { PostsCreateComponent } from './pages/posts-create/posts-create.component';
+import { PostsEditComponent } from './pages/posts-edit/posts-edit.component';
 
 @NgModule({
   declarations: [
@@ -33,17 +32,16 @@ import { ForgetComponent } from './pages/forget/forget.component';
     HeaderComponent,
     HomeComponent,
     ButtonComponent,
-    IndexComponent,
     LoginComponent,
     SigninComponent,
     SidebarComponent,
     CardMissingComponent,
     ModalComponent,
-    EditCardComponent,
-    PostsListDashboardComponent,
-    CreatePostDashboardComponent,
     UserInfosComponent,
-    ForgetComponent
+    PostsIndexComponent,
+    PostsListComponent,
+    PostsCreateComponent,
+    PostsEditComponent
   ],
   imports: [
     HttpClientModule,

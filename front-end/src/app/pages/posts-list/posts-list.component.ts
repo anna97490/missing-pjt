@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
-import { Post } from '../../models/post.model';
+import { Post } from '../../models/Post.model';
 import { PostService } from '../../service/post.service';
 import { AuthService } from '../../service/auth.service';
 import { UserService } from '../../service/user.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-posts-list-dashboard',
-  templateUrl: './posts-list-dashboard.component.html',
-  styleUrls: ['./posts-list-dashboard.component.scss']
+  selector: 'app-posts-list',
+  templateUrl: './posts-list.component.html',
+  styleUrls: ['./posts-list.component.scss']
 })
-export class PostsListDashboardComponent {
+export class PostsListComponent {
   isLoggedIn   : boolean = false;
   posts        : Post[] = [];
   postsOfUser  : Post[] = [];

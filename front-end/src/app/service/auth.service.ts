@@ -60,7 +60,7 @@ export class AuthService {
     localStorage.removeItem('token');
     localStorage.removeItem('loggedIn');
     this.loggedIn = false;
-    this.router.navigate(['/index']);
+    this.router.navigate(['/posts-index']);
     window.location.reload();
   }
 
@@ -69,7 +69,7 @@ export class AuthService {
     if (isLoggedIn === 'true') {
       return true;
     } else {
-      // this.router.navigate(['/index']);
+      // this.router.navigate(['/posts-index']);
       return false;
     }
   }

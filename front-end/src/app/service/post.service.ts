@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../service/auth.service';
-import { Post } from '../models/post.model';
+import { Post } from '../models/Post.model';
 import { Router } from '@angular/router';
 import { catchError, map, Observable, throwError } from 'rxjs';
 
@@ -39,7 +39,7 @@ export class PostService {
     return this.http.post<Post>(`${this.apiUrl}/create`, formData, httpOptions)
     .pipe(
       map((response: any) => {
-        this.router.navigate(['/index']);
+        this.router.navigate(['/posts-index']);
         return response;
       }),
       catchError(error => {
