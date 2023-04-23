@@ -13,14 +13,10 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-.container-home,
-.container-index,
-.container-dashboard,
-.container-form-missing,
-.container-list-missing {
-  height: 100vh;
+.container-pages {
+  height: 130vh;
   width: 100%;
-  background-color: #dbdbdb14;
+  background-color: rgb(250 250 250);
 }
 
 html, body { height: 100%; }

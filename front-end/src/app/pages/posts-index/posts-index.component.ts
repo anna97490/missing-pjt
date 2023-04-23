@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Post } from '../../models/Post.model';
+import { User } from '../../models/User.model';
 import { PostService } from '../../service/post.service';
 import { AuthService } from '../../service/auth.service';
 
@@ -14,11 +15,11 @@ export class PostsIndexComponent {
   isLoggedIn   : boolean = false;
   posts        : Post[] = [];
   allPosts     : Post[] = [];
-  filteredPosts: any = [];
+  filteredPosts: Post[] = [];
   searchText   : string = '';
   selectedDate : any = Date;
   id           : string = '';
-  user         : any;
+  user         : any = User;
   modalOpen    = false;
 
   constructor(
@@ -43,12 +44,8 @@ export class PostsIndexComponent {
       });
       // Filtered posts for search bar
       this.filteredPosts = this.posts;
-      this.allPosts      = [...this.posts];
+      this.allPosts = [...this.posts];
     })
-  }
-
-  preventDefault(event: Event) {
-    event.preventDefault();
   }
 
   // Modal for non-connected or registered users
@@ -69,7 +66,7 @@ export class PostsIndexComponent {
       const searchTerm = this.searchText.toLowerCase();
       // Search by missingPlace
       this.filteredPosts = this.allPosts.filter((post) =>
-       //Convert the string of the article object to lowercase
+        //Convert the string of the article object to lowercase
         post.missingPlace.toLowerCase().includes(searchTerm)
       );
     this.posts = [...this.filteredPosts];

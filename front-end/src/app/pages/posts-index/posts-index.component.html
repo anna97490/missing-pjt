@@ -1,6 +1,6 @@
-<div class="container-index">
-
-  <div class="top-of-index">
+<div class="container-pages">
+  <!-- Container for the page -->
+  <div class="container-posts-list">
     <!-- Modal  -->
     <div *ngIf="isLoggedIn === false" class="cont-creation">
       <a href="#" (click)="openModal($event)" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700">
@@ -30,12 +30,12 @@
   <hr>
 
   <!-- Sidebar -->
-  <div *ngIf="isLoggedIn === true" class="cont-sidebar">
+  <!-- <div *ngIf="isLoggedIn === true" class="cont-sidebar">
     <app-sidebar></app-sidebar>
-  </div>
+  </div> -->
 
   <!-- Page content - List of Posts -->
-  <div *ngFor="let post of posts" class="container-page">
+  <div *ngFor="let post of posts" class="posts-lists">
     <app-card-missing [post]="post"></app-card-missing>
   </div>
 

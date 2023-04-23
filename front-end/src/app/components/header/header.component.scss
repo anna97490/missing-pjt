@@ -6,7 +6,7 @@
   padding: 0 5px;
   position: absolute;
   z-index: 100;
-  background-color: rgb(255 255 255 / 64%);
+  background-color: rgb(255 255 255);
   box-shadow: 4px 5px 8px 0px rgba(0, 0, 0, 9%);
   .logo {
     display: flex;
@@ -18,7 +18,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 15%;
+    width: 78%;
     padding-right: 15px;
     position: relative;
     .nav-links {
@@ -31,6 +31,7 @@
       background-position:50% 100%;
       background-repeat: no-repeat;
       transition: .3s linear, background-size .3s .2s linear;
+      cursor: pointer;
     }
     .nav-links:hover {
       color: #5e5e5e;
@@ -41,11 +42,7 @@
   .hide-links {
     display: none;
   }
-  .svg-header {
-    position: absolute;
-    right: 17%;
-    cursor: pointer;
-  }
+
 }
 
 

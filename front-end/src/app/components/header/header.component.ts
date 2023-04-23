@@ -8,6 +8,10 @@ import { AuthService } from '../../service/auth.service';
 })
 export class HeaderComponent implements OnInit {
   isLoggedIn: boolean = false;
+  user       : any;
+  showSidebar: boolean = true;
+  userId     : any;
+  token      : any;
 
   constructor(
     private authService: AuthService,
@@ -16,6 +20,11 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     // Check if user logged in
     this.isLoggedIn = this.authService.isLoggedIn();
+    // Get elements of user from Local Storage
+    if (this.isLoggedIn === true) {
+      this.userId = localStorage.getItem('userId');
+      this.token  = localStorage.getItem('token');
+    }
   }
 
   logout(event: Event) {
