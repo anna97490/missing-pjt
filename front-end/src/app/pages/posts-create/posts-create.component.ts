@@ -8,11 +8,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   templateUrl: './posts-create.component.html',
   styleUrls: ['./posts-create.component.scss']
 })
+
 export class PostsCreateComponent {
   isLoggedIn    : boolean = false;
   createPostForm: any = FormGroup;
   userId        : any;
   postId        : string = "";
+  currentUserId : any;
   isClicked     : boolean = false;
   image         : any = File;
   fileName      : any;
@@ -28,7 +30,7 @@ export class PostsCreateComponent {
       lastname    : ['', [Validators.required, Validators.minLength(2), Validators.maxLength(70)]],
       birthDate   : ['', [Validators.required]],
       address     : ['', [Validators.required]],
-      // image       : ['', [Validators.required]],
+      image       : ['', [Validators.required]],
       missingPlace: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(70)]],
       missingDate : ['', [Validators.required]],
       description : ['', [Validators.required, Validators.minLength(2), Validators.maxLength(300)]],
@@ -37,13 +39,8 @@ export class PostsCreateComponent {
 
   ngOnInit() {
     this.isLoggedIn = this.authService.isLoggedIn();
-    if (this.isLoggedIn) {
-      this.userId = this.authService.getUserId();
-    }
-  }
-
-  preventDefault(event: Event) {
-    event.preventDefault();
+    this.userId = this.authService.getUserIdLs();
+    console.log(this.userId)
   }
 
   // Function to pick date not after today's date
@@ -81,7 +78,7 @@ export class PostsCreateComponent {
       formData.append('image', this.image, this.image.name);
       formData.append('userId', this.userId);
 
-      this.postService.createPost(formData, this.userId).subscribe(response => {
+      this.postService.createPost(formData).subscribe(response => {
         console.log(response);
         this.isClicked = true;
         this.createPostForm.reset();

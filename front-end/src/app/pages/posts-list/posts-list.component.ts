@@ -27,14 +27,13 @@ export class PostsListComponent {
     private authService: AuthService,
     private postService: PostService,
     private userService: UserService,
-    private router     : Router
   ) {}
 
   ngOnInit() {
     // Get the userId of Local Storage
-    this.userId     = this.userService.getUserIdLS();
-    console.log('this.userId', this.userId)
+    this.userId = this.authService.getUserIdLs();
     this.isLoggedIn = this.authService.isLoggedIn();
+
     this.postService.getPosts().subscribe((posts: Post[]) => {
       if (this.isLoggedIn) {
         this.posts = posts;
@@ -50,12 +49,8 @@ export class PostsListComponent {
         });
         this.postsOfUser = this.posts.filter(post => post.userId === this.userId);
         this.filteredPosts = this.posts;
-        this.allPosts      = [...this.posts];
+        this.allPosts = [...this.posts];
       }
     })
-  }
-
-  preventDefault(event: Event) {
-    event.preventDefault();
   }
 }

@@ -21,6 +21,7 @@ export class PostsIndexComponent {
   id           : string = '';
   user         : any = User;
   modalOpen    = false;
+  token: any;
 
   constructor(
     private authService: AuthService,
@@ -28,6 +29,8 @@ export class PostsIndexComponent {
   ) {}
 
   ngOnInit() {
+    this.token = localStorage.getItem('token')
+    console.log('token', this.token)
     this.isLoggedIn = this.authService.isLoggedIn();
     // Get posts
     this.postService.getPosts().subscribe((posts: Post[]) => {

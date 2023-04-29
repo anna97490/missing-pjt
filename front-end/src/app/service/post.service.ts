@@ -11,7 +11,7 @@ import { catchError, map, Observable, throwError } from 'rxjs';
 export class PostService {
   posts         : Post[] = [];
   private apiUrl: string = 'http://localhost:3000/api/post';
-  token         : any = localStorage.getItem('token');
+  token         : any;
   userId        : any;
 
   constructor(
@@ -21,6 +21,7 @@ export class PostService {
   ) {}
 
   ngOnInit() {
+    this.token = localStorage.getItem('token')
     return this.http.get<Post[]>(this.apiUrl).pipe(
       catchError((error: HttpErrorResponse) => {
         console.error(error);
@@ -29,7 +30,7 @@ export class PostService {
     )
   }
 
-  createPost(formData: FormData, userId: string): Observable<Post> {
+  createPost(formData: FormData): Observable<Post> {
     const httpOptions = {
       headers: new HttpHeaders({
         // 'Content-Type' : 'multipart/form-data; boundary=something',

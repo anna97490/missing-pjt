@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../service/auth.service';
+import { UserService } from '../../service/user.service';
 
 @Component({
   selector: 'app-header',
@@ -15,6 +16,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
+    private userService: UserService,
   ) {}
 
   ngOnInit() {
@@ -22,8 +24,8 @@ export class HeaderComponent implements OnInit {
     this.isLoggedIn = this.authService.isLoggedIn();
     // Get elements of user from Local Storage
     if (this.isLoggedIn === true) {
-      this.userId = localStorage.getItem('userId');
-      this.token  = localStorage.getItem('token');
+      this.token = this.authService.getAuthToken();
+      this.userId = this.authService.getDecryptedUserId();
     }
   }
 

@@ -13,16 +13,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class UserInfosComponent implements OnInit {
   isLoggedIn  : boolean = false;
-  userId      : any;
   editUserForm: any = FormGroup;
-  objectToSend: any = {};
+  userId      : any;
   user        : any = User;
   image       : any = File;
   fileName    : any;
   message     : string = '';
-  isClicked   : boolean = false;
-  isSend      : boolean = false;
-  isEditedOrDeleted: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -41,35 +37,20 @@ export class UserInfosComponent implements OnInit {
   }
 
   ngOnInit() {
+    // Check if user is logged
     this.isLoggedIn = this.authService.isLoggedIn();
-    if (this.isLoggedIn) {
-      this.userId = localStorage.getItem('userId');
-
-      if (this.userId) {
-        this.userService.getUserById(this.userId).subscribe((user: User) => {
-          this.user = user;
-          console.log(this.user)
-        });
-      } else {
-        console.log('User not found');
-      }
-    };
-    // Formated date
+    // Get elements of user from Local Storage
+    if (this.isLoggedIn === true) {
+      this.userId = this.authService.getDecryptedUserId();
+      // Get the user to display infos
+      this.user = this.userService.getUserById(this.userId).subscribe((user: User) => {
+        this.user = user;
+        console.log("this.user", this.user)
+      })
+    }
   }
 
-  preventDefault(event: Event) {
-    event.preventDefault();
-  }
-
-  showFormUser() {
-    console.log('hello')
-    this.isClicked = true;
-  }
-
-  closeForm() {
-    this.isClicked = false;
-  }
-
+  /*** File selected method */
   onFileSelected(event: Event) {
     this.image = (event.target as HTMLInputElement).files![0];
     this.fileName  = document.getElementById('file-name');
@@ -79,31 +60,27 @@ export class UserInfosComponent implements OnInit {
     }
   }
 
-  compareObjects(obj1: any, obj2: any): boolean {
-    for (let key in obj1) {
-      if (obj1.hasOwnProperty(key) && obj1[key] !== obj2[key]) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  // Edit user ----- Need to add the code for image
+  /*** Edit the user method * @param {string} userId - user id * @return {string|error} - Sucessful insertion or Error*/
   editUser(event: Event, userId: string) {
     event.preventDefault();
     userId = this.userId;
 
     if (userId === this.user._id) {
-      let updatedUser = { firstname: this.user.firstname, lastname: this.user.lastname, email: this.user.email };
+      let updatedUser = {
+        firstname: this.user.firstname,
+        lastname : this.user.lastname,
+        email    : this.user.email,
+        birthDate: this.user.birthDate,
+      };
+
       const formValues = this.editUserForm.value;
       const nonEmptyValues = Object.fromEntries(
         Object.entries(formValues).filter(([key, value]) => value !== '')
       );
 
-      // Update the bew object with new datas
+      // Update the new object with new datas
       updatedUser = { ...updatedUser, ...nonEmptyValues };
 
-      console.log('objetAModifier', updatedUser);
       this.userService.editUser(userId,updatedUser).subscribe(
         () => {
           window.location.reload();
@@ -115,25 +92,22 @@ export class UserInfosComponent implements OnInit {
     }
   }
 
-  // Delete user
+  /*** Delete the user method * @param {string} userId - user id * @return {string|error} - Sucessful insertion or Error*/
   deleteUser(event: Event, userId: string) {
     event.preventDefault();
     userId = this.userId;
 
-    if (userId === this.user._id) {
-      const confirmDelete = confirm('Voulez-vous vraiment supprimer votre compte ?');
-      if (confirmDelete) {
-        this.userService.deleteUser(userId).subscribe(
-          () => {
-            localStorage.clear();
-            this.router.navigate(['/login']);
-          },
-          (error) => {
-            this.message = 'Une erreur est survenue lors de la suppression de l\'utilisateur.';
-          }
-        );
-      }
+    const confirmDelete = confirm('Voulez-vous vraiment supprimer votre compte ?');
+    if (confirmDelete) {
+      this.userService.deleteUser(userId).subscribe(
+        () => {
+          localStorage.clear();
+          this.router.navigate(['/posts-index']);
+        },
+        (error) => {
+          this.message = 'Une erreur est survenue lors de la suppression de l\'utilisateur.';
+        }
+      );
     }
   }
-
 }

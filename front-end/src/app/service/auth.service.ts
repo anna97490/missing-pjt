@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../models/User.model';
 import { Router } from '@angular/router';
 import { catchError, map, Observable, throwError } from 'rxjs';
+import * as CryptoJS from 'crypto-js';
 
 @Injectable({
   providedIn: 'root'
@@ -11,23 +12,30 @@ import { catchError, map, Observable, throwError } from 'rxjs';
 export class AuthService {
   private apiUrl  : string  = 'http://localhost:3000/api/user';
   private loggedIn: boolean = false;
+  private token: any;
+  private user: any;
+  private key: string = 'crypt_key';
+
 
   constructor(
     private http: HttpClient,
-    private router: Router
+    private router: Router,
   ) {}
-
-  resetPassword(email: string) {
-    return this.http.post(`${this.apiUrl}/reset-password`, { email });
-  }
-
 
   login(email: string, password: string): Observable<User> {
     return this.http.post<any>(`${this.apiUrl}/login`, { email, password })
       .pipe(
         map(response => {
-          localStorage.setItem('userId', response.userId);
-          localStorage.setItem('token', response.token);
+          const userId = response._id;
+          console.log('USERID', userId)
+          const token = response.token;
+
+          // Encrypted userId
+          const encryptedUserId = CryptoJS.AES.encrypt(userId, "Secret Passphrase").toString();
+
+          //  Set token and userId in local storage
+          localStorage.setItem('token', token);
+          localStorage.setItem('encryptedUserId', encryptedUserId);
           localStorage.setItem('loggedIn', 'true');
           this.loggedIn = true;
           return response;
@@ -44,7 +52,15 @@ export class AuthService {
     return this.http.post<User>(`${this.apiUrl}/signup`, data, httpOptions)
       .pipe(
         map(response => {
-          localStorage.setItem('userId', response._id);
+          const userId = response._id;
+          const token = response.token;
+
+          // Encrypted userId
+          const encryptedUserId = CryptoJS.AES.encrypt(userId, "Secret Passphrase").toString();
+
+          //  Set token and userId in local storage
+          localStorage.setItem('token', token);
+          localStorage.setItem('encryptedUserId', encryptedUserId);
           localStorage.setItem('loggedIn', 'true');
           this.loggedIn = true;
           return response;
@@ -56,7 +72,7 @@ export class AuthService {
   }
 
   logout() {
-    localStorage.removeItem('userId');
+    localStorage.removeItem('encryptedUserId');
     localStorage.removeItem('token');
     localStorage.removeItem('loggedIn');
     this.loggedIn = false;
@@ -69,7 +85,6 @@ export class AuthService {
     if (isLoggedIn === 'true') {
       return true;
     } else {
-      // this.router.navigate(['/posts-index']);
       return false;
     }
   }
@@ -78,7 +93,20 @@ export class AuthService {
     return localStorage.getItem('token');
   }
 
-  getUserId(): string | null {
-    return localStorage.getItem('userId');
+  getUserIdLs(): string | null  {
+    return localStorage.getItem('encryptedUserId');
+  }
+
+  getDecryptedUserId(): string | null {
+    const encryptedUserId = localStorage.getItem('encryptedUserId');
+      if (!encryptedUserId) {
+      return null;
+    }
+
+    // Decrypt the userId from the local storage
+    const bytes = CryptoJS.AES.decrypt(encryptedUserId, "Secret Passphrase");
+    const decryptedUserId = bytes.toString(CryptoJS.enc.Utf8);
+    return decryptedUserId;
   }
 }
+
