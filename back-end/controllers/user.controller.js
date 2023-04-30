@@ -11,7 +11,6 @@ require('dotenv').config();
 * @return {string|error} - Sucessful insertion or Error
 */
 exports.signUp = async (req, res, next) => {
-    console.log(req.body)
     const isEmailUser = await User.findOne({ email: req.body.email });
     if (isEmailUser) {
         return res.status(409).json({ message: 'Email already registered' });
@@ -23,7 +22,14 @@ exports.signUp = async (req, res, next) => {
                 password: hash
             });
             await user.save();
-            res.status(201).json({ message: 'User created!', _id: user._id });
+
+            const token = jwt.sign(
+                { userId: user._id },
+                process.env.SECRET_TOKEN,
+                { expiresIn: '24h' }
+            );
+
+            res.status(201).json({ message: 'User created!', token, _id: user._id});
         } catch (error) {
             console.log(error)
             res.status(400).json({ error });   
@@ -47,15 +53,14 @@ exports.login = async (req, res, next) => {
         if (!valid) {
             return res.status(401).json({ message: 'Uncorrect password' });
         }
-        res.status(200).json({
-            userId: user._id,
-            token: jwt.sign(
-                { userId: user._id },
-                process.env.SECRET_TOKEN,
-                { expiresIn: '24h'}
-            ),
-            message: 'Logged'
-        });
+       
+        const token = jwt.sign(
+            { userId: user._id },
+            process.env.SECRET_TOKEN,
+            { expiresIn: '24h' }
+        );
+      
+        res.status(200).json({ message: 'Authentication successful', token, _id: user._id });
     } catch (error) {
         res.status(500).json({ error });
     }
@@ -63,8 +68,6 @@ exports.login = async (req, res, next) => {
 
 /**
 * Get all users method
-* @param {string} email    - user email
-* @param {string} password - user password	
 * @return {string|error}   - Sucessful insertion or Error
 */
 exports.getAllUsers = async (req, res, next) => {
@@ -78,7 +81,8 @@ exports.getAllUsers = async (req, res, next) => {
 
 /**
 * Get user by id method
-* @return {string|error}   - Sucessful insertion or Error
+* @param {string} userId - user password	
+* @return {string|error} - Sucessful insertion or Error
 */
 exports.getUser = async (req, res, next) => {
     try {
@@ -90,17 +94,16 @@ exports.getUser = async (req, res, next) => {
 };
 
 /**
-* Update method
-* @param {object} user     - datas to update 
-* @return {string|error}   - Sucessful insertion or Error
+* Update method -------------------
+* @param {object} user   - datas to update 
+* @return {string|error} - Sucessful insertion or Error
 */
 exports.updateUser = async (req, res, next) => {
     const userReq = JSON.parse(req.body.user);
-    const idUser  = { _id: req.params.id };
+    
     try {
         const user = await User.findById(req.params.id);
-        console.log('req.params.id', req.params.id);
-        console.log('req.body.user', req.body.user);
+
         if (!user) {
             return res.status(404).json({ message: 'User not found!' });
         } else if (user.image !== undefined) {
@@ -125,8 +128,8 @@ exports.updateUser = async (req, res, next) => {
 };
 
 /**
-* Delete method
-* @param {string} userId - user email
+* Delete method --------------------
+* @param {string} userId - user id
 * @return {string|error} - Sucessful insertion or Error
 */
 exports.deleteUser = async (req, res, next) => {

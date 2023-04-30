@@ -29,7 +29,7 @@ export class CardMissingComponent implements OnInit {
 
   ngOnInit() {
     this.isLoggedIn = this.authService.isLoggedIn();
-    this.userId     = localStorage.getItem('userId');
+    this.userId = this.authService.getDecryptedUserId();
 
     // Get all posts
      this.postService.getPosts().subscribe((posts: Post[]) => {
@@ -70,8 +70,7 @@ export class CardMissingComponent implements OnInit {
     this.posts.forEach(post => {
       this.postId = post._id;
 
-      if (postId === this.postId && this.isLoggedIn === true) {
-        console.log(postId)
+      if (postId === this.postId && this.isLoggedIn) {
         this.router.navigate(['/edit-post/', this.post.userId, postId], { state: { post: post }})
       }
     });

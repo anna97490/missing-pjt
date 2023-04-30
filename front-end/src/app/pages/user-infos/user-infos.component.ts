@@ -50,7 +50,7 @@ export class UserInfosComponent implements OnInit {
     }
   }
 
-  /*** File selected method */
+  // File selected method
   onFileSelected(event: Event) {
     this.image = (event.target as HTMLInputElement).files![0];
     this.fileName  = document.getElementById('file-name');
@@ -60,7 +60,7 @@ export class UserInfosComponent implements OnInit {
     }
   }
 
-  /*** Edit the user method * @param {string} userId - user id * @return {string|error} - Sucessful insertion or Error*/
+  // Edit the user method
   editUser(event: Event, userId: string) {
     event.preventDefault();
     userId = this.userId;
@@ -81,7 +81,7 @@ export class UserInfosComponent implements OnInit {
       // Update the new object with new datas
       updatedUser = { ...updatedUser, ...nonEmptyValues };
 
-      this.userService.editUser(userId,updatedUser).subscribe(
+      this.userService.editUser(userId, updatedUser).subscribe(
         () => {
           window.location.reload();
         },
@@ -92,7 +92,7 @@ export class UserInfosComponent implements OnInit {
     }
   }
 
-  /*** Delete the user method * @param {string} userId - user id * @return {string|error} - Sucessful insertion or Error*/
+  // Delete the user method
   deleteUser(event: Event, userId: string) {
     event.preventDefault();
     userId = this.userId;

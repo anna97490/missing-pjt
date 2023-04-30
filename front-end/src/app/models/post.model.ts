@@ -1,7 +1,7 @@
 export class Post {
   _id         : string;
-  lastname    : string;
   firstname   : string;
+  lastname    : string;
   birthDate   : Date;
   address     : string;
   image       : string;
@@ -13,8 +13,8 @@ export class Post {
 
   constructor(
     _id         : string,
-    lastname    : string,
     firstname   : string,
+    lastname    : string,
     birthDate   : Date,
     address     : string,
     image       : string,
@@ -25,8 +25,8 @@ export class Post {
     userId      : string
   ) {
     this._id          = _id;
-    this.lastname     = lastname;
     this.firstname    = firstname;
+    this.lastname     = lastname;
     this.birthDate    = birthDate;
     this.address      = address;
     this.image        = image;

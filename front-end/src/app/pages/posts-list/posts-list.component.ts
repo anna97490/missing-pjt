@@ -30,8 +30,8 @@ export class PostsListComponent {
   ) {}
 
   ngOnInit() {
-    // Get the userId of Local Storage
-    this.userId = this.authService.getUserIdLs();
+    // Get the userId
+    this.userId = this.authService.getDecryptedUserId();
     this.isLoggedIn = this.authService.isLoggedIn();
 
     this.postService.getPosts().subscribe((posts: Post[]) => {

@@ -22,6 +22,7 @@ export class PostsEditComponent {
   fileInput   : any;
   fileName    : any;
   post        : any;
+  message     : string = '';
 
   constructor(
     private authService: AuthService,
@@ -32,19 +33,19 @@ export class PostsEditComponent {
     private formBuilder: FormBuilder,
   ) {
     this.editPostForm = this.formBuilder.group({
-      firstname   : ['', [Validators.required, Validators.minLength(2), Validators.maxLength(70)]],
-      lastname    : ['', [Validators.required, Validators.minLength(2), Validators.maxLength(70)]],
-      birthDate   : ['', [Validators.required]],
-      address     : ['', [Validators.required]],
-      // image       : ['', [Validators.required]],
-      missingPlace: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(70)]],
-      missingDate : ['', [Validators.required]],
-      description : ['', [Validators.required, Validators.minLength(2), Validators.maxLength(300)]],
+      firstname   : ['', [Validators.minLength(2), Validators.maxLength(70)]],
+      lastname    : ['', [Validators.minLength(2), Validators.maxLength(70)]],
+      birthDate   : ['', []],
+      address     : ['', []],
+      missingPlace: ['', [Validators.minLength(2), Validators.maxLength(70)]],
+      missingDate : ['', []],
+      description : ['', [Validators.minLength(2), Validators.maxLength(300)]],
     });
   }
 
   ngOnInit() {
     this.isLoggedIn = this.authService.isLoggedIn();
+    this.userId = this.authService.getDecryptedUserId();
     this.postId = this.route.snapshot.paramMap.get('id');
     // Get post
     if (this.isLoggedIn) {
@@ -61,10 +62,6 @@ export class PostsEditComponent {
     }
   }
 
-  preventDefault(event: Event) {
-    event.preventDefault();
-  }
-
   validateDate(event: any) {
     const selectedDate = new Date(event.target.value);
     const now = Date.now();
@@ -73,6 +70,7 @@ export class PostsEditComponent {
     }
   }
 
+  // File selected method
   onFileSelected(event: Event) {
     this.image = (event.target as HTMLInputElement).files![0];
     this.fileName  = document.getElementById('file-name');
@@ -84,12 +82,35 @@ export class PostsEditComponent {
 
   // Edit post
   editPost(event: Event, postId: string) {
-    event.preventDefault();
-    postId     = this.postId;
-    const user = localStorage.getItem('userId');
+    console.log('icciii')
+    postId = this.postId;
 
-    if (this.post.userId === user && postId === this.post._id) {
+    if (this.post.userId === this.userId) {
+      let updatedPost = {
+        firstname: this.post.firstname,
+        lastname : this.post.lastname,
+        birthDate: this.post.birthDate,
+        missingPlace: this.post.missingPlace,
+        missingDate : this.post.address,
+        description  : this.post.description,
+      };
 
+      const formValues = this.editPostForm.value;
+      const nonEmptyValues = Object.fromEntries(
+        Object.entries(formValues).filter(([key, value]) => value !== '')
+      );
+
+      // Update the new object with new datas
+      updatedPost = { ...updatedPost, ...nonEmptyValues };
+
+      this.postService.editPost(postId, updatedPost).subscribe(
+        () => {
+          window.location.reload();
+        },
+        (error) => {
+          this.message = 'Une erreur est survenue lors de la modification de vos informations';
+        }
+      );
     }
   }
 }

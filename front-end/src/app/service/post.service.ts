@@ -9,10 +9,9 @@ import { catchError, map, Observable, throwError } from 'rxjs';
   providedIn: 'root'
 })
 export class PostService {
-  posts         : Post[] = [];
+  private posts : Post[] = [];
   private apiUrl: string = 'http://localhost:3000/api/post';
-  token         : any;
-  userId        : any;
+  private token : any = localStorage.getItem('token');
 
   constructor(
     private router: Router,
@@ -21,20 +20,16 @@ export class PostService {
   ) {}
 
   ngOnInit() {
-    this.token = localStorage.getItem('token')
-    return this.http.get<Post[]>(this.apiUrl).pipe(
-      catchError((error: HttpErrorResponse) => {
-        console.error(error);
-        return throwError('Error');
-      })
-    )
+    this.token = this.authService.getAuthToken();
   }
 
+  // Create Post method
   createPost(formData: FormData): Observable<Post> {
     const httpOptions = {
       headers: new HttpHeaders({
         // 'Content-Type' : 'multipart/form-data; boundary=something',
-        'Authorization': 'Bearer ' + this.token })
+        'Authorization': 'Bearer ' + this.token
+      })
     };
 
     return this.http.post<Post>(`${this.apiUrl}/create`, formData, httpOptions)
@@ -49,6 +44,7 @@ export class PostService {
     );
   }
 
+  // Get all the posts method
   getPosts(): Observable<Post[]> {
     return this.http.get<Post[]>(this.apiUrl).pipe(
       catchError((error: HttpErrorResponse) => {
@@ -58,29 +54,31 @@ export class PostService {
     )
   }
 
+  // Get Post by id method
   getPostById(id: string): Observable<Post> {
-    console.log('id', id)
     const url = `${this.apiUrl}/${id}`;
     return this.http.get<Post>(url);
   }
 
-  editPost(id: string, post: any): Observable<Post> {
-    const url = `${this.apiUrl}/${id}`;
+  // Edit Post method
+  editPost(postId: string, updatedPost: any): Observable<Post> {
+    const url = `${this.apiUrl}/${postId}`;
+    const post = JSON.stringify(updatedPost)
 
     const httpOptions = {
       headers: new HttpHeaders({
-        // 'Content-Type' : 'multipart/form-data; boundary=something',
-        'Authorization': 'Bearer ' + this.token })
+        'Content-Type' : 'application/json',
+        'Authorization': 'Bearer ' + this.authService.getAuthToken() })
     };
-    return this.http.put<Post>(url, post, httpOptions).pipe(
-      map(response => {
-        console.log(response);
-        this.getPosts();
-        return response;
+
+    return this.http.put<Post>(url, {post: post}, httpOptions).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return throwError('An error occurred while modifying the user.');
       })
     );
   }
 
+  // Delete Post method
   deletePost(postId: string): Observable<Post> {
     const url = `${this.apiUrl}/${postId}`;
     this.getPostById(postId);
