@@ -57,7 +57,8 @@ export class PostsIndexComponent {
     this.modalOpen = true;
   }
 
-  closeModal() {
+  closeModal(event: Event) {
+    event.preventDefault();
     this.modalOpen = false;
   }
 

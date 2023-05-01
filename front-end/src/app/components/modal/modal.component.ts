@@ -6,15 +6,10 @@ import { Component, EventEmitter } from '@angular/core';
   styleUrls: ['./modal.component.scss']
 })
 export class ModalComponent {
-  public isModalOpen = true;
-
-  preventDefault(event: Event) {
-    event.preventDefault();
-  }
+  public modalOpen = true;
 
   closeModal(event: Event) {
     event.preventDefault();
-    this.isModalOpen = false;
-    // this.close.emit();
+    this.modalOpen = false;
   }
 }

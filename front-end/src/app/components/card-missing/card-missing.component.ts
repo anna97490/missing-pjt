@@ -30,38 +30,21 @@ export class CardMissingComponent implements OnInit {
   ngOnInit() {
     this.isLoggedIn = this.authService.isLoggedIn();
     this.userId = this.authService.getDecryptedUserId();
-
     // Get all posts
      this.postService.getPosts().subscribe((posts: Post[]) => {
       this.posts = posts;
     });
     // Birth date formated to age
     const birthDate = new Date(this.post.birthDate);
-    const today     = new Date();
-    const age       = Math.floor((today.getTime() - birthDate.getTime()) / (365.25 * 24 * 60 * 60 * 1000));
-    this.post.age   = age;
-    const missingDate = new Date(this.post.missingDate); // format de la date pour date de disparition
-
-    // Capitalize the first letter with function capitalizeString()
-    this.post.firstname    = this.capitalizeString(this.post.firstname);
-    this.post.lastname     = this.capitalizeString(this.post.lastname);
-    this.post.missingDate = this.datePipe.transform(missingDate, 'dd MMMM yyyy', 'fr');
-    this.post.missingPlace = this.capitalizeString(this.post.missingPlace);
-    this.post.address      = this.capitalizeString(this.post.address);
-    this.post.description  = this.capitalizeString(this.post.description);
-    // Formated date
-    this.datePipe.transform(this.post.birthDate, 'dd MMMM yyyy');
-  }
-
-  preventDefault(event: Event) {
-    event.preventDefault();
+    const today = new Date();
+    const age = Math.floor((today.getTime() - birthDate.getTime()) / (365.25 * 24 * 60 * 60 * 1000));
+    this.post.age = age;
   }
 
   // Capitalize the first letter
   capitalizeString(string: string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
-
 
   // Edit Post
   editPost(event: Event, postId: string) {
@@ -90,5 +73,20 @@ export class CardMissingComponent implements OnInit {
         })
       }
     });
+  }
+
+  addComment(event: Event) {
+    event.preventDefault();
+
+  }
+
+  editComment(event: Event) {
+    event.preventDefault();
+
+  }
+
+  deleteComment(event: Event) {
+    event.preventDefault();
+
   }
 }

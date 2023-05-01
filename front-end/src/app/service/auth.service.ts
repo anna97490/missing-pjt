@@ -72,10 +72,10 @@ export class AuthService {
   }
 
   logout() {
+    this.loggedIn = false;
     localStorage.removeItem('encryptedUserId');
     localStorage.removeItem('token');
-    localStorage.removeItem('loggedIn');
-    this.loggedIn = false;
+    localStorage.setItem('loggedIn', 'false');
     this.router.navigate(['/posts-index']);
     window.location.reload();
   }

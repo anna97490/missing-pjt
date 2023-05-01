@@ -8,27 +8,22 @@
       group-hover:text-gray-900 dark:group-hover:text-white"
       fill="currentColor"
       viewBox="0 0 512 512"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+      xmlns="http://www.w3.org/2000/svg">
       <path
         fill-rule="evenodd"
         d="M360 224L272 224v-56c0-9.531-5.656-18.16-14.38-22C248.9 142.2 238.7 143.9 231.7 150.4l-96 88.75C130.8 243.7
            128 250.1 128 256.8c.3125 7.781 2.875 13.25 7.844 17.75l96 87.25c7.031 6.406 17.19 8.031 25.88 4.188s14.28-12.44
            14.28-21.94l-.002-56L360 288C373.3 288 384 277.3 384 264v-16C384 234.8 373.3 224 360 224zM256 0C114.6 0 0 114.6
            0 256s114.6 256 256 256s256-114.6 256-256S397.4 0 256 0zM256 464c-114.7 0-208-93.31-208-208S141.3 48 256 48s208
-           93.31 208 208S370.7 464 256 464z"
-      />
+           93.31 208 208S370.7 464 256 464z"/>
     </svg>
     <span class="flex-1 ml-3 whitespace-nowrap"></span>
   </a>
 
-  <section><!--suppression bg du logo: Passage de bleu à #e5e5e5-->
+  <section>
     <div class="flex flex-col items-center justify-center px-6 py-4">
-      <!-- Logo -->
-      <div class="logo">
-        <a href="#"><img class="logo" src="../../assets/logo-taille-header.png" alt="The logo of Missing website"></a>
-      </div>
-      <div class="w-full rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:border-gray-700"><!--suppression bg du formulaire: Passage de bleu à #e5e5e5-->
+
+      <div class="content-login w-full rounded-lg md:mt-0 sm:max-w-md xl:p-0 dark:border-gray-700">
         <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
           <h1 class="text-xl font-bold leading-tight md:text-2xl" style="text-align: center;">
             Connectez-vous
@@ -84,19 +79,12 @@
               *ngIf="isCorrectPassword" class="message">
               <span>Votre mot de passe n'est pas valide</span>
             </div>
-            <!-- Rememeber Me and Forget button -->
-            <div class="flex items-center justify-between">
-              <div class="flex items-start">
-                  <div class="flex items-center h-5">
-                    <input id="remember" aria-describedby="remember" type="checkbox" class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800" required="">
-                  </div>
-              </div>
-          </div>
+
             <!-- Login button -->
-            <div class="btn-login">
+            <div class="btn">
               <button
                 type="submit"
-                class="btn-invalid-form py-2.5 px-5 mr-2 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200
+                class="btn-login btn-invalid-form py-2.5 px-5 mr-2 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200
                        focus:z-10 focus:ring-4 focus:outline-none focus:ring-blue-700 dark:bg-gray-800
                        dark:text-gray-400 dark:border-gray-600 inline-flex items-center"
                 type="submit"

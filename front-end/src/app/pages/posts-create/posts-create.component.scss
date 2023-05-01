@@ -1,3 +1,41 @@
-form {
-  margin-top: 20%;
+.container-form-missing {
+  justify-content: center;
+  width: 100%;
+  padding: 12% 3% 0% 3%;
+  background-color: rgba(219, 219, 219, 0.0784313725);
+  .link-index {
+    position: absolute;
+    top: 12%;
+    left: 2%;
+  }
+  .cont-title {
+    font-weight: bold;
+    font-size: 17px;
+    height: 0%;
+    margin-bottom: 3%;
+    text-align: center;
+  }
+  form {
+    width: 100%;
+    height: 44rem;
+    margin-bottom: 2%;
+    padding: 3%;
+    background-color: #fff;
+    input {
+      margin-top: 2%;
+    }
+  }
+  .description-txt {
+    height: 9rem;
+  }
+  .btn-submit {
+    float: right;
+    text-align: center;
+    color: #fff;
+    background-color: #edecec;
+    box-shadow: 0px 0px 6px 1px rgba(0, 0, 0, 0.09);
+  }
+  .btn-valid-form {
+    background-color: #6B7280;
+  }
 }

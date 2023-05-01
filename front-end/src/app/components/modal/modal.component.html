@@ -1,5 +1,5 @@
-<div class="modal-background" [ngClass]="{'modal-background': true, 'hide': !isModalOpen}" (click)="closeModal($event)">
-  <div [ngClass]="{'modal-container': true, 'hide': !isModalOpen}" class="modal-container" (click)="$event.stopPropagation()">
+<div class="modal-background" [ngClass]="{'modal-background': true, 'hide': !modalOpen}" (click)="closeModal($event)">
+  <div [ngClass]="{'modal-container': true, 'hide': !modalOpen}" class="modal-container" (click)="$event.stopPropagation()">
 
     <!-- Close the modal -->
     <div class="cont-btn-close">
@@ -11,19 +11,18 @@
     </div>
 
     <div class="modal-content">
-      <!-- Displayed link to Modal in Index  -->
-      <span class="modal-txt">Veuillez vous connecter ou vous inscrire</span>
-
       <!-- Modal content -->
+      <span class="modal-txt">Veuillez vous connecter ou vous inscrire.</span>
+
+      <!-- Links -->
       <div class="btn-content">
-        <a class="nav-links" routerLink="/login">
-          <app-button [text]="'Se connecter'" [fontSize]="'12px'"></app-button>
-        </a>
         <a class="nav-links" routerLink="/signin">
-          <app-button [text]="'S\'inscrire'" [fontSize]="'12px'"></app-button>
+          S'inscrire
+        </a>
+        <a class="nav-links" routerLink="/login">
+          Se connecter
         </a>
       </div>
-
     </div>
   </div>
 </div>

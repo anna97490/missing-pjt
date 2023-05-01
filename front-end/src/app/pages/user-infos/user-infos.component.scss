@@ -3,12 +3,18 @@
   flex-wrap: wrap;
   justify-content: center;
   width: 100%;
-  padding: 10% 2% 3% 20% ;
+  padding: 12% 3% 0% 3%;
   background-color: rgba(219, 219, 219, 0.0784313725);
+  .link-index {
+    position: absolute;
+    top: 12%;
+    left: 2%;
+  }
   .cont-title {
     font-weight: bold;
     font-size: 17px;
-    margin-bottom: 3%;
+    height: 0%;
+    margin-bottom: 1%;
   }
   .cont-user-infos {
     display: flex;
@@ -29,7 +35,7 @@
   .cont-delete {
     display: flex;
     justify-content: end;
-    width: 95%;
+    width: 100%;
     font-size: 12px;
     cursor: pointer;
   }
@@ -40,29 +46,22 @@
     width: 100%;
   }
   form {
-    width: 95%;
+    width: 100%;
     margin-bottom: 2%;
     padding: 3%;
-    .btn-close {
-      display: flex;
-      justify-content: end;
-      width: 100%;
-    }
+    background-color: #fff;
   }
   .image-user {
     margin: 2% 0;
   }
-  .change-btn {
-    color: #7ca57c;
-    background-color: #fff;
-    border: 1px solid #7ca57c;
-  }
-  .upload-text {
-    color: #7ca57c;
-  }
   .btn-submit {
-    margin-top: 4%;
+    float: right;
+    text-align: center;
     color: #fff;
-    background-color: #7ca57c;
+    background-color: #edecec;
+    box-shadow: 0px 0px 6px 1px rgba(0, 0, 0, 0.09);
+  }
+  .btn-valid-form {
+    background-color: #6B7280;
   }
 }

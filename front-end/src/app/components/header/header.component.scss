@@ -11,14 +11,13 @@
   .logo {
     display: flex;
     align-items: center;
-    width: 45px;
-    margin: 0.5% 0 0 1%;
+    width: 85px;
+    margin: 1% 0 1% 1%;
   }
   .navigation {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 78%;
     padding-right: 15px;
     position: relative;
     .nav-links {
@@ -39,10 +38,6 @@
       background-position: 10% 100%, 90% 100%;
     }
   }
-  .hide-links {
-    display: none;
-  }
-
 }
 
 

@@ -2,7 +2,10 @@
   position: relative;
   height: 100%;
   padding: 12% 16% 0% 16%;
-
+  .signin-content {
+    background-color: #fff;
+    box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.09);
+  }
   .link-index {
     position: absolute;
     top: 12%;
@@ -17,13 +20,16 @@
   }
   .cont-btn {
     text-align: center;
+    .btn-signin {
+      text-align: center;
+      color: #fff;
+      box-shadow: 0px 0px 6px 1px rgba(0, 0, 0, 0.09);
+    }
     .btn-invalid-form {
-      color: #ffffff;
-      background-color: #caf8ca;
+      background-color: #edecec;
     }
     .btn-valid-form {
-      color: #fff;
-      background-color: #cbffcb;
+      background-color: #6B7280;
     }
   }
   span{

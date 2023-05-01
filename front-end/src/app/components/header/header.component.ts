@@ -8,7 +8,7 @@ import { UserService } from '../../service/user.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  isLoggedIn: boolean = false;
+  isLoggedIn : boolean = false;
   user       : any;
   showSidebar: boolean = true;
   userId     : any;
@@ -23,7 +23,7 @@ export class HeaderComponent implements OnInit {
     // Check if user logged in
     this.isLoggedIn = this.authService.isLoggedIn();
     // Get elements of user from Local Storage
-    if (this.isLoggedIn === true) {
+    if (this.isLoggedIn) {
       this.token = this.authService.getAuthToken();
       this.userId = this.authService.getDecryptedUserId();
     }
@@ -34,7 +34,6 @@ export class HeaderComponent implements OnInit {
 
     if(confirm("Êtes-vous sûr de vouloir vous déconnecter ?")) {
       this.authService.logout();
-      this.isLoggedIn  = false;
       window.location.reload();
     }
   }

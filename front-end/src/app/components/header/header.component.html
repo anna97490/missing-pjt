@@ -1,55 +1,28 @@
 <div class="container-header">
-
     <div class="logo">
-      <a href="#"><img class="logo" src="../../assets/logo-taille-header.png" alt="The logo of Missing website"></a>
+      <a href="#"><img class="logo" src="../../assets/logo-missing.png" alt="The logo of Missing website"></a>
     </div>
 
     <!-- Links to SignUp and Login if user not connected or registered -->
-    <div class="navigation">
-      <a
-        *ngIf="!isLoggedIn"
-        class="nav-links"
-        routerLink="/signin"
-        ngClass="{ 'hide-links': isLoggedIn }">
-          S'inscrire
+    <div class="navigation" [ngStyle]="{'width': isLoggedIn === false ? '17%' : '60%' }" >
+      <a *ngIf="!isLoggedIn" class="nav-links" routerLink="/signin">
+        S'inscrire
       </a>
-      <a
-        *ngIf="!isLoggedIn"
-        class="nav-links"
-        routerLink="/login"
-        ngClass="{ 'hide-links': isLoggedIn }"
-      >
+      <a *ngIf="!isLoggedIn" class="nav-links" routerLink="/login">
         Se connecter
       </a>
-      <a
-        *ngIf="isLoggedIn"
-        class="nav-links"
-        routerLink="/user-infos/{{ userId }}"
-      >
-          Mes informations
+      <a *ngIf="isLoggedIn" class="nav-links" routerLink="/user-infos/{{ userId }}">
+        Mes informations
       </a>
-      <a
-        *ngIf="isLoggedIn"
-        class="nav-links"
-        routerLink="/create-post/{{ userId }}"
-      >
+      <a *ngIf="isLoggedIn" class="nav-links" routerLink="/create-post/{{ userId }}">
         Créer une fiche disparition
       </a>
-      <a
-        *ngIf="isLoggedIn"
-        class="nav-links"
-        routerLink="/list-posts/{{ userId }}"
-      >
+      <a *ngIf="isLoggedIn" class="nav-links" routerLink="/list-posts/{{ userId }}">
         Mes fiches disparition
       </a>
-      <a
-        *ngIf="isLoggedIn"
-        class="nav-links"
-        (click)="logout($event)"
-      >
+      <a *ngIf="isLoggedIn" class="nav-links" (click)="logout($event)">
         Se déconnecter
       </a>
     </div>
-
 </div>
 

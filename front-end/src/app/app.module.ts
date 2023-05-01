@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
 import { AuthService } from './service/auth.service';
 import { AuthGuard } from './service/auth.guard';
 import { UserService } from './service/user.service';
@@ -62,4 +64,8 @@ import { PostsEditComponent } from './pages/posts-edit/posts-edit.component';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor() {
+    registerLocaleData(localeFr);
+  }
+ }

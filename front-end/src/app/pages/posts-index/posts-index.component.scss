@@ -28,11 +28,14 @@
     .form-search-bar {
       margin-bottom: 2%;
       width: 40%;
+      #search {
+        border-radius: 8px;
+      }
       .search-bar {
         width: 100%;
       }
       .btn-search {
-        background-color: #aba09c;
+        background-color: #6b6b6b;
       }
     }
   }
