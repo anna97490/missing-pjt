@@ -1,9 +1,9 @@
 import { Component, OnInit, Input  } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import { Router } from '@angular/router';
+import { Post } from 'src/app/models/Post.model';
 import { PostService } from '../../service/post.service';
 import { AuthService } from '../../service/auth.service';
-import { Post } from 'src/app/models/Post.model';
-import { Router } from '@angular/router';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-card-missing',
@@ -18,7 +18,6 @@ export class CardMissingComponent implements OnInit {
   userId       : any;
   postId       : string = '';
   posts        : Post[] = [];
-  filteredPosts: any = [];
 
   constructor(
     private authService: AuthService,
@@ -39,11 +38,6 @@ export class CardMissingComponent implements OnInit {
     const today = new Date();
     const age = Math.floor((today.getTime() - birthDate.getTime()) / (365.25 * 24 * 60 * 60 * 1000));
     this.post.age = age;
-  }
-
-  // Capitalize the first letter
-  capitalizeString(string: string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
   // Edit Post

@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { AuthService } from '../../service/auth.service';
-import { PostService } from '../../service/post.service';
 import { Post } from 'src/app/models/Post.model';
+import { User } from 'src/app/models/User.model';
+import { UserService } from '../../service/user.service';
+import { PostService } from '../../service/post.service';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -15,6 +17,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class PostsEditComponent {
   isLoggedIn  : boolean = false;
   editPostForm: any = FormGroup;
+  user        : any;
   userId      : any;
   postId      : any;
   isSend      : boolean = false;
@@ -27,8 +30,8 @@ export class PostsEditComponent {
   constructor(
     private authService: AuthService,
     private postService: PostService,
+    private userService: UserService,
     private route      : ActivatedRoute,
-    private router     : Router,
     private datePipe   : DatePipe,
     private formBuilder: FormBuilder,
   ) {
@@ -49,6 +52,9 @@ export class PostsEditComponent {
     this.postId = this.route.snapshot.paramMap.get('id');
     // Get post
     if (this.isLoggedIn) {
+      this.user = this.userService.getUserById(this.userId).subscribe((user: User) => {
+        this.user = user;
+      })
       this.postService.getPostById(this.postId).subscribe((post: Post) => {
         if (post) {
           this.post = post;
@@ -62,6 +68,7 @@ export class PostsEditComponent {
     }
   }
 
+  // Function to pick date not after today's date
   validateDate(event: any) {
     const selectedDate = new Date(event.target.value);
     const now = Date.now();
@@ -82,10 +89,10 @@ export class PostsEditComponent {
 
   // Edit post
   editPost(event: Event, postId: string) {
-    console.log('icciii')
+    event.preventDefault();
     postId = this.postId;
 
-    if (this.post.userId === this.userId) {
+    if (this.editPostForm.valid  && this.userId === this.user._id) {
       let updatedPost = {
         firstname: this.post.firstname,
         lastname : this.post.lastname,

@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { User } from 'src/app/models/User.model';
+import { UserService } from '../../service/user.service';
 import { PostService } from '../../service/post.service';
 import { AuthService } from '../../service/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -12,14 +15,17 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class PostsCreateComponent {
   isLoggedIn    : boolean = false;
   createPostForm: any = FormGroup;
+  user          : any = User;
   userId        : any;
   isClicked     : boolean = false;
   image         : any = File;
   fileName      : any;
 
   constructor(
+    private router: Router,
     private formBuilder: FormBuilder,
     private authService: AuthService,
+    private userService: UserService,
     private postService: PostService,
   ) {
     // Datas from form
@@ -38,8 +44,12 @@ export class PostsCreateComponent {
     // Check if user is logged
     this.isLoggedIn = this.authService.isLoggedIn();
     // Get elements of user from Local Storage
-    if (this.isLoggedIn === true) {
+    if (this.isLoggedIn) {
       this.userId = this.authService.getDecryptedUserId();
+      // Get the user
+      this.user = this.userService.getUserById(this.userId).subscribe((user: User) => {
+        this.user = user;
+      })
     }
   }
 
@@ -66,7 +76,7 @@ export class PostsCreateComponent {
   createPost(event: Event) {
     event.preventDefault();
 
-    if (this.createPostForm.valid) {
+    if (this.createPostForm.valid  && this.userId === this.user._id) {
       const formData = new FormData();
       formData.append('firstname', this.createPostForm.get('firstname').value);
       formData.append('lastname', this.createPostForm.get('lastname').value);
@@ -80,6 +90,7 @@ export class PostsCreateComponent {
 
       this.postService.createPost(formData).subscribe(response => {
         this.isClicked = true;
+        this.router.navigate(['/posts-index']);
         this.createPostForm.reset();
       });
     }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../service/auth.service';
-import { UserService } from '../../service/user.service';
 import { User } from 'src/app/models/User.model';
+import { UserService } from '../../service/user.service';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -14,8 +14,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class UserInfosComponent implements OnInit {
   isLoggedIn  : boolean = false;
   editUserForm: any = FormGroup;
-  userId      : any;
   user        : any = User;
+  userId      : any;
   image       : any = File;
   fileName    : any;
   message     : string = '';
@@ -40,12 +40,11 @@ export class UserInfosComponent implements OnInit {
     // Check if user is logged
     this.isLoggedIn = this.authService.isLoggedIn();
     // Get elements of user from Local Storage
-    if (this.isLoggedIn === true) {
+    if (this.isLoggedIn) {
       this.userId = this.authService.getDecryptedUserId();
       // Get the user to display infos
       this.user = this.userService.getUserById(this.userId).subscribe((user: User) => {
         this.user = user;
-        console.log("this.user", this.user)
       })
     }
   }
@@ -66,6 +65,7 @@ export class UserInfosComponent implements OnInit {
     userId = this.userId;
 
     if (userId === this.user._id) {
+      // Get datas from user
       let updatedUser = {
         firstname: this.user.firstname,
         lastname : this.user.lastname,
@@ -78,7 +78,7 @@ export class UserInfosComponent implements OnInit {
         Object.entries(formValues).filter(([key, value]) => value !== '')
       );
 
-      // Update the new object with new datas
+      // Update the updatedUser object with new datas
       updatedUser = { ...updatedUser, ...nonEmptyValues };
 
       this.userService.editUser(userId, updatedUser).subscribe(
@@ -98,10 +98,10 @@ export class UserInfosComponent implements OnInit {
     userId = this.userId;
 
     const confirmDelete = confirm('Voulez-vous vraiment supprimer votre compte ?');
-    if (confirmDelete) {
+    if (confirmDelete && userId === this.user._id) {
       this.userService.deleteUser(userId).subscribe(
         () => {
-          localStorage.clear();
+          this.authService.logout();
           this.router.navigate(['/posts-index']);
         },
         (error) => {

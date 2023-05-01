@@ -1,0 +1,23 @@
+.container-list-missing {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  padding: 12% 3% 0% 3%;
+  .link-index {
+    position: absolute;
+    top: 12%;
+    left: 2%;
+  }
+  .cont-title {
+    width: 100%;
+    h1 {
+      text-align: center;
+    }
+  }
+  .container-page {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}

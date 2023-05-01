@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Post } from '../../models/Post.model';
-import { User } from '../../models/User.model';
 import { PostService } from '../../service/post.service';
 import { AuthService } from '../../service/auth.service';
 
@@ -10,7 +9,7 @@ import { AuthService } from '../../service/auth.service';
   templateUrl: './posts-index.component.html',
   styleUrls: ['./posts-index.component.scss']
 })
-export class PostsIndexComponent {
+export class PostsIndexComponent implements OnInit {
   @Input() showContCreation: boolean = true;
   isLoggedIn   : boolean = false;
   posts        : Post[] = [];
@@ -18,10 +17,8 @@ export class PostsIndexComponent {
   filteredPosts: Post[] = [];
   searchText   : string = '';
   selectedDate : any = Date;
-  id           : string = '';
-  user         : any = User;
-  modalOpen    = false;
   token: any;
+  modalOpen = false;
 
   constructor(
     private authService: AuthService,
@@ -29,7 +26,7 @@ export class PostsIndexComponent {
   ) {}
 
   ngOnInit() {
-    this.token = localStorage.getItem('token')
+    this.token = this.authService.getAuthToken();
     this.isLoggedIn = this.authService.isLoggedIn();
     // Get posts
     this.postService.getPosts().subscribe((posts: Post[]) => {

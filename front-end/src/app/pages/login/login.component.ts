@@ -25,10 +25,6 @@ export class LoginComponent {
     });
   }
 
-  preventDefault(event: Event) {
-    event.preventDefault();
-  }
-
   login(event: Event) {
     event.preventDefault();
     const email    = this.loginForm.get('email').value

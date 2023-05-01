@@ -1,3 +1,39 @@
-form {
-  margin-top: 20%;
+.container-edit-card {
+  height: 100%;
+  padding: 8% 3% 0% 3%;
+  background-color: rgba(219, 219, 219, 0.0784313725);
+  .cont-title {
+    font-weight: bold;
+    font-size: 17px;
+    margin-bottom: 3%;
+    text-align: center;
+  }
+  form {
+    padding: 3%;
+    height: 54rem;
+    background-color: #fff;
+    input {
+      margin-top: 5%;
+    }
+    textarea {
+      padding-top: 2rem;
+    }
+  }
+  .description-txt {
+    height: 9rem;
+  }
+  .field-photo span {
+    height: 5rem;
+    width: 5rem;
+  }
+  .btn-submit {
+    float: right;
+    text-align: center;
+    color: #fff;
+    background-color: #edecec;
+    box-shadow: 0px 0px 6px 1px rgba(0, 0, 0, 0.09);
+  }
+  .btn-valid-form {
+    background-color: #6B7280;
+  }
 }

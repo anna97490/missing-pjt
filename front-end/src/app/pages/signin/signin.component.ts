@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AuthService } from '../../service/auth.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -8,18 +8,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   templateUrl: './signin.component.html',
   styleUrls: ['./signin.component.scss']
 })
-export class SigninComponent implements OnInit {
-  signinForm  : any = FormGroup;
-  isErrorEmail: boolean = false;
-  isErrorDate : boolean = false;
-  isErrorPassword : boolean= false;
-  isLengthValid: boolean = false;
-  hasUppercase: boolean = false;
-  hasLowercase: boolean = false;
-  hasNumber: boolean = false;
-  isValid : boolean = false;
-  showPasswordInfo : boolean = false;
-
+export class SigninComponent {
+  signinForm     : any = FormGroup;
+  isErrorEmail   : boolean = false;
+  isErrorDate    : boolean = false;
+  isErrorPassword: boolean= false;
 
   constructor(private formBuilder: FormBuilder,private authService: AuthService, private router: Router) {
     this.signinForm = this.formBuilder.group({
@@ -29,14 +22,6 @@ export class SigninComponent implements OnInit {
       password : ['', [Validators.required, Validators.minLength(8), Validators.maxLength(18)]],
       birthDate: ['', [Validators.required]],
     });
-  }
-
-  ngOnInit(): void {
-
-  }
-
-  preventDefault(event: Event) {
-    event.preventDefault();
   }
 
   signin(event: Event) {
@@ -58,7 +43,7 @@ export class SigninComponent implements OnInit {
       lastname : this.signinForm.get('lastname').value,
       email    : this.signinForm.get('email').value,
       birthDate: this.signinForm.get('birthDate').value,
-      password: this.signinForm.get('password').value }
+      password : this.signinForm.get('password').value }
 
     if (this.signinForm.valid) {
       this.authService.signin(body).subscribe({
@@ -77,7 +62,6 @@ export class SigninComponent implements OnInit {
       this.isErrorEmail = this.signinForm.get('email').value === '';
       this.isErrorDate = this.signinForm.get('birthDate').value === '';
       this.isErrorPassword = this.signinForm.get('password').value === '';
-
     }
   }
 }

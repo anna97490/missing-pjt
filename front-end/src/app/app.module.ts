@@ -13,11 +13,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { HomeComponent } from './pages/home/home.component';
-import { ButtonComponent } from './components/button/button.component';
 import { LoginComponent } from './pages/login/login.component';
 import { SigninComponent } from './pages/signin/signin.component';
 import { SidebarModule } from 'ng-sidebar';
-import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { CardMissingComponent } from './components/card-missing/card-missing.component';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -34,10 +32,8 @@ import { PostsEditComponent } from './pages/posts-edit/posts-edit.component';
     AppComponent,
     HeaderComponent,
     HomeComponent,
-    ButtonComponent,
     LoginComponent,
     SigninComponent,
-    SidebarComponent,
     CardMissingComponent,
     ModalComponent,
     UserInfosComponent,
