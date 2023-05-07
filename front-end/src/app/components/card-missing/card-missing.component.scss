@@ -1,7 +1,7 @@
 .card-link {
   margin: 3% 0;
-  width: 700px;
-  height: 15rem;
+  width: 950px;
+
   position: relative;
   color: #000;
   border: none;
@@ -12,7 +12,7 @@
     width: 100%;
     height: 100%;
     .cont-img {
-      width: 38%;
+      width: 28%;
       img {
         width: 100%;
         height: 100%;
@@ -20,7 +20,7 @@
       }
     }
     .cont-infos-missing {
-      width: 68%;
+      width: 70%;
     }
     .field-disappearance {
       margin-bottom: 2px;
@@ -29,9 +29,14 @@
       color: black;
       height: auto;
       padding: 2% 0 0 2%;
+      margin-bottom: 2%;
       border-radius: 2px;
       word-wrap: break-word;
       background-color: #ecececb5;
+    }
+    .field-comment {
+      width: 100%;
+      background-color: #e9e8e8;
     }
   }
   .cont-edit-delete {
@@ -42,6 +47,25 @@
       width: 66%;
     }
   }
+  .cont-comment {
+    display: flex;
+    margin-top: 2%;
+    svg {
+      width: 15px;
+    }
+    span {
+      color: #6B7280;
+      margin-left: 1%;
+    }
+  }
+  .icon-valid-comment {
+    display: flex;
+    justify-content: end;
+    .valid-comment {
+      width: 18px;
+    }
+  }
+
 }
 
 

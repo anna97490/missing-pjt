@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Post } from 'src/app/models/Post.model';
 import { PostService } from '../../service/post.service';
 import { AuthService } from '../../service/auth.service';
+import { CommentService } from '../../service/comment.service';
 import { DatePipe } from '@angular/common';
 
 @Component({
@@ -13,17 +14,19 @@ import { DatePipe } from '@angular/common';
 
 export class CardMissingComponent implements OnInit {
   @Input() post: any;
-  user         : any;
-  isLoggedIn   : boolean = false;
-  userId       : any;
-  postId       : string = '';
-  posts        : Post[] = [];
+  user       : any;
+  isLoggedIn : boolean = false;
+  userId     : any;
+  postId     : string = '';
+  posts      : Post[] = [];
+  commentArea: string = '';
 
   constructor(
     private authService: AuthService,
     private postService: PostService,
-    private router     : Router,
-    private datePipe   : DatePipe
+    private commentService: CommentService,
+    private router: Router,
+    private datePipe: DatePipe
   ) {}
 
   ngOnInit() {
@@ -69,18 +72,21 @@ export class CardMissingComponent implements OnInit {
     });
   }
 
-  addComment(event: Event) {
+  addComment(event: Event, postId: string) {
     event.preventDefault();
 
-  }
+    this.posts.forEach(post => {
+      postId = post._id;
+    });
 
-  editComment(event: Event) {
-    event.preventDefault();
+      console.log(this.commentArea)
+      console.log("postId", postId)
+      this.commentService.addComment(this.commentArea, postId).subscribe(response => {
+        console.log(response)
+        // this.router.navigate(['/posts-index']);
+        // window.location.reload();
+      });
 
-  }
-
-  deleteComment(event: Event) {
-    event.preventDefault();
 
   }
 }

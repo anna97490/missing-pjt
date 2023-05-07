@@ -108,5 +108,9 @@ export class AuthService {
     const decryptedUserId = bytes.toString(CryptoJS.enc.Utf8);
     return decryptedUserId;
   }
+
+  getUserParams() {
+
+  }
 }
 

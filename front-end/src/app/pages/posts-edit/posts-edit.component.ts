@@ -54,6 +54,7 @@ export class PostsEditComponent {
     if (this.isLoggedIn) {
       this.user = this.userService.getUserById(this.userId).subscribe((user: User) => {
         this.user = user;
+        console.log(user)
       })
       this.postService.getPostById(this.postId).subscribe((post: Post) => {
         if (post) {
@@ -92,14 +93,16 @@ export class PostsEditComponent {
     event.preventDefault();
     postId = this.postId;
 
-    if (this.editPostForm.valid  && this.userId === this.user._id) {
+    if (this.userId === this.user._id) {
+      // Get datas from user
       let updatedPost = {
-        firstname: this.post.firstname,
-        lastname : this.post.lastname,
-        birthDate: this.post.birthDate,
-        missingPlace: this.post.missingPlace,
-        missingDate : this.post.address,
-        description  : this.post.description,
+        firstname: this.user.firstname,
+        lastname : this.user.lastname,
+        birthDate: this.user.birthDate,
+        address  : this.user.address,
+        missingPlace: this.user.missingPlace,
+        missingDate : this.user.missingDate,
+        description : this.user.description
       };
 
       const formValues = this.editPostForm.value;
@@ -107,7 +110,7 @@ export class PostsEditComponent {
         Object.entries(formValues).filter(([key, value]) => value !== '')
       );
 
-      // Update the new object with new datas
+      // Update the updatedUser object with new datas
       updatedPost = { ...updatedPost, ...nonEmptyValues };
 
       this.postService.editPost(postId, updatedPost).subscribe(
@@ -115,7 +118,7 @@ export class PostsEditComponent {
           window.location.reload();
         },
         (error) => {
-          this.message = 'Une erreur est survenue lors de la modification de vos informations';
+          this.message = 'Une erreur est survenue lors de la modification du post';
         }
       );
     }

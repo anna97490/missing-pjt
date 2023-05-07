@@ -9,7 +9,7 @@ import { catchError, map, Observable, throwError } from 'rxjs';
 })
 export class UserService {
   private apiUrl: string = 'http://localhost:3000/api/user';
-  private token : any = localStorage.getItem('token');
+  private token : any = this.authService.getAuthToken();
 
   constructor(
     private http: HttpClient,
@@ -45,7 +45,7 @@ export class UserService {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type' : 'application/json',
-        'Authorization': 'Bearer ' + this.authService.getAuthToken() })
+        'Authorization': 'Bearer ' + this.token })
     };
 
     return this.http.put<User>(url, {user: user}, httpOptions).pipe(
@@ -55,7 +55,7 @@ export class UserService {
     );
   }
 
- /*** Delete the user method * @param {string} userId - user id * @return {string|error} - Sucessful insertion or Error*/
+ // Delete user
   deleteUser(id: string): Observable<any> {
     const url = `${this.apiUrl}/${id}`;
 

@@ -11,7 +11,7 @@ import { catchError, map, Observable, throwError } from 'rxjs';
 export class PostService {
   private posts : Post[] = [];
   private apiUrl: string = 'http://localhost:3000/api/post';
-  private token : any = localStorage.getItem('token');
+  private token : any = this.authService.getAuthToken();
 
   constructor(
     private router: Router,
@@ -59,15 +59,15 @@ export class PostService {
     return this.http.get<Post>(url);
   }
 
-  // Edit Post method
-  editPost(postId: string, updatedPost: any): Observable<Post> {
+  // Edit post
+  editPost(postId: string, updatedPost: Object): Observable<Post> {
     const url = `${this.apiUrl}/${postId}`;
     const post = JSON.stringify(updatedPost)
 
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type' : 'application/json',
-        'Authorization': 'Bearer ' + this.authService.getAuthToken() })
+        'Authorization': 'Bearer ' + this.token })
     };
 
     return this.http.put<Post>(url, {post: post}, httpOptions).pipe(

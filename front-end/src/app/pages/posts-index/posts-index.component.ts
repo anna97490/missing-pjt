@@ -16,9 +16,12 @@ export class PostsIndexComponent implements OnInit {
   allPosts     : Post[] = [];
   filteredPosts: Post[] = [];
   searchText   : string = '';
-  selectedDate : any = Date;
   token: any;
   modalOpen = false;
+
+  selection :any;
+  selectedPlace: string = "";
+  selectedDate: any;
 
   constructor(
     private authService: AuthService,
@@ -61,17 +64,30 @@ export class PostsIndexComponent implements OnInit {
 
   // Function for search bar
   onSearch() {
-    if (this.searchText) {
+    if (this.selectedPlace) {
       // Convert the search string to lowercase.
-      const searchTerm = this.searchText.toLowerCase();
-      // Search by missingPlace
-      this.filteredPosts = this.allPosts.filter((post) =>
+      const selectedPlace = this.selectedPlace.toLowerCase();
+        // Search by missingPlace
+        this.filteredPosts = this.allPosts.filter((post) =>
         //Convert the string of the article object to lowercase
-        post.missingPlace.toLowerCase().includes(searchTerm)
-      );
-    this.posts = [...this.filteredPosts];
+        post.missingPlace.toLowerCase().includes(selectedPlace)
+        );
+        this.posts = [...this.filteredPosts];
+    } else if (this.selectedDate) {
+      //  const selectedPlace = this.selectedPlace.toLowerCase();
+      //  // Search by missingDate
+      //  this.filteredPosts = this.allPosts.filter((post) =>
+      //  //Convert the string of the article object to lowercase
+      // //  post.missingDate.toLowerCase().includes(selectedPlace)
+      //  );
+      //  this.posts = [...this.filteredPosts];
     } else {
       this.posts = [...this.allPosts];
     }
+  }
+
+  // Reset filters method
+  onResetFilters() {
+    this.posts = [...this.allPosts];
   }
 }

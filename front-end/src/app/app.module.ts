@@ -6,6 +6,7 @@ import { AuthService } from './service/auth.service';
 import { AuthGuard } from './service/auth.guard';
 import { UserService } from './service/user.service';
 import { PostService } from './service/post.service';
+import { CommentService } from './service/comment.service';
 import { HttpClientModule } from '@angular/common/http';
 import jwt_decode from 'jwt-decode';
 
@@ -54,6 +55,7 @@ import { PostsEditComponent } from './pages/posts-edit/posts-edit.component';
     AuthService,
     UserService,
     PostService,
+    CommentService,
     AuthGuard,
     { provide: 'decodedToken', useValue: jwt_decode },
     DatePipe,
