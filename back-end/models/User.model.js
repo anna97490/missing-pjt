@@ -8,7 +8,6 @@ const userSchema = mongoose.Schema({
     birthDate: { type: Date, required: true },
     password : { type: String, required: true },
     image    : { type: String },
-    posts    : [],
 });
        
 userSchema.plugin(uniqueValidator);

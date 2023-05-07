@@ -27,6 +27,7 @@ import { PostsIndexComponent } from './pages/posts-index/posts-index.component';
 import { PostsListComponent } from './pages/posts-list/posts-list.component';
 import { PostsCreateComponent } from './pages/posts-create/posts-create.component';
 import { PostsEditComponent } from './pages/posts-edit/posts-edit.component';
+import { CommentComponent } from './components/comment/comment.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { PostsEditComponent } from './pages/posts-edit/posts-edit.component';
     PostsIndexComponent,
     PostsListComponent,
     PostsCreateComponent,
-    PostsEditComponent
+    PostsEditComponent,
+    CommentComponent
   ],
   imports: [
     HttpClientModule,

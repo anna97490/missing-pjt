@@ -103,6 +103,13 @@
           46.3-19.7 47.9-45L416 128z" />
       </svg>
     </button>
+  </div>
 
+  <!-- Comment content - List of Comments -->
+  <div class="container-comments">
+    Les commentaires
+    <div *ngFor="let element of comment" class="comments-lists">
+      <span>{{ element }}</span>
+    </div>
   </div>
 </div>

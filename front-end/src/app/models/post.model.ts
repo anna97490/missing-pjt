@@ -8,6 +8,11 @@ export class Post {
   missingDate : Date;
   missingPlace: string;
   description : string;
+  comments: {
+    _id: string;
+    comment: string;
+    createdAt: Date;
+  }[];
   createdAt   : Date;
   userId      : string;
 
@@ -21,6 +26,11 @@ export class Post {
     missingDate : Date,
     missingPlace: string,
     description : string,
+    comments: {
+      _id: string;
+      comment: string;
+      createdAt: Date;
+    }[],
     createdAt   : Date,
     userId      : string
   ) {
@@ -33,6 +43,7 @@ export class Post {
     this.missingDate  = missingDate;
     this.missingPlace = missingPlace;
     this.description  = description;
+    this.comments     = comments;
     this.createdAt    = createdAt;
     this.userId       = userId;
   }

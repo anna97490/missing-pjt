@@ -19,7 +19,12 @@ export class CardMissingComponent implements OnInit {
   userId     : any;
   postId     : string = '';
   posts      : Post[] = [];
+  comments   : Comment[] = [];
+  comment    : any = Comment;
+  commentId  : any;
   commentArea: string = '';
+  arrayCommentId = [];
+  element: any
 
   constructor(
     private authService: AuthService,
@@ -33,8 +38,13 @@ export class CardMissingComponent implements OnInit {
     this.isLoggedIn = this.authService.isLoggedIn();
     this.userId = this.authService.getDecryptedUserId();
     // Get all posts
-     this.postService.getPosts().subscribe((posts: Post[]) => {
+    this.postService.getPosts().subscribe((posts: Post[]) => {
       this.posts = posts;
+      // Get the comment
+      this.posts.forEach(post => {
+        this.comment = post.comments.map(comment => comment.comment);
+        this.commentId = post.comments.map(comment => comment._id);
+      })
     });
     // Birth date formated to age
     const birthDate = new Date(this.post.birthDate);
@@ -79,14 +89,13 @@ export class CardMissingComponent implements OnInit {
       postId = post._id;
     });
 
-      console.log(this.commentArea)
-      console.log("postId", postId)
-      this.commentService.addComment(this.commentArea, postId).subscribe(response => {
-        console.log(response)
-        // this.router.navigate(['/posts-index']);
-        // window.location.reload();
-      });
+    this.commentService.addComment(this.commentArea, postId).subscribe(response => {
+      console.log(response)
+      window.location.reload();
+    });
+  }
 
+  editComment(event: Event, postId: string) {
 
   }
 }

@@ -29,55 +29,55 @@
         </a>
     </div>
 
-      <!-- Search bar -->
-      <div class="cont-search-bar">
-        <form class="form-search-bar">
-          <div class="search-bar flex">
-            <div class="relative w-full">
-              <!-- Filters -->
-              <div class="flex flex-col items-center">
-                <h3 class="text-xl font-medium mb-4">Filtres :</h3>
-                <div class="flex flex-row justify-center space-x-4">
-                  <!-- Filter by missingDate -->
-                  <div>
-                    <label for="filter-year" class="sr-only">Filtrer par année</label>
-                    <select id="filter-year" name="filter-year">
-                      <option [(ngModel)]="selectedPlace" value="missingPlace" selected>Trier par ville de disparition</option>
-                      <option [(ngModel)]="selectedDate" value="missingDate" selected>Trier par année de disparition</option>
-                    </select>
-                  </div>
+    <!-- Search bar -->
+    <div class="cont-search-bar">
+      <form class="form-search-bar">
+        <div class="search-bar flex">
+          <div class="relative w-full">
+            <!-- Filters -->
+            <div class="flex flex-col items-center">
+              <h3 class="text-xl font-medium mb-4">Filtres :</h3>
+              <div class="flex flex-row justify-center space-x-4">
+                <!-- Filter by missingDate -->
+                <div>
+                  <label for="filter-year" class="sr-only">Filtrer par année</label>
+                  <select id="filter-year" name="filter-year">
+                    <option [(ngModel)]="selectedPlace" value="missingPlace" selected>Trier par ville de disparition</option>
+                    <option [(ngModel)]="selectedDate" value="missingDate" selected>Trier par année de disparition</option>
+                  </select>
                 </div>
               </div>
-
-              <input type="search" id="search" [(ngModel)]="selectedPlace"
-                [(ngModel)]="searchText" name="searchText" class="block p-2.5
-                w-full z-20 text-sm rounded-r-lg border border-gray-300
-                focus:ring-blue-500 focus:border-blue-500 dark:border-l-gray-700
-                dark:border-gray-600 dark:placeholder-gray-400"
-                placeholder="Votre recherche" required>
-              <hr>
-
-              <!-- Page content - List of Posts -->
-              <div *ngFor="let post of posts" class="posts-lists">
-                <app-card-missing [post]="post"></app-card-missing>
-              </div>
-
-              <button (click)="onSearch()" type="submit" class="btn-search
-                absolute top-0 right-0 p-2.5 font-medium text-white rounded-r-lg
-                border hover:bg-blue-800 focus:ring-4 focus:outline-none
-                focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700
-                dark:focus:ring-blue-800">
-                <svg aria-hidden="true" class="w-5 h-5" fill="none"
-                  stroke="currentColor" viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <path stroke-linecap="round" stroke-linejoin="round"
-                    stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114
-                    0z"></path>
-                </svg>
-              </button>
             </div>
+
+            <input type="search" id="search" [(ngModel)]="selectedPlace"
+              [(ngModel)]="searchText" name="searchText" class="block p-2.5
+              w-full z-20 text-sm rounded-r-lg border border-gray-300
+              focus:ring-blue-500 focus:border-blue-500 dark:border-l-gray-700
+              dark:border-gray-600 dark:placeholder-gray-400"
+              placeholder="Votre recherche" required>
+            <hr>
+
+            <!-- Page content - List of Posts -->
+            <div *ngFor="let post of posts" class="posts-lists">
+              <app-card-missing [post]="post"></app-card-missing>
+            </div>
+
+            <button (click)="onSearch()" type="submit" class="btn-search
+              absolute top-0 right-0 p-2.5 font-medium text-white rounded-r-lg
+              border hover:bg-blue-800 focus:ring-4 focus:outline-none
+              focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700
+              dark:focus:ring-blue-800">
+              <svg aria-hidden="true" class="w-5 h-5" fill="none"
+                stroke="currentColor" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114
+                  0z"></path>
+              </svg>
+            </button>
           </div>
-        </form>
-      </div>
+        </div>
+      </form>
+    </div>
 
     </div>

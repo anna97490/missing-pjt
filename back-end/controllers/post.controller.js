@@ -1,3 +1,4 @@
+const Comment = require('../models/Comment.model');
 const Post = require('../models/Post.model');
 const User = require('../models/User.model');
 const fs = require('fs');
@@ -35,6 +36,11 @@ exports.getAllPosts = async (req, res, next) => {
     try {
         const posts = await Post.find();
         res.status(200).json(posts);
+        console.log("posts", posts)
+        posts.forEach(post => {
+        console.log("post.commdnts", post.comments)
+            
+        });
     } catch (error) {
         res.status(400).json({ error });
     }
@@ -110,5 +116,55 @@ exports.deletePost = async (req, res, next) => {
         }
     } catch (error) {
         res.status(500).json({ error });
+    }
+};
+
+/**
+* Create comment method
+* @param {string} postId - associated userId		
+* @return {string|error} - Sucessful insertion or Error
+* @return {string|error} - Sucessful insertion or Error
+*/
+exports.createComment = async (req, res, next) => {
+    console.log(1,req.body)
+    console.log(2,req.params)
+    try {
+        const post = await Post.findById(req.params.id);
+
+        if (!post) {
+        return res.status(404).json({ message: 'Post not found' });
+        }
+
+        const comment = new Comment({
+            comment: req.body.comment,
+        });
+
+        // post.comments.push(comment);
+        await post.updateOne({ $push: { comments: comment } });
+
+        res.status(201).json({ message: 'Comment created' });
+  } catch (error) {
+    res.status(400).json({ error });
+  }
+};
+
+exports.updateComment = async (req, res, next) => {
+    console.log('yo')
+    
+    try {
+        const post = await Post.findById(req.params.id);
+
+        if (!post) {
+            return res.status(404).json({ message: 'Post not found!' });
+        }
+
+        await Post.findByIdAndUpdate(req.params.id, {comment:req.body.comment}, {
+            new: true,
+            overwrite: false
+        });
+
+        res.status(200).json({ message: 'Profile updated!' });
+    } catch (error) {
+        res.status(500).json({ error: 'Server Error!' });
     }
 };
