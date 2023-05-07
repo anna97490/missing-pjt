@@ -11,6 +11,7 @@ const postSchema = mongoose.Schema({
     image       : { type: String, required: true},
     createdAt   : { type: Date, default: Date.now },
     userId      : { type: String, required: true },
+    comments    : [],
 });
 
 module.exports = mongoose.model('Post', postSchema);

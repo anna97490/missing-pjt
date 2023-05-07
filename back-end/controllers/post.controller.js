@@ -62,18 +62,17 @@ exports.getPost = async (req, res, next) => {
 * @return {string|error} - Sucessful insertion or Error
 */
 exports.updatePost = async (req, res, next) => {
+    console.log('yo')
     const postReq = JSON.parse(req.body.post);
-    console.log('req.body', req.body)
-    console.log('postReq', postReq)
+    
     try {
         const post = await Post.findById(req.params.id);
-        console.log('post', post)
 
         if (!post) {
             return res.status(404).json({ message: 'Post not found!' });
-        } else if (post.image !== undefined) {
-            const filename = post.image.split('/images/')[1];
-            fs.unlinkSync(`./images/${filename}`);
+        // } else if (post.image !== undefined) {
+        //     const filename = post.image.split('/images/')[1];
+        //     fs.unlinkSync(`./images/${filename}`);
         }
 
         const postObject = req.file ? {
@@ -86,11 +85,11 @@ exports.updatePost = async (req, res, next) => {
             overwrite: false
         });
 
-        res.status(200).json({ message: 'Post updated!' });
+        res.status(200).json({ message: 'Profile updated!' });
     } catch (error) {
         res.status(500).json({ error: 'Server Error!' });
     }
-  };
+};
 
 /**
 * Delete method
