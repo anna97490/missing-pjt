@@ -12,10 +12,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./user-infos.component.scss']
 })
 export class UserInfosComponent implements OnInit {
-  isLoggedIn  : boolean = false;
+  isLoggedIn  : boolean = this.authService.isLoggedIn();
+  userId      : any = this.authService.getDecryptedUserId();
   editUserForm: any = FormGroup;
   user        : any = User;
-  userId      : any;
   image       : any = File;
   fileName    : any;
   message     : string = '';
@@ -32,16 +32,11 @@ export class UserInfosComponent implements OnInit {
       lastname  : ['', [Validators.required, Validators.minLength(2), Validators.maxLength(70)]],
       email     : ['', [Validators.required, Validators.minLength(2), Validators.maxLength(70)]],
       birthDate : ['', [Validators.required]],
-      image     : [''],
     });
   }
 
   ngOnInit() {
-    // Check if user is logged
-    this.isLoggedIn = this.authService.isLoggedIn();
-    // Get elements of user from Local Storage
     if (this.isLoggedIn) {
-      this.userId = this.authService.getDecryptedUserId();
       // Get the user to display infos
       this.user = this.userService.getUserById(this.userId).subscribe((user: User) => {
         this.user = user;
@@ -60,11 +55,10 @@ export class UserInfosComponent implements OnInit {
   }
 
   // Edit the user method
-  editUser(event: Event, userId: string) {
+  editUser(event: Event) {
     event.preventDefault();
-    userId = this.userId;
 
-    if (userId === this.user._id) {
+    if (this.editUserForm.valid && this.userId === this.user._id) {
       // Get datas from user
       let updatedUser = {
         firstname: this.user.firstname,
@@ -81,8 +75,7 @@ export class UserInfosComponent implements OnInit {
       // Update the updatedUser object with new datas
       updatedUser = { ...updatedUser, ...nonEmptyValues };
 
-      this.userService.editUser(userId, updatedUser).subscribe(
-        () => {
+      this.userService.editUser(this.userId, updatedUser).subscribe(response => {
           window.location.reload();
         },
         (error) => {
@@ -93,14 +86,12 @@ export class UserInfosComponent implements OnInit {
   }
 
   // Delete the user method
-  deleteUser(event: Event, userId: string) {
+  deleteUser(event: Event) {
     event.preventDefault();
-    userId = this.userId;
 
     const confirmDelete = confirm('Voulez-vous vraiment supprimer votre compte ?');
-    if (confirmDelete && userId === this.user._id) {
-      this.userService.deleteUser(userId).subscribe(
-        () => {
+    if (confirmDelete && this.userId === this.user._id) {
+      this.userService.deleteUser(this.userId).subscribe(response => {
           this.authService.logout();
           this.router.navigate(['/posts-index']);
         },

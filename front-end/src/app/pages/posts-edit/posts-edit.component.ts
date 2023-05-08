@@ -15,11 +15,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./posts-edit.component.scss']
 })
 export class PostsEditComponent {
-  isLoggedIn  : boolean = false;
+  isLoggedIn  : boolean = this.authService.isLoggedIn();
+  userId      : any = this.authService.getDecryptedUserId();
+  postId      : any =this.route.snapshot.paramMap.get('id');
   editPostForm: any = FormGroup;
   user        : any;
-  userId      : any;
-  postId      : any;
   isSend      : boolean = false;
   image       : any = File;
   fileInput   : any;
@@ -47,15 +47,12 @@ export class PostsEditComponent {
   }
 
   ngOnInit() {
-    this.isLoggedIn = this.authService.isLoggedIn();
-    this.userId = this.authService.getDecryptedUserId();
-    this.postId = this.route.snapshot.paramMap.get('id');
-    // Get post
     if (this.isLoggedIn) {
+      // Get user
       this.user = this.userService.getUserById(this.userId).subscribe((user: User) => {
         this.user = user;
-        console.log(user)
       })
+      // Get post
       this.postService.getPostById(this.postId).subscribe((post: Post) => {
         if (post) {
           this.post = post;
@@ -94,7 +91,7 @@ export class PostsEditComponent {
     postId = this.postId;
 
     if (this.userId === this.user._id) {
-      // Get datas from user
+      // Get datas from post
       let updatedPost = {
         firstname: this.user.firstname,
         lastname : this.user.lastname,

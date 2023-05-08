@@ -27,7 +27,6 @@ export class PostService {
   createPost(formData: FormData): Observable<Post> {
     const httpOptions = {
       headers: new HttpHeaders({
-        // 'Content-Type' : 'multipart/form-data; boundary=something',
         'Authorization': 'Bearer ' + this.token
       })
     };
@@ -54,8 +53,8 @@ export class PostService {
   }
 
   // Get Post by id method
-  getPostById(id: string): Observable<Post> {
-    const url = `${this.apiUrl}/${id}`;
+  getPostById(postId: string): Observable<Post> {
+    const url = `${this.apiUrl}/${postId}`;
     return this.http.get<Post>(url);
   }
 
@@ -90,7 +89,6 @@ export class PostService {
 
     return this.http.delete<Post>(url, httpOptions).pipe(
       map(response => {
-        console.log(response);
         this.getPosts();
         return response;
       })

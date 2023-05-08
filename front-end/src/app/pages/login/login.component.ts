@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AuthService } from '../../service/auth.service';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -9,10 +9,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
+  loginForm        : any;
   isCorrectEmail   : boolean = false;
   isCorrectPassword: boolean = false;
-  loginForm        : any;
-  isLoggedIn       : boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -31,16 +30,9 @@ export class LoginComponent {
     const password = this.loginForm.get('password').value
 
     if (email && password && this.loginForm.valid) {
-      this.authService.login(email, password).subscribe({
-        next: (response) => {
-          this.router.navigate(['/posts-index']);
-        },
-        error: (error) => {
-          console.error(error);
-          if (error.status === 409) {
-            this.isCorrectEmail = true;
-        }
-      }})
+      this.authService.login(email, password).subscribe(response => {
+        this.router.navigate(['/posts-index']);
+      })
     } else {
       this.isCorrectEmail = this.loginForm.get('email').value === '';
       this.isCorrectPassword = this.loginForm.get('password').value === '';

@@ -4,18 +4,15 @@ const jwt = require('jsonwebtoken');
 const fs = require('fs');
 require('dotenv').config();
 
-/**
-* SignUp method
-* @param {object} user   - user datas
-* @param {string} userId - associated userId		
-* @return {string|error} - Sucessful insertion or Error
-*/
+// SignUp 
 exports.signUp = async (req, res, next) => {
+    // Check if email user already exists
     const isEmailUser = await User.findOne({ email: req.body.email });
     if (isEmailUser) {
         return res.status(409).json({ message: 'Email already registered' });
     } else {
         try {
+            // Encrypted password
             const hash = await bcrypt.hash(req.body.password, 10);
             const user = new User({
                 ...req.body,
@@ -23,6 +20,7 @@ exports.signUp = async (req, res, next) => {
             });
             await user.save();
 
+            // The token for authorizations
             const token = jwt.sign(
                 { userId: user._id },
                 process.env.SECRET_TOKEN,
@@ -37,23 +35,21 @@ exports.signUp = async (req, res, next) => {
     }
 };
 
-/**
-* Login method
-* @param {string} email    - user email
-* @param {string} password - user password	
-* @return {string|error}   - Sucessful insertion or Error
-*/
+// Login 
 exports.login = async (req, res, next) => {
     try {
         const user = await User.findOne({ email: req.body.email });
+        // Check user of the request is the same as user in DB
         if (!user) {
             return res.status(401).json({ message: 'Uncorrect email' });
         }
+
         const valid = await bcrypt.compare(req.body.password, user.password);
         if (!valid) {
             return res.status(401).json({ message: 'Uncorrect password' });
         }
        
+        // The token for authorizations
         const token = jwt.sign(
             { userId: user._id },
             process.env.SECRET_TOKEN,
@@ -66,24 +62,7 @@ exports.login = async (req, res, next) => {
     }
 };
 
-/**
-* Get all users method
-* @return {string|error}   - Sucessful insertion or Error
-*/
-exports.getAllUsers = async (req, res, next) => {
-    try {
-        const users = await User.find();
-        res.status(200).json(users);
-    } catch (error) {
-        res.status(400).json({ error });
-    }
-};
-
-/**
-* Get user by id method
-* @param {string} userId - user password	
-* @return {string|error} - Sucessful insertion or Error
-*/
+// Get user by id 
 exports.getUser = async (req, res, next) => {
     try {
         const user = await User.findOne({ _id: req.params.id });
@@ -93,11 +72,7 @@ exports.getUser = async (req, res, next) => {
     }
 };
 
-/**
-* Update method -------------------
-* @param {object} user   - datas to update 
-* @return {string|error} - Sucessful insertion or Error
-*/
+// Update user 
 exports.updateUser = async (req, res, next) => {
     const userReq = JSON.parse(req.body.user);
     
@@ -106,15 +81,9 @@ exports.updateUser = async (req, res, next) => {
 
         if (!user) {
             return res.status(404).json({ message: 'User not found!' });
-        } else if (user.image !== undefined) {
-            const filename = user.image.split('/images/')[1];
-            fs.unlinkSync(`./images/${filename}`);
         }
 
-        const userObject = req.file ? {
-            ...userReq,
-            image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-        } : { ...userReq };
+        const userObject = {...userReq};
 
         await User.findByIdAndUpdate(req.params.id, userObject, {
             new: true,
@@ -127,11 +96,7 @@ exports.updateUser = async (req, res, next) => {
     }
 };
 
-/**
-* Delete method --------------------
-* @param {string} userId - user id
-* @return {string|error} - Sucessful insertion or Error
-*/
+// Delete 
 exports.deleteUser = async (req, res, next) => {
     try {
         const user = await User.findById(req.params.id);

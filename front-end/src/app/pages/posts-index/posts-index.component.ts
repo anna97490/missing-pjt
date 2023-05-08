@@ -11,12 +11,11 @@ import { AuthService } from '../../service/auth.service';
 })
 export class PostsIndexComponent implements OnInit {
   @Input() showContCreation: boolean = true;
-  isLoggedIn   : boolean = false;
+  isLoggedIn   : boolean = this.authService.isLoggedIn();;
   posts        : Post[] = [];
   allPosts     : Post[] = [];
   filteredPosts: Post[] = [];
   searchText   : string = '';
-  token: any;
   modalOpen = false;
 
   selection :any;
@@ -29,8 +28,6 @@ export class PostsIndexComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.token = this.authService.getAuthToken();
-    this.isLoggedIn = this.authService.isLoggedIn();
     // Get posts
     this.postService.getPosts().subscribe((posts: Post[]) => {
       this.posts = posts;

@@ -13,10 +13,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 
 export class PostsCreateComponent {
-  isLoggedIn    : boolean = false;
+  isLoggedIn    : boolean = this.authService.isLoggedIn();
+  userId        : any = this.authService.getDecryptedUserId();;
   createPostForm: any = FormGroup;
   user          : any = User;
-  userId        : any;
   isClicked     : boolean = false;
   image         : any = File;
   fileName      : any;
@@ -41,11 +41,8 @@ export class PostsCreateComponent {
   }
 
   ngOnInit() {
-    // Check if user is logged
-    this.isLoggedIn = this.authService.isLoggedIn();
-    // Get elements of user from Local Storage
     if (this.isLoggedIn) {
-      this.userId = this.authService.getDecryptedUserId();
+      this.userId =
       // Get the user
       this.user = this.userService.getUserById(this.userId).subscribe((user: User) => {
         this.user = user;

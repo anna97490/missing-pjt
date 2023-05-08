@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../models/User.model';
 import { Router } from '@angular/router';
@@ -10,11 +10,11 @@ import * as CryptoJS from 'crypto-js';
 })
 
 export class AuthService {
-  private apiUrl  : string  = 'http://localhost:3000/api/user';
+  private apiUrl: string  = 'http://localhost:3000/api/user';
   private loggedIn: boolean = false;
   private token: any;
-  private user: any;
-  private key: string = 'crypt_key';
+  private user : any;
+  private key  : string = 'crypt_key';
 
 
   constructor(
@@ -27,7 +27,6 @@ export class AuthService {
       .pipe(
         map(response => {
           const userId = response._id;
-          console.log('USERID', userId)
           const token = response.token;
 
           // Encrypted userId
@@ -39,17 +38,20 @@ export class AuthService {
           localStorage.setItem('loggedIn', 'true');
           this.loggedIn = true;
           return response;
+        }),
+        catchError(error => {
+          return throwError(error);
         })
       );
   }
 
-  signin(data: Object): Observable<User> {
+  signUp(user: Object): Observable<User> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       })
     }
-    return this.http.post<User>(`${this.apiUrl}/signup`, data, httpOptions)
+    return this.http.post<User>(`${this.apiUrl}/signup`, user, httpOptions)
       .pipe(
         map(response => {
           const userId = response._id;
@@ -77,7 +79,6 @@ export class AuthService {
     localStorage.removeItem('token');
     localStorage.setItem('loggedIn', 'false');
     this.router.navigate(['/posts-index']);
-    window.location.reload();
   }
 
   isLoggedIn(): boolean {
@@ -107,10 +108,6 @@ export class AuthService {
     const bytes = CryptoJS.AES.decrypt(encryptedUserId, "Secret Passphrase");
     const decryptedUserId = bytes.toString(CryptoJS.enc.Utf8);
     return decryptedUserId;
-  }
-
-  getUserParams() {
-
   }
 }
 

@@ -14,9 +14,9 @@ import { DatePipe } from '@angular/common';
 
 export class CardMissingComponent implements OnInit {
   @Input() post: any;
+  isLoggedIn : boolean = this.authService.isLoggedIn();
+  userId     : any = this.authService.getDecryptedUserId();;
   user       : any;
-  isLoggedIn : boolean = false;
-  userId     : any;
   postId     : string = '';
   posts      : Post[] = [];
   comments   : Comment[] = [];
@@ -35,8 +35,6 @@ export class CardMissingComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.isLoggedIn = this.authService.isLoggedIn();
-    this.userId = this.authService.getDecryptedUserId();
     // Get all posts
     this.postService.getPosts().subscribe((posts: Post[]) => {
       this.posts = posts;
@@ -54,28 +52,27 @@ export class CardMissingComponent implements OnInit {
   }
 
   // Edit Post
-  editPost(event: Event, postId: string) {
+  editPost(event: Event) {
     event.preventDefault();
 
     this.posts.forEach(post => {
       this.postId = post._id;
 
-      if (postId === this.postId && this.isLoggedIn) {
-        this.router.navigate(['/edit-post/', this.post.userId, postId], { state: { post: post }})
+      if (this.postId === this.postId && this.isLoggedIn) {
+        this.router.navigate(['/edit-post/', this.post.userId, this.postId], { state: { post: post }})
       }
     });
   }
 
   // Delete Post
-  deletePost(event: Event, postId: string) {
+  deletePost(event: Event) {
     event.preventDefault();
 
     this.posts.forEach(post => {
       this.postId = post._id
 
-      if (postId === this.postId && this.post.userId === post.userId && confirm("Êtes-vous sûr de vouloir supprimer cette fiche?")) {
-        this.postService.deletePost(postId).subscribe(response => {
-          console.log(response);
+      if (this.postId === this.postId && this.post.userId === post.userId && confirm("Êtes-vous sûr de vouloir supprimer cette fiche?")) {
+        this.postService.deletePost(this.postId).subscribe(response => {
           window.location.reload();
         })
       }

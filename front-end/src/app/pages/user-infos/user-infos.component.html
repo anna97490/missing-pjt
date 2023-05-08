@@ -34,7 +34,7 @@
     <form
       [formGroup]="editUserForm"
       enctype="multipart/form-data"
-      (submit)="editUser($event, userId)"
+      (submit)="editUser($event)"
       class="border border-gray-200 rounded-lg shadow dark:border-gray-700s">
       <div class="grid md:grid-cols-2 md:gap-6">
         <!-- Firstname -->
@@ -229,6 +229,6 @@
 
         <!-- Button Delete Account -->
         <div class="cont-delete">
-          <span (click)="deleteUser($event, userId)">Supprimer mon compte</span>
+          <span (click)="deleteUser($event)">Supprimer mon compte</span>
         </div>
       </div>

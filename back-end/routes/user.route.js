@@ -14,9 +14,6 @@ router.post('/login', userController.login)
 // Get user by id
 router.get('/:id', auth, userController.getUser);
 
-// Get all users
-router.get('/', auth, userController.getAllUsers);
-
 // Update user
 router.put('/:id', auth, multer, userController.updateUser);
   

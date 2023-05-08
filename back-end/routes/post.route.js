@@ -19,11 +19,11 @@ router.get('/:id', postController.getPost);
 // Get all posts
 router.get('/', postController.getAllPosts);
 
-/// Comments
-// Create comments
+// --------- Comments --------
+// Create comment
 router.post('/:id/create-comment', auth, postController.createComment);
 
 // Update comment
-router.put('/:id/update-comment', postController.updateComment);
+router.put('/postId/:id/update-comment', postController.updateComment);
  
 module.exports = router;

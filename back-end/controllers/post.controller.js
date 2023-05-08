@@ -3,12 +3,7 @@ const Post = require('../models/Post.model');
 const User = require('../models/User.model');
 const fs = require('fs');
 
-/**
-* Create method
-* @param {object} post   - post datas
-* @param {file} image    - post image	
-* @return {string|error} - Sucessful insertion or Error
-*/
+// Create post
 exports.createPost = async (req, res, next) => {
     try {
         const post = new Post({
@@ -28,29 +23,17 @@ exports.createPost = async (req, res, next) => {
     }
 };
 
-/**
-* Get all posts method
-* @return {string|error} - Sucessful insertion or Error
-*/
+// Get all posts 
 exports.getAllPosts = async (req, res, next) => {
     try {
         const posts = await Post.find();
         res.status(200).json(posts);
-        console.log("posts", posts)
-        posts.forEach(post => {
-        console.log("post.commdnts", post.comments)
-            
-        });
     } catch (error) {
         res.status(400).json({ error });
     }
 };
 
-/**
-* Get post by id method
-* @param {string} postId - associated userId		
-* @return {string|error} - Sucessful insertion or Error
-*/
+// Get post by id 
 exports.getPost = async (req, res, next) => {
     try {
         const post = await Post.findOne({ _id: req.params.id });
@@ -60,15 +43,8 @@ exports.getPost = async (req, res, next) => {
     }
 }
 
-/**
-* Update method
-* @param {object} post   - datas to update 
-* @param {file} image    - image to update	
-* @param {string} postId - associated postId		
-* @return {string|error} - Sucessful insertion or Error
-*/
+// Update post
 exports.updatePost = async (req, res, next) => {
-    console.log('yo')
     const postReq = JSON.parse(req.body.post);
     
     try {
@@ -76,15 +52,9 @@ exports.updatePost = async (req, res, next) => {
 
         if (!post) {
             return res.status(404).json({ message: 'Post not found!' });
-        // } else if (post.image !== undefined) {
-        //     const filename = post.image.split('/images/')[1];
-        //     fs.unlinkSync(`./images/${filename}`);
         }
 
-        const postObject = req.file ? {
-            ...postReq,
-            image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-        } : { ...postReq };
+        const postObject = {...postReq};
 
         await Post.findByIdAndUpdate(req.params.id, postObject, {
             new: true,
@@ -97,11 +67,7 @@ exports.updatePost = async (req, res, next) => {
     }
 };
 
-/**
-* Delete method
-* @param {string} postId - associated userId		
-* @return {string|error} - Sucessful insertion or Error
-*/
+// Delete post
 exports.deletePost = async (req, res, next) => {
     try {
         const post = await Post.findById(req.params.id);
@@ -119,12 +85,9 @@ exports.deletePost = async (req, res, next) => {
     }
 };
 
-/**
-* Create comment method
-* @param {string} postId - associated userId		
-* @return {string|error} - Sucessful insertion or Error
-* @return {string|error} - Sucessful insertion or Error
-*/
+
+// ----------- COMMENTS ---------
+// Create comment 
 exports.createComment = async (req, res, next) => {
     console.log(1,req.body)
     console.log(2,req.params)
