@@ -1,7 +1,9 @@
 import { Component, OnInit, Input  } from '@angular/core';
 import { Router } from '@angular/router';
+import { User } from 'src/app/models/User.model';
 import { Post } from 'src/app/models/Post.model';
 import { PostService } from '../../service/post.service';
+import { UserService } from '../../service/user.service';
 import { AuthService } from '../../service/auth.service';
 import { CommentService } from '../../service/comment.service';
 import { DatePipe } from '@angular/common';
@@ -14,8 +16,8 @@ import { DatePipe } from '@angular/common';
 
 export class CardMissingComponent implements OnInit {
   @Input() post: any;
-  isLoggedIn : boolean = this.authService.isLoggedIn();
-  userId     : any = this.authService.getDecryptedUserId();;
+  isLoggedIn : boolean = false;
+  userId     : any;
   user       : any;
   postId     : string = '';
   posts      : Post[] = [];
@@ -23,11 +25,12 @@ export class CardMissingComponent implements OnInit {
   comment    : any = Comment;
   commentId  : any;
   commentArea: string = '';
-  arrayCommentId = [];
-  element: any
+  commentAreaEdit: string = '';
+  element: any;
 
   constructor(
     private authService: AuthService,
+    private userService: UserService,
     private postService: PostService,
     private commentService: CommentService,
     private router: Router,
@@ -35,20 +38,38 @@ export class CardMissingComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.isLoggedIn = this.authService.isLoggedIn();
+    this.userId = this.authService.getDecryptedUserId();
+    // Get the user
+    this.user = this.userService.getUserById(this.userId).subscribe((user: User) => {
+      this.user = user;
+    })
     // Get all posts
     this.postService.getPosts().subscribe((posts: Post[]) => {
       this.posts = posts;
-      // Get the comment
       this.posts.forEach(post => {
-        this.comment = post.comments.map(comment => comment.comment);
-        this.commentId = post.comments.map(comment => comment._id);
+        post.comments.forEach((comment, i) => {
+          post.comments[i].comment
+        })
       })
     });
+
+    // terminer delete comment
+
+    // tout checker
+    // finir modifs des photo post et user
+    // ajouter les status aux posts
+    // créer les filtres selon model papier
+    // tout mettre en ordre
+    // eventualiser la possibilité d'avoir de vraies villes
+    // eventualiser la possibilité d'ajouter une carte
+    // créer doc!
     // Birth date formated to age
     const birthDate = new Date(this.post.birthDate);
     const today = new Date();
     const age = Math.floor((today.getTime() - birthDate.getTime()) / (365.25 * 24 * 60 * 60 * 1000));
     this.post.age = age;
+
   }
 
   // Edit Post
@@ -79,20 +100,56 @@ export class CardMissingComponent implements OnInit {
     });
   }
 
-  addComment(event: Event, postId: string) {
+  addComment(event: Event) {
     event.preventDefault();
 
     this.posts.forEach(post => {
-      postId = post._id;
+      this.postId = post._id;
     });
 
-    this.commentService.addComment(this.commentArea, postId).subscribe(response => {
+    let comment = {
+      comment: this.commentArea,
+      userId: this.userId,
+      postId: this.postId
+    }
+
+    this.commentService.addComment(comment, this.postId).subscribe(response => {
       console.log(response)
       window.location.reload();
     });
   }
 
-  editComment(event: Event, postId: string) {
+  editComment(event: Event, commentId: string, comment: string) {
+    event.preventDefault();
 
+    console.log('comment', comment)
+
+    this.posts.forEach(post => {
+      this.postId = post._id;
+    });
+
+    let updatedComment = {
+      _id: commentId,
+      comment: comment,
+      userId: this.userId,
+      postId: this.postId
+    }
+
+    this.commentService.editComment(updatedComment, this.postId).subscribe(response => {
+      console.log(response)
+      window.location.reload();
+    });
+  }
+
+  deleteComment(event: Event, commentId: string) {
+    event.preventDefault();
+    console.log(commentId)
+
+    if (confirm("Êtes-vous sûr de vouloir supprimer votre commentaire?")) {
+      this.commentService.deleteComment(commentId).subscribe(response => {
+        console.log(response)
+        // window.location.reload();
+      });
+    }
   }
 }

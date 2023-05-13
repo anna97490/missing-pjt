@@ -7,23 +7,26 @@ const postController = require('../controllers/post.controller');
 // Create post
 router.post('/create', auth, multer, postController.createPost);
 
-// Update post
-router.put('/:id', auth, multer, postController.updatePost);
-  
-// Delete post
-router.delete('/:id', auth, postController.deletePost);
-
 // Get One post by id
 router.get('/:id', postController.getPost);
 
 // Get all posts
 router.get('/', postController.getAllPosts);
 
+// Update post
+router.put('/:id', auth, multer, postController.updatePost);
+  
+// Delete post
+router.delete('/:id', auth, postController.deletePost);
+
 // --------- Comments --------
 // Create comment
 router.post('/:id/create-comment', auth, postController.createComment);
 
 // Update comment
-router.put('/postId/:id/update-comment', postController.updateComment);
+router.put('/:id/update-comment', postController.updateComment);
+
+// Delete comment
+router.delete('/:commentId/delete-comment', auth, postController.deleteComment);
  
 module.exports = router;

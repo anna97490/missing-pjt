@@ -42,7 +42,7 @@
         [(ngModel)]="commentArea">
       </textarea>
       <div class="icon-valid-comment">
-        <button class="btn-comment" (click)="addComment($event, postId)">
+        <button class="btn-comment" (click)="addComment($event)">
           <svg
           aria-hidden="true"
           class="valid-comment flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75
@@ -108,8 +108,10 @@
   <!-- Comment content - List of Comments -->
   <div class="container-comments">
     Les commentaires
-    <div *ngFor="let element of comment" class="comments-lists">
-      <span>{{ element }}</span>
+    <div *ngFor="let comment of post.comments; let i = index" class="comments-lists">
+      <input type="text" [(ngModel)]="post.comments[i].comment" placeholder="{{ comment.comment }}"/>
+      <button *ngIf="userId === user._id" (click)="editComment($event, comment._id, post.comments[i].comment)">modifier</button>
+      <button *ngIf="userId === user._id" (click)="deleteComment($event, comment._id)">supprimer</button>
     </div>
   </div>
 </div>

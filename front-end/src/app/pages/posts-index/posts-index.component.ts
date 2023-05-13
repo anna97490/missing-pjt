@@ -11,6 +11,7 @@ import { AuthService } from '../../service/auth.service';
 })
 export class PostsIndexComponent implements OnInit {
   @Input() showContCreation: boolean = true;
+  token: any = this.authService.getAuthToken();
   isLoggedIn   : boolean = this.authService.isLoggedIn();;
   posts        : Post[] = [];
   allPosts     : Post[] = [];

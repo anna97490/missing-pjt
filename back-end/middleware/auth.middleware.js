@@ -3,7 +3,6 @@ require('dotenv').config();
  
 module.exports = (req, res, next) => {
   const token = req.headers.authorization;
-  console.log('yo', token)
   try {
     if (!token) {
       throw 'Invalid token';

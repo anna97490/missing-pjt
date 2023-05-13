@@ -39,13 +39,13 @@
               <h3 class="text-xl font-medium mb-4">Filtres :</h3>
               <div class="flex flex-row justify-center space-x-4">
                 <!-- Filter by missingDate -->
-                <div>
+                <!-- <div>
                   <label for="filter-year" class="sr-only">Filtrer par année</label>
                   <select id="filter-year" name="filter-year">
                     <option [(ngModel)]="selectedPlace" value="missingPlace" selected>Trier par ville de disparition</option>
                     <option [(ngModel)]="selectedDate" value="missingDate" selected>Trier par année de disparition</option>
                   </select>
-                </div>
+                </div> -->
               </div>
             </div>
 
@@ -62,7 +62,7 @@
               <app-card-missing [post]="post"></app-card-missing>
             </div>
 
-            <button (click)="onSearch()" type="submit" class="btn-search
+            <!-- <button (click)="onSearch()" type="submit" class="btn-search
               absolute top-0 right-0 p-2.5 font-medium text-white rounded-r-lg
               border hover:bg-blue-800 focus:ring-4 focus:outline-none
               focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700
@@ -74,7 +74,7 @@
                   stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114
                   0z"></path>
               </svg>
-            </button>
+            </button> -->
           </div>
         </div>
       </form>

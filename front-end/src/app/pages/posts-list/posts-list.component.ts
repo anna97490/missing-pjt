@@ -15,6 +15,7 @@ export class PostsListComponent {
   posts        : Post[] = [];
   postsOfUser  : Post[] = [];
   allPosts     : Post[] = [];
+  comment      : any;
   filteredPosts: any = [];
   searchText   : string = '';
   selectedDate : any = Date;

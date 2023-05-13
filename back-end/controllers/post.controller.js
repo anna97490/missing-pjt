@@ -61,7 +61,7 @@ exports.updatePost = async (req, res, next) => {
             overwrite: false
         });
 
-        res.status(200).json({ message: 'Profile updated!' });
+        res.status(200).json({ message: 'Comment updated!' });
     } catch (error) {
         res.status(500).json({ error: 'Server Error!' });
     }
@@ -89,8 +89,8 @@ exports.deletePost = async (req, res, next) => {
 // ----------- COMMENTS ---------
 // Create comment 
 exports.createComment = async (req, res, next) => {
-    console.log(1,req.body)
-    console.log(2,req.params)
+    const commentReq = JSON.parse(req.body.comment);
+
     try {
         const post = await Post.findById(req.params.id);
 
@@ -98,12 +98,12 @@ exports.createComment = async (req, res, next) => {
         return res.status(404).json({ message: 'Post not found' });
         }
 
-        const comment = new Comment({
-            comment: req.body.comment,
+        const commentObject = new Comment({
+            ...commentReq,
         });
 
-        // post.comments.push(comment);
-        await post.updateOne({ $push: { comments: comment } });
+        await commentObject.save();
+        await post.updateOne({ $push: { comments: commentObject } });
 
         res.status(201).json({ message: 'Comment created' });
   } catch (error) {
@@ -111,23 +111,68 @@ exports.createComment = async (req, res, next) => {
   }
 };
 
+// Update Comment
 exports.updateComment = async (req, res, next) => {
-    console.log('yo')
+    const commentReq = JSON.parse(req.body.comment);
+    console.log("commentReq", commentReq)
     
     try {
         const post = await Post.findById(req.params.id);
+        const comment = await Comment.findById(commentReq._id);
+        console.log("post", post)
+        console.log("comment", comment)
 
-        if (!post) {
-            return res.status(404).json({ message: 'Post not found!' });
+        if (!post || !comment) {
+            return res.status(404).json({ message: 'Not found!' });
         }
 
-        await Post.findByIdAndUpdate(req.params.id, {comment:req.body.comment}, {
+        const commentObject = {...commentReq};
+        console.log("commentObject", commentObject)
+
+        // Update the comment
+        await Comment.findByIdAndUpdate(commentReq._id, commentObject, {
             new: true,
             overwrite: false
         });
 
-        res.status(200).json({ message: 'Profile updated!' });
+        post.comments.forEach(async (comment, index) => {
+            const commentIdString = comment._id.toString();
+
+            if (commentIdString === commentReq._id) {
+                const updatedComments = [...post.comments];
+
+                updatedComments[index] = commentObject;
+               
+                await Post.findByIdAndUpdate(post._id, {comments: updatedComments}, {
+                    new: true,
+                    overwrite: false
+                });   
+            }
+        });
+ 
+        res.status(200).json({ message: 'Comment updated!' });
     } catch (error) {
         res.status(500).json({ error: 'Server Error!' });
+    }
+};
+
+// Delete Comment
+exports.deleteComment = async (req, res, next) => {
+    try {
+        const comment = await Comment.findById(req.params.commentId);
+        const post = await Post.findById(comment.postId);
+
+        if (!post || !comment) {
+            res.status(401).json({ message: 'Not authorized' });
+        } else {
+            await comment.deleteOne({ _id: req.params.id });
+
+            post.comments = post.comments.filter((c) => c._id.toString() !== req.params.commentId);
+            await post.save();
+            
+            res.status(200).json({ message: 'Comment deleted !' });
+        }
+    } catch (error) {
+        res.status(500).json({ error });
     }
 };
