@@ -16,6 +16,9 @@ router.get('/:id', auth, userController.getUser);
 
 // Update user
 router.put('/:id', auth, multer, userController.updateUser);
+
+// Update profile picture
+router.post('/:id/profile-picture', auth, multer, userController.updateProfilePicture);
   
 // Delete user
 router.delete('/:id', auth, userController.deleteUser);

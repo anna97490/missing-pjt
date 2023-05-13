@@ -67,6 +67,29 @@ exports.updatePost = async (req, res, next) => {
     }
 };
 
+// Update post picture
+exports.updatePostPicture = async (req, res, next) => {
+    try {
+        const post = await Post.findById(req.params.id);
+
+        if (!post) {
+            return res.status(404).json({ message: 'Post not found!' });
+        }
+
+        // If there is a file in the request
+        if (req.file) {
+            const image = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+            post.image = image;
+        }
+
+        await post.save();
+
+        res.status(200).json({ message: 'Post picture updated!' });
+    } catch (error) {
+        res.status(500).json({ error: 'Server Error!' });
+    }
+};
+
 // Delete post
 exports.deletePost = async (req, res, next) => {
     try {

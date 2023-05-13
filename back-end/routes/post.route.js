@@ -15,6 +15,9 @@ router.get('/', postController.getAllPosts);
 
 // Update post
 router.put('/:id', auth, multer, postController.updatePost);
+
+// Update post
+router.post('/:id/post-picture', auth, multer, postController.updatePostPicture);
   
 // Delete post
 router.delete('/:id', auth, postController.deletePost);

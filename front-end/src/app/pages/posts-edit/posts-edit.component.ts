@@ -120,4 +120,27 @@ export class PostsEditComponent {
       );
     }
   }
+
+  // Update the picture of the post
+  updatePostPicture(event: Event) {
+    event.preventDefault();
+
+    if (!this.image) {
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('image', this.image, this.image.name);
+
+    this.postService.updatePostPicture(formData, this.post._id).subscribe(
+      (post: Post) => {
+        // Update user information with new profile picture
+        this.post = post;
+        window.location.reload();
+      },
+      (error) => {
+        this.message = 'Une erreur est survenue lors de la modification du post';
+      }
+    );
+  }
 }

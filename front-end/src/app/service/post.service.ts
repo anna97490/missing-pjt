@@ -76,6 +76,23 @@ export class PostService {
     );
   }
 
+  // Update profile picture
+  updatePostPicture(formData: FormData, postId: string): Observable<Post> {
+    console.log('postId', postId)
+    const url = `${this.apiUrl}/${postId}/post-picture`;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': 'Bearer ' + this.token })
+    };
+
+    return this.http.post<Post>(url, formData, httpOptions).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return throwError('An error occurred while modifying the post picture.');
+      })
+    );
+  }
+
   // Delete Post method
   deletePost(postId: string): Observable<Post> {
     const url = `${this.apiUrl}/${postId}`;

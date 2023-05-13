@@ -96,6 +96,28 @@ exports.updateUser = async (req, res, next) => {
     }
 };
 
+exports.updateProfilePicture = async (req, res, next) => {
+    try {
+        const user = await User.findById(req.params.id);
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found!' });
+        }
+
+        // If there is a file in the request
+        if (req.file) {
+            const image = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+            user.image = image;
+        }
+
+        await user.save();
+
+        res.status(200).json({ message: 'Profile picture updated!' });
+    } catch (error) {
+        res.status(500).json({ error: 'Server Error!' });
+    }
+};
+
 // Delete 
 exports.deleteUser = async (req, res, next) => {
     try {

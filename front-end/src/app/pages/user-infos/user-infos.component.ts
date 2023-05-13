@@ -85,6 +85,28 @@ export class UserInfosComponent implements OnInit {
     }
   }
 
+  updateProfilePicture(event: Event) {
+    event.preventDefault();
+
+    if (!this.image) {
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('image', this.image, this.image.name);
+
+    this.userService.updateProfilePicture(formData, this.userId).subscribe(
+      (user: User) => {
+        // Update user information with new profile picture
+        this.user = user;
+        window.location.reload();
+      },
+      (error) => {
+        this.message = 'Une erreur est survenue lors de la modification du post';
+      }
+    );
+  }
+
   // Delete the user method
   deleteUser(event: Event) {
     event.preventDefault();

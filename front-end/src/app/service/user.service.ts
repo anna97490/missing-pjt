@@ -51,6 +51,22 @@ export class UserService {
     );
   }
 
+  // Update profile picture
+  updateProfilePicture(formData: FormData, userId: string): Observable<User> {
+    const url = `${this.apiUrl}/${userId}/profile-picture`;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': 'Bearer ' + this.token })
+    };
+
+    return this.http.post<User>(url, formData, httpOptions).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return throwError('An error occurred while modifying the prifile picuture.');
+      })
+    );
+  }
+
  // Delete user
   deleteUser(userId: string): Observable<any> {
     const url = `${this.apiUrl}/${userId}`;
