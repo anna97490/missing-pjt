@@ -14,9 +14,13 @@
   .logo {
     margin-bottom: 5%;
   }
-  .error-email,
-  .error-birth-date {
+  .error-message {
     color: red;
+    font-size: 11px;
+  }
+  .instruction {
+    color: #9CA3AF;
+    font-size: 10px;
   }
   .cont-btn {
     text-align: center;

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Renderer2, ElementRef } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { AuthService } from '../../service/auth.service';
 import { Post } from 'src/app/models/Post.model';
@@ -26,6 +26,8 @@ export class PostsEditComponent {
   fileName    : any;
   post        : any;
   message     : string = '';
+  isDropdownVisible: boolean = false;
+  selectedStatus: string = "";
 
   constructor(
     private authService: AuthService,
@@ -34,6 +36,8 @@ export class PostsEditComponent {
     private route      : ActivatedRoute,
     private datePipe   : DatePipe,
     private formBuilder: FormBuilder,
+    private renderer: Renderer2,
+    private el: ElementRef
   ) {
     this.editPostForm = this.formBuilder.group({
       firstname   : ['', [Validators.minLength(2), Validators.maxLength(70)]],
@@ -43,6 +47,7 @@ export class PostsEditComponent {
       missingPlace: ['', [Validators.minLength(2), Validators.maxLength(70)]],
       missingDate : ['', []],
       description : ['', [Validators.minLength(2), Validators.maxLength(300)]],
+      status      : ['', [Validators.required]],
     });
   }
 
@@ -64,6 +69,23 @@ export class PostsEditComponent {
         }
       });
     }
+  }
+
+  toggleDropdownMenu(event: Event): void {
+    event.preventDefault();
+
+    const dropdownMenu = this.el.nativeElement.querySelector('[dropdownMenu]');
+    if (!this.isDropdownVisible) {
+      dropdownMenu.classList.add('show');
+    } else {
+      dropdownMenu.classList.remove('show');
+    }
+    this.isDropdownVisible = !this.isDropdownVisible;
+  }
+
+  onSelectStatus(status: string): void {
+    this.editPostForm.get('status').setValue(status);
+    this.selectedStatus = status;
   }
 
   // Function to pick date not after today's date

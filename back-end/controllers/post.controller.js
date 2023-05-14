@@ -5,6 +5,7 @@ const fs = require('fs');
 
 // Create post
 exports.createPost = async (req, res, next) => {
+    console.log('req.body', req.body)
     try {
         const post = new Post({
             ...req.body,

@@ -40,10 +40,12 @@ export class CardMissingComponent implements OnInit {
   ngOnInit() {
     this.isLoggedIn = this.authService.isLoggedIn();
     this.userId = this.authService.getDecryptedUserId();
-    // Get the user
-    this.user = this.userService.getUserById(this.userId).subscribe((user: User) => {
-      this.user = user;
-    })
+    if (this.isLoggedIn) {
+      // Get the user
+      this.user = this.userService.getUserById(this.userId).subscribe((user: User) => {
+        this.user = user;
+      });
+    }
     // Get all posts
     this.postService.getPosts().subscribe((posts: Post[]) => {
       this.posts = posts;
@@ -54,22 +56,11 @@ export class CardMissingComponent implements OnInit {
       })
     });
 
-    // terminer delete comment
-
-    // tout checker
-    // finir modifs des photo post et user
-    // ajouter les status aux posts
-    // créer les filtres selon model papier
-    // tout mettre en ordre
-    // eventualiser la possibilité d'avoir de vraies villes
-    // eventualiser la possibilité d'ajouter une carte
-    // créer doc!
     // Birth date formated to age
     const birthDate = new Date(this.post.birthDate);
     const today = new Date();
     const age = Math.floor((today.getTime() - birthDate.getTime()) / (365.25 * 24 * 60 * 60 * 1000));
     this.post.age = age;
-
   }
 
   // Edit Post

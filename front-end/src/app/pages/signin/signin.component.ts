@@ -9,17 +9,15 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
   styleUrls: ['./signin.component.scss']
 })
 export class SigninComponent {
-  signinForm     : any = FormGroup;
-  isErrorEmail   : boolean = false;
-  isErrorDate    : boolean = false;
-  isErrorPassword: boolean= false;
+  signinForm: any = FormGroup;
+  errorMessage: string = '';
 
   constructor(private formBuilder: FormBuilder,private authService: AuthService, private router: Router) {
     this.signinForm = this.formBuilder.group({
-      firstname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(70)]],
-      lastname : ['', [Validators.required, Validators.minLength(2), Validators.maxLength(70)]],
+      firstname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(80)]],
+      lastname : ['', [Validators.required, Validators.minLength(2), Validators.maxLength(80)]],
       email    : ['', [Validators.required, Validators.email,Validators.pattern(/^\w+([\.-]?\w+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(com|fr)$/i)]],
-      password : ['', [Validators.required, Validators.minLength(8), Validators.maxLength(18)]],
+      password : ['', [Validators.required, Validators.minLength(8), Validators.maxLength(50)]],
       birthDate: ['', [Validators.required, this.minimumAgeValidator(18)]],
     });
   }
@@ -50,14 +48,14 @@ export class SigninComponent {
     }
 
     if (this.signinForm.valid) {
-      this.authService.signUp(user).subscribe(response => {
-        this.router.navigate(['/posts-index']);
-      })
-    } else {
-      this.signinForm.markAllAsTouched();
-      this.isErrorEmail = this.signinForm.get('email').value === '';
-      this.isErrorDate = this.signinForm.get('birthDate').value === '';
-      this.isErrorPassword = this.signinForm.get('password').value === '';
+      this.authService.signUp(user).subscribe(
+        response => {
+          this.router.navigate(['/posts-index']);
+        },
+        error => {
+          this.errorMessage = 'Cet email existe déjà.';
+        }
+      )
     }
   }
 }

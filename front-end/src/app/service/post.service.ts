@@ -44,7 +44,11 @@ export class PostService {
 
   // Get all the posts method
   getPosts(): Observable<Post[]> {
-    return this.http.get<Post[]>(this.apiUrl).pipe(
+    return this.http.get<Post[]>(this.apiUrl)
+    .pipe(
+      map((response: any) => {
+        return response;
+      }),
       catchError((error: HttpErrorResponse) => {
         console.error(error);
         return throwError('Error');

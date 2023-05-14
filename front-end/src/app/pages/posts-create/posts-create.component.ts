@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Renderer2, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/User.model';
 import { UserService } from '../../service/user.service';
@@ -20,6 +20,9 @@ export class PostsCreateComponent {
   isClicked     : boolean = false;
   image         : any = File;
   fileName      : any;
+  isDropdownVisible: boolean = false;
+  selectedStatus: string = "";
+
 
   constructor(
     private router: Router,
@@ -27,6 +30,8 @@ export class PostsCreateComponent {
     private authService: AuthService,
     private userService: UserService,
     private postService: PostService,
+    private renderer: Renderer2,
+    private el: ElementRef
   ) {
     // Datas from form
     this.createPostForm = this.formBuilder.group({
@@ -37,6 +42,7 @@ export class PostsCreateComponent {
       missingPlace: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(70)]],
       missingDate : ['', [Validators.required]],
       description : ['', [Validators.required, Validators.minLength(2), Validators.maxLength(300)]],
+      status      : ['', [Validators.required]],
     });
   }
 
@@ -51,6 +57,23 @@ export class PostsCreateComponent {
         this.user = user;
       })
     }
+  }
+
+  toggleDropdownMenu(event: Event): void {
+    event.preventDefault();
+
+    const dropdownMenu = this.el.nativeElement.querySelector('[dropdownMenu]');
+    if (!this.isDropdownVisible) {
+      dropdownMenu.classList.add('show');
+    } else {
+      dropdownMenu.classList.remove('show');
+    }
+    this.isDropdownVisible = !this.isDropdownVisible;
+  }
+
+  onSelectStatus(status: string): void {
+    this.createPostForm.get('status').setValue(status);
+    this.selectedStatus = status;
   }
 
   // Function to pick date not after today's date
@@ -85,6 +108,7 @@ export class PostsCreateComponent {
       formData.append('missingPlace', this.createPostForm.get('missingPlace').value);
       formData.append('missingDate',this.createPostForm.get('missingDate').value);
       formData.append('description', this.createPostForm.get('description').value);
+      formData.append('status', this.selectedStatus);
       formData.append('image', this.image, this.image.name);
       formData.append('userId', this.userId);
 

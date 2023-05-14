@@ -15,7 +15,7 @@ router.post('/login', userController.login)
 router.get('/:id', auth, userController.getUser);
 
 // Update user
-router.put('/:id', auth, multer, userController.updateUser);
+router.put('/:id', auth, userController.updateUser);
 
 // Update profile picture
 router.post('/:id/profile-picture', auth, multer, userController.updateProfilePicture);

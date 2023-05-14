@@ -8,6 +8,7 @@
     <!-- Datas -->
     <div class="cont-infos-missing flex flex-col justify-between p-4
       leading-normal">
+      <span class="field-disappearance">{{ post.status }}</span>
       <span class="field-disappearance">{{ post.firstname | titlecase }} &nbsp; {{post.lastname | titlecase }}</span>
       <span class="field-disappearance">{{ post.age }} ans</span>
       <span class="field-disappearance"><strong>Disparu(e) le </strong> &nbsp; {{ post.missingDate | date: 'dd MMMM yyyy' }}</span>

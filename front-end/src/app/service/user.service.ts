@@ -16,7 +16,7 @@ export class UserService {
     private authService: AuthService
   ) {}
 
-  // Get the user method
+  // Get the user
   getUserById(userId: string): Observable<User> {
     const url = `${this.apiUrl}/${userId}`;
 
@@ -33,7 +33,7 @@ export class UserService {
     );
   }
 
-  // Edit the user method
+  // Update the user
   editUser(userId: string, updatedUser: Object): Observable<User> {
     const url = `${this.apiUrl}/${userId}`;
     const user = JSON.stringify(updatedUser)
@@ -68,7 +68,7 @@ export class UserService {
   }
 
  // Delete user
-  deleteUser(userId: string): Observable<any> {
+  deleteUser(userId: string): Observable<User> {
     const url = `${this.apiUrl}/${userId}`;
 
     const httpOptions = {
@@ -77,7 +77,7 @@ export class UserService {
         'Authorization': 'Bearer ' + this.token })
     };
 
-    return this.http.delete(url, httpOptions).pipe(
+    return this.http.delete<User>(url, httpOptions).pipe(
       catchError((error: HttpErrorResponse) => {
         return throwError('An error occurred while deleting the user.');
       })

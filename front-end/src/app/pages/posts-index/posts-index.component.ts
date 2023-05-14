@@ -11,12 +11,11 @@ import { AuthService } from '../../service/auth.service';
 })
 export class PostsIndexComponent implements OnInit {
   @Input() showContCreation: boolean = true;
-  token: any = this.authService.getAuthToken();
-  isLoggedIn   : boolean = this.authService.isLoggedIn();;
-  posts        : Post[] = [];
-  allPosts     : Post[] = [];
-  filteredPosts: Post[] = [];
-  searchText   : string = '';
+  token: any;
+  isLoggedIn: boolean = false;
+  posts: Post[] = [];
+  allPosts: Post[] = [];
+  searchText: string = '';
   modalOpen = false;
 
   selection :any;
@@ -29,23 +28,18 @@ export class PostsIndexComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // Get posts
+    this.token = this.authService.getAuthToken();
+    this.isLoggedIn = this.authService.isLoggedIn();
+    this.getPosts();
+  }
+
+  // Get posts
+  getPosts() {
     this.postService.getPosts().subscribe((posts: Post[]) => {
-      this.posts = posts;
-      // Sort the posts by ascendant
       this.posts = posts.sort((a, b) => {
-        if (a.createdAt > b.createdAt) {
-          return -1;
-        } else if (a.createdAt < b.createdAt) {
-          return 1;
-        } else {
-          return 0;
-        }
+        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
       });
-      // Filtered posts for search bar
-      this.filteredPosts = this.posts;
-      this.allPosts = [...this.posts];
-    })
+    });
   }
 
   // Modal for non-connected or registered users
@@ -62,26 +56,7 @@ export class PostsIndexComponent implements OnInit {
 
   // Function for search bar
   onSearch() {
-    if (this.selectedPlace) {
-      // Convert the search string to lowercase.
-      const selectedPlace = this.selectedPlace.toLowerCase();
-        // Search by missingPlace
-        this.filteredPosts = this.allPosts.filter((post) =>
-        //Convert the string of the article object to lowercase
-        post.missingPlace.toLowerCase().includes(selectedPlace)
-        );
-        this.posts = [...this.filteredPosts];
-    } else if (this.selectedDate) {
-      //  const selectedPlace = this.selectedPlace.toLowerCase();
-      //  // Search by missingDate
-      //  this.filteredPosts = this.allPosts.filter((post) =>
-      //  //Convert the string of the article object to lowercase
-      // //  post.missingDate.toLowerCase().includes(selectedPlace)
-      //  );
-      //  this.posts = [...this.filteredPosts];
-    } else {
-      this.posts = [...this.allPosts];
-    }
+
   }
 
   // Reset filters method

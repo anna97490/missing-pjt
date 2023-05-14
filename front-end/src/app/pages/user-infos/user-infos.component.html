@@ -56,7 +56,7 @@
           for="floating_first_name"
           class="peer-focus:font-medium absolute text-sm text-gray-500
           dark:text-gray-400 duration-300 transform -translate-y-2
-          scale-55 bottom-7 -z-10 origin-[0] peer-focus:left-0
+          scale-55 bottom-8 -z-10 origin-[0] peer-focus:left-0
           peer-focus:text-blue-600 peer-focus:dark:text-blue-500
           peer-placeholder-shown:scale-100
           peer-placeholder-shown:translate-y-0 peer-focus:scale-55
@@ -82,7 +82,7 @@
           for="floating_last_name"
           class="peer-focus:font-medium absolute text-sm text-gray-500
           dark:text-gray-400 duration-300 transform -translate-y-2
-          scale-55 bottom-7 -z-10 origin-[0] peer-focus:left-0
+          scale-55 bottom-8 -z-10 origin-[0] peer-focus:left-0
           peer-focus:text-blue-600 peer-focus:dark:text-blue-500
           peer-placeholder-shown:scale-100
           peer-placeholder-shown:translate-y-0 peer-focus:scale-55
@@ -110,13 +110,14 @@
           for="floating_last_name"
           class="peer-focus:font-medium absolute text-sm text-gray-500
           dark:text-gray-400 duration-300 transform -translate-y-2
-          scale-55 bottom-7 -z-10 origin-[0] peer-focus:left-0
+          scale-55 bottom-11 -z-10 origin-[0] peer-focus:left-0
           peer-focus:text-blue-600 peer-focus:dark:text-blue-500
           peer-placeholder-shown:scale-100
           peer-placeholder-shown:translate-y-0 peer-focus:scale-55
           peer-focus:-translate-y-2">
           Date de naissance
         </label>
+        <div class="instruction">Vous devez être âgé de 18 ans ou plus</div>
       </div>
       <!-- Email -->
       <div class="relative z-0 w-full mb-6 group">
@@ -128,21 +129,22 @@
           class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent
           border-0 border-b-2 border-gray-300 appearance-none
           dark:text-white dark:border-gray-600 dark:focus:border-blue-500
-          focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-          placeholder="{{ user.email }}"
+          focus:outline-none focus:ring-0 peer"
+          placeholder="{{ user.email}}"
           required
         />
         <label
           for="email"
           class="peer-focus:font-medium absolute text-sm text-gray-500
           dark:text-gray-400 duration-300 transform -translate-y-2
-          scale-55 bottom-7 -z-10 origin-[0] peer-focus:left-0
+          scale-55 bottom-12 -z-10 origin-[0] peer-focus:left-0
           peer-focus:text-blue-600 peer-focus:dark:text-blue-500
           peer-placeholder-shown:scale-100
           peer-placeholder-shown:translate-y-0 peer-focus:scale-55
           peer-focus:-translate-y-2">
           Email
         </label>
+        <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
       </div>
     </div>
 
@@ -154,7 +156,7 @@
       focus:z-10 focus:ring-4 focus:outline-none focus:ring-blue-700
       focus:text-blue-700 dark:bg-gray-800
       dark:text-gray-400 dark:border-gray-600 inline-flex items-center"
-      [ngClass]="{ 'btn-valid-form': editUserForm.valid }">
+    >
       Enregistrer
     </button>
   </form>
@@ -235,11 +237,13 @@
     <!-- Submit button -->
     <button
       type="submit"
-      class="btn-submit py-2.5 px-5 mr-2 text-sm font-medium text-gray-900
+      class="btn-submit-image py-2.5 px-5 mr-2 text-sm font-medium text-gray-900
       rounded-lg border border-gray-200
       focus:z-10 focus:ring-4 focus:outline-none focus:ring-blue-700
       focus:text-blue-700 dark:bg-gray-800
-      dark:text-gray-400 dark:border-gray-600 inline-flex items-center">
+      dark:text-gray-400 dark:border-gray-600 inline-flex items-center"
+      [disabled]="!isImageSelected"
+      [ngClass]="{ 'btn-valid-form': isImageSelected }">
       Enregistrer la photo
     </button>
   </form>

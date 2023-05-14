@@ -75,44 +75,50 @@ exports.getUser = async (req, res, next) => {
 // Update user 
 exports.updateUser = async (req, res, next) => {
     const userReq = JSON.parse(req.body.user);
-    
+  
     try {
-        const user = await User.findById(req.params.id);
-
-        if (!user) {
-            return res.status(404).json({ message: 'User not found!' });
-        }
-
-        const userObject = {...userReq};
-
-        await User.findByIdAndUpdate(req.params.id, userObject, {
-            new: true,
-            overwrite: false
-        });
-
+      const user = await User.findById(req.params.id);
+      // Transform the user_id object toString
+      const userIdDb = user._id.toString();
+  
+      if (!user) {
+        return res.status(404).json({ message: 'User not found!' });
+      } else if (req.params.id !== userIdDb) { // Compare the userId of params to userId of DB
+        return res.status(403).json({ message: 'You are not authorized!' });
+      } else {
+        const userObject = { ...userReq };
+  
+        // update the document with new datas
+        await User.updateOne({ _id: req.params.id }, { $set: userObject });
+  
         res.status(200).json({ message: 'Profile updated!' });
+      }
     } catch (error) {
-        res.status(500).json({ error: 'Server Error!' });
+      res.status(500).json({ error: 'Server Error!' });
     }
 };
 
+// Update profile picture
 exports.updateProfilePicture = async (req, res, next) => {
     try {
         const user = await User.findById(req.params.id);
+        const userIdDb = user._id.toString();
 
         if (!user) {
             return res.status(404).json({ message: 'User not found!' });
+        } else if (req.params.id !== userIdDb) { // Compare the userId of params to userId of DB
+            return res.status(403).json({ message: 'You are not authorized!' });
+        } else {
+            // If there is a file in the request
+            if (req.file) {
+                const image = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+                user.image = image;
+            }
+
+            await user.save();
+
+            res.status(200).json({ message: 'Profile picture updated!' });
         }
-
-        // If there is a file in the request
-        if (req.file) {
-            const image = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
-            user.image = image;
-        }
-
-        await user.save();
-
-        res.status(200).json({ message: 'Profile picture updated!' });
     } catch (error) {
         res.status(500).json({ error: 'Server Error!' });
     }
@@ -122,13 +128,18 @@ exports.updateProfilePicture = async (req, res, next) => {
 exports.deleteUser = async (req, res, next) => {
     try {
         const user = await User.findById(req.params.id);
+        const userIdDb = user._id.toString();
 
         if (!user) {
             return res.status(404).json({ message: 'User not found!' });  
-        } else {
-            // const filename = post.image.split('/images/')[1];
-            // await fs.promises.unlink(`images/${filename}`);
+        } else if (req.params.id !== userIdDb) { // Compare the userId of params to userId of DB
+            return res.status(403).json({ message: 'You are not authorized!' });
+        }  else {
+            const filename = user.image.split('/images/')[1];
+            await fs.promises.unlink(`images/${filename}`);
+
             await User.deleteOne({ _id: req.params.id });
+
             res.status(200).json({ message: 'User deleted !' });
         }
     } catch (error) {
