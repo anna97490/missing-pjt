@@ -93,15 +93,24 @@ exports.updatePostPicture = async (req, res, next) => {
 
 // Delete post
 exports.deletePost = async (req, res, next) => {
+    const postId = req.params.id;
+    
     try {
-        const post = await Post.findById(req.params.id);
+        const post = await Post.findById(postId);
 
         if (!post) {
             res.status(401).json({ message: 'Not authorized' });
         } else {
-            // const filename = post.imageUrl.split('/images/')[1];
-            // await fs.promises.unlink(`images/${filename}`);
-            await Post.deleteOne({ _id: req.params.id });
+          
+            if (post.comments && post.comments.length > 0) {
+                const commentIds = post.comments.map(comment => comment._id);
+                await Comment.deleteMany({ _id: { $in: commentIds } });
+            }
+           
+            const filename = post.image.split('/images/')[1];
+            await fs.promises.unlink(`images/${filename}`);
+
+            await post.remove();
             res.status(200).json({ message: 'Post deleted !' });
         }
     } catch (error) {

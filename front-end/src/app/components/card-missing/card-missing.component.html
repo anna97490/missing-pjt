@@ -62,7 +62,7 @@
     </div>
   </div>
 
-  <!-- Edit Post button -->
+  <!-- Edit and Delete buttons -->
   <div class="cont-edit-delete">
     <button *ngIf="isLoggedIn && userId === post.userId" class="btn-close"
       (click)="editPost($event)">
@@ -89,7 +89,7 @@
 
     <!-- Delete Post button -->
     <button *ngIf="isLoggedIn && userId === post.userId" class="btn-close"
-      (click)="deletePost($event)">
+      (click)="deletePost($event, post._id)">
       <svg
         aria-hidden="true"
         class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75
@@ -111,8 +111,8 @@
     Les commentaires
     <div *ngFor="let comment of post.comments; let i = index" class="comments-lists">
       <input type="text" [(ngModel)]="post.comments[i].comment" placeholder="{{ comment.comment }}"/>
-      <button *ngIf="userId === user._id" (click)="editComment($event, comment._id, post.comments[i].comment)">modifier</button>
-      <button *ngIf="userId === user._id" (click)="deleteComment($event, comment._id)">supprimer</button>
+      <button *ngIf="userId === comment.userId" (click)="editComment($event, comment._id, post.comments[i].comment)">modifier</button>
+      <button *ngIf="userId === comment.userId" (click)="deleteComment($event, comment._id)">supprimer</button>
     </div>
   </div>
 </div>

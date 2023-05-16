@@ -23,7 +23,7 @@ export class PostService {
     this.token = this.authService.getAuthToken();
   }
 
-  // Create Post method
+  // Create Post
   createPost(formData: FormData): Observable<Post> {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -42,7 +42,7 @@ export class PostService {
     );
   }
 
-  // Get all the posts method
+  // Get all the posts
   getPosts(): Observable<Post[]> {
     return this.http.get<Post[]>(this.apiUrl)
     .pipe(
@@ -56,7 +56,7 @@ export class PostService {
     )
   }
 
-  // Get Post by id method
+  // Get Post by id
   getPostById(postId: string): Observable<Post> {
     const url = `${this.apiUrl}/${postId}`;
     return this.http.get<Post>(url);
@@ -100,7 +100,8 @@ export class PostService {
   // Delete Post method
   deletePost(postId: string): Observable<Post> {
     const url = `${this.apiUrl}/${postId}`;
-    this.getPostById(postId);
+    // this.getPostById(postId);
+    console.log("postId Service", postId)
 
     const httpOptions = {
       headers: new HttpHeaders({

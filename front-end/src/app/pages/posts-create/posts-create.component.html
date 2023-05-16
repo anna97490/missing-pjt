@@ -100,7 +100,7 @@
           border-0 border-b-2 border-gray-300 appearance-none
           dark:text-white dark:border-gray-600 dark:focus:border-blue-500
           focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-          placeholder=""(input)="validateDate($event)"
+          placeholder="" (input)="validateDate($event)"
           />
         <label
           for="birthDate"
@@ -176,7 +176,7 @@
           border-0 border-b-2 border-gray-300 appearance-none
           dark:text-white dark:border-gray-600 dark:focus:border-blue-500
           focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-          placeholder=""(input)="validateDate($event)"
+          placeholder="" (input)="validateDate($event)"
           />
         <label
           for="missing-date"
@@ -245,7 +245,9 @@
           <li class="status-choice py-1" (click)="onSelectStatus('Retrouvé(e)')">Retrouvé(e)</li>
         </ul>
       </div>
-      <div class="selected-status">{{ selectedStatus }}sdfs</div>
+      <div class="content-status">
+        <span class="selected-status">{{ selectedStatus }}</span>
+      </div>
     </div>
 
     <!-- Drag and drop picture -->

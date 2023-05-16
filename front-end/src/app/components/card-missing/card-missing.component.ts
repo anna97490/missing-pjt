@@ -50,6 +50,7 @@ export class CardMissingComponent implements OnInit {
     this.postService.getPosts().subscribe((posts: Post[]) => {
       this.posts = posts;
       this.posts.forEach(post => {
+        this.postId = post._id;
         post.comments.forEach((comment, i) => {
           post.comments[i].comment
         })
@@ -68,27 +69,21 @@ export class CardMissingComponent implements OnInit {
     event.preventDefault();
 
     this.posts.forEach(post => {
-      this.postId = post._id;
-
-      if (this.postId === this.postId && this.isLoggedIn) {
-        this.router.navigate(['/edit-post/', this.post.userId, this.postId], { state: { post: post }})
+      if (this.isLoggedIn) {
+        this.router.navigate(['/edit-post/', post.userId, post._id], { state: { post: post }})
       }
     });
   }
 
   // Delete Post
-  deletePost(event: Event) {
+  deletePost(event: Event, postId: string) {
     event.preventDefault();
 
-    this.posts.forEach(post => {
-      this.postId = post._id
-
-      if (this.postId === this.postId && this.post.userId === post.userId && confirm("Êtes-vous sûr de vouloir supprimer cette fiche?")) {
-        this.postService.deletePost(this.postId).subscribe(response => {
-          window.location.reload();
-        })
-      }
-    });
+    if (this.isLoggedIn ) {
+      this.postService.deletePost(postId).subscribe(response => {
+        window.location.reload();
+      })
+    }
   }
 
   addComment(event: Event) {

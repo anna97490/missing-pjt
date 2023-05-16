@@ -1,10 +1,10 @@
-import { Component, Renderer2, ElementRef } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/User.model';
 import { UserService } from '../../service/user.service';
 import { PostService } from '../../service/post.service';
 import { AuthService } from '../../service/auth.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-posts-create',
@@ -13,16 +13,14 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 
 export class PostsCreateComponent {
-  isLoggedIn    : boolean = false;
+  isLoggedIn: boolean = false;
   createPostForm: any = FormGroup;
-  user          : any = User;
-  userId        : any;
-  isClicked     : boolean = false;
-  image         : any = File;
-  fileName      : any;
+  user: any = User;
+  userId: any;
+  image: any = File;
+  fileName: any;
   isDropdownVisible: boolean = false;
   selectedStatus: string = "";
-
 
   constructor(
     private router: Router,
@@ -30,14 +28,13 @@ export class PostsCreateComponent {
     private authService: AuthService,
     private userService: UserService,
     private postService: PostService,
-    private renderer: Renderer2,
     private el: ElementRef
   ) {
     // Datas from form
     this.createPostForm = this.formBuilder.group({
       firstname   : ['', [Validators.required, Validators.minLength(2), Validators.maxLength(70)]],
       lastname    : ['', [Validators.required, Validators.minLength(2), Validators.maxLength(70)]],
-      birthDate   : ['', [Validators.required]],
+      birthDate   : ['', [Validators.required, this.birthDateValidator]],
       address     : ['', [Validators.required]],
       missingPlace: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(70)]],
       missingDate : ['', [Validators.required]],
@@ -59,6 +56,7 @@ export class PostsCreateComponent {
     }
   }
 
+  // Dropdown menu to pick status
   toggleDropdownMenu(event: Event): void {
     event.preventDefault();
 
@@ -71,6 +69,7 @@ export class PostsCreateComponent {
     this.isDropdownVisible = !this.isDropdownVisible;
   }
 
+  // Status selected
   onSelectStatus(status: string): void {
     this.createPostForm.get('status').setValue(status);
     this.selectedStatus = status;
@@ -83,6 +82,17 @@ export class PostsCreateComponent {
     if (selectedDate.getTime() > now) {
       event.target.value = '';
     }
+  }
+
+  birthDateValidator(control: AbstractControl): { [key: string]: boolean } | null {
+    const birthDate = new Date(control.value);
+    const missingDateControl = control.root.get('missingDate');
+
+    if (missingDateControl && birthDate > new Date(missingDateControl.value)) {
+      return { 'birthDateAfterMissingDate': true };
+    }
+
+    return null;
   }
 
   // File selected method
@@ -113,7 +123,6 @@ export class PostsCreateComponent {
       formData.append('userId', this.userId);
 
       this.postService.createPost(formData).subscribe(response => {
-        this.isClicked = true;
         this.router.navigate(['/posts-index']);
         this.createPostForm.reset();
       });
