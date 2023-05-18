@@ -6,19 +6,25 @@
     </div>
 
     <!-- Datas -->
-    <div class="cont-infos-missing flex flex-col justify-between p-4
-      leading-normal">
-      <span class="field-disappearance">{{ post.status }}</span>
-      <span class="field-disappearance">{{ post.firstname | titlecase }} &nbsp; {{post.lastname | titlecase }}</span>
-      <span class="field-disappearance">{{ post.age }} ans</span>
-      <span class="field-disappearance"><strong>Disparu(e) le </strong> &nbsp; {{ post.missingDate | date: 'dd MMMM yyyy' }}</span>
-      <span class="field-disappearance"><strong>à</strong> &nbsp; {{post.missingPlace | titlecase }}</span>
-      <span class="field-disappearance"><strong>Description/circonstances de la disparition :</strong></span>
-      <span class="field-description field-disappearance">{{ post.description | titlecase }}</span>
+    <div class="cont-infos-missing flex flex-col justify-between leading-normal">
+      <div class="cont-status-author">
+        <span class="status">{{ post.status }}</span>
+        <span class="author"  [ngClass]="{'author-margin': isLoggedIn && userId === post.userId}">Créé par {{ post.firstname }} le {{ post.createdAt | date: 'dd/MM/yyyy'}}</span>
+      </div>
+      <span class="field-disappearance">{{ post.firstname | titlecase }} &nbsp; {{post.lastname | titlecase }}, &nbsp; {{ post.age }} ans</span>
+      <div class="cont-place-date">
+        <span class="field-disappearance">a disparu(e) &nbsp; le {{ post.missingDate | date: 'dd/MM/yyyy' }}</span>
+        <span class="field-disappearance missing-place">à &nbsp; {{post.missingPlace | titlecase }}</span>
+      </div>
+      <div class="cont-description">
+        <span class="field-description field-disappearance">{{ post.description | titlecase }}</span>
+      </div>
+      <br>
       <hr>
+      <br>
 
-      <!-- Comment  -->
-      <div class="cont-comment">
+      <!-- Write comment -->
+      <div class="cont-write-comment">
         <svg
         aria-hidden="true"
         class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75
@@ -39,32 +45,31 @@
       <textarea
         class="field-comment"
         name="comment"
-        cols="30" rows="10"
+        cols="40" rows="20"
         [(ngModel)]="commentArea">
       </textarea>
-      <div class="icon-valid-comment">
-        <button class="btn-comment" (click)="addComment($event)">
-          <svg
-          aria-hidden="true"
-          class="valid-comment flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75
-          dark:text-gray-400 group-hover:text-gray-900
-          dark:group-hover:text-white" fill="currentColor" viewBox="0 0 512 512"
-          xmlns="http://www.w3.org/2000/svg" >
-          <path
-            d="M16.1 260.2c-22.6 12.9-20.5 47.3 3.6 57.3L160 376V479.3c0 18.1
-            14.6 32.7 32.7 32.7c9.7 0 18.9-4.3 25.1-11.8l62-74.3 123.9 51.6c18.9
-            7.9 40.8-4.5 43.9-24.7l64-416c1.9-12.1-3.4-24.3-13.5-31.2s-23.3-7.5-34-1.4l-448
-            256zm52.1 25.5L409.7 90.6 190.1 336l1.2 1L68.2 285.7zM403.3 425.4L236.7 355.9 450.8
-            116.6 403.3 425.4z"/>
-          </svg>
-        </button>
-      </div>
+      <!-- Add comment -->
+      <button class="btn-comment" (click)="addComment($event)">
+        <svg
+        aria-hidden="true"
+        class="valid-comment flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75
+        dark:text-gray-400 group-hover:text-gray-900
+        dark:group-hover:text-white" fill="currentColor" viewBox="0 0 512 512"
+        xmlns="http://www.w3.org/2000/svg" >
+        <path
+          d="M16.1 260.2c-22.6 12.9-20.5 47.3 3.6 57.3L160 376V479.3c0 18.1
+          14.6 32.7 32.7 32.7c9.7 0 18.9-4.3 25.1-11.8l62-74.3 123.9 51.6c18.9
+          7.9 40.8-4.5 43.9-24.7l64-416c1.9-12.1-3.4-24.3-13.5-31.2s-23.3-7.5-34-1.4l-448
+          256zm52.1 25.5L409.7 90.6 190.1 336l1.2 1L68.2 285.7zM403.3 425.4L236.7 355.9 450.8
+          116.6 403.3 425.4z"/>
+        </svg>
+      </button>
     </div>
   </div>
 
   <!-- Edit and Delete buttons -->
   <div class="cont-edit-delete">
-    <button *ngIf="isLoggedIn && userId === post.userId" class="btn-close"
+    <button *ngIf="isLoggedIn && userId === post.userId"
       (click)="editPost($event)">
       <svg
         aria-hidden="true"
@@ -107,12 +112,53 @@
   </div>
 
   <!-- Comment content - List of Comments -->
-  <div class="container-comments">
+  <div class="cont-comments">
     Les commentaires
-    <div *ngFor="let comment of post.comments; let i = index" class="comments-lists">
-      <input type="text" [(ngModel)]="post.comments[i].comment" placeholder="{{ comment.comment }}"/>
-      <button *ngIf="userId === comment.userId" (click)="editComment($event, comment._id, post.comments[i].comment)">modifier</button>
-      <button *ngIf="userId === comment.userId" (click)="deleteComment($event, comment._id)">supprimer</button>
+    <div *ngFor="let comment of comments; let i = index" class="comments-lists">
+      <input *ngIf="post.userId === comment.userId" type="text" placeholder="{{ comment.comment }}"/>
+      <div class="cont-edit-delete-comment">
+        <!-- Edit comment -->
+        <button
+          *ngIf="userId === comment.userId"
+          (click)="editComment($event, comment._id, post.comments[i].comment)"
+        >
+          <svg
+          aria-hidden="true"
+          class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75
+          dark:text-gray-400 group-hover:text-gray-900
+          dark:group-hover:text-white"
+          fill="currentColor"
+          viewBox="0 0 512 512"
+          xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9
+            30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2
+            220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8
+            24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.8 15.7-7.4
+            21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0
+            160V416c0 53 43 96 96 96H352c53 0 96-43
+            96-96V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32
+            32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32
+            32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96z" />
+        </svg>
+        </button>
+        <!-- Delete Comment  -->
+        <button *ngIf="userId === comment.userId" (click)="deleteComment($event, comment._id)">
+          <svg
+            aria-hidden="true"
+            class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75
+            dark:text-gray-400 group-hover:text-gray-900
+            dark:group-hover:text-white" fill="currentColor" viewBox="0 0 448 512"
+            xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7
+              0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4
+              6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416
+              128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0
+              46.3-19.7 47.9-45L416 128z" />
+          </svg>
+        </button>
+      </div>
     </div>
   </div>
 </div>

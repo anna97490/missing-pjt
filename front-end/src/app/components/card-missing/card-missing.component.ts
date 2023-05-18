@@ -2,6 +2,7 @@ import { Component, OnInit, Input  } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/User.model';
 import { Post } from 'src/app/models/Post.model';
+import { Comment } from 'src/app/models/Comment.model';
 import { PostService } from '../../service/post.service';
 import { UserService } from '../../service/user.service';
 import { AuthService } from '../../service/auth.service';
@@ -24,6 +25,7 @@ export class CardMissingComponent implements OnInit {
   comments   : Comment[] = [];
   comment    : any = Comment;
   commentId  : any;
+  commentUserId : string = '';
   commentArea: string = '';
   commentAreaEdit: string = '';
   element: any;
@@ -51,12 +53,18 @@ export class CardMissingComponent implements OnInit {
       this.posts = posts;
       this.posts.forEach(post => {
         this.postId = post._id;
-        post.comments.forEach((comment, i) => {
-          post.comments[i].comment
-        })
       })
     });
-
+    // Get all comments
+    this.commentService.getComments().subscribe((comments: Comment[]) => {
+      comments.forEach(comment => {
+        this.comments.push(comment)
+      })
+      this.comments.forEach(comment => {
+        this.comment = comment.comment;
+        this.commentUserId = comment.userId;
+      })
+    });
     // Birth date formated to age
     const birthDate = new Date(this.post.birthDate);
     const today = new Date();

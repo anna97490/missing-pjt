@@ -13,6 +13,7 @@ import { catchError, map, Observable, throwError } from 'rxjs';
 })
 export class CommentService {
   private comment: Comment[] = [];
+  private apiUrl2 : string = 'http://localhost:3000/api/comment';
   private apiUrl : string = 'http://localhost:3000/api/post';
   private token  : any = this.authService.getAuthToken();
 
@@ -26,6 +27,19 @@ export class CommentService {
 
   ngOnInit() {
     this.token = this.authService.getAuthToken();
+  }
+
+  getComments(): Observable<Comment[]> {
+    return this.http.get<Comment[]>(this.apiUrl2)
+    .pipe(
+      map((response: any) => {
+        return response;
+      }),
+      catchError((error: HttpErrorResponse) => {
+        console.error(error);
+        return throwError('Error');
+      })
+    )
   }
 
   // Create Comment method
