@@ -40,6 +40,64 @@
     }
   }
 }
+.posts-lists {
+  position: relative;
+  margin-bottom: 52%;
+}
+.write-comment {
+  position: absolute;
+  top: 100%;
+}
+.comment-relative {
+  position: relative;
+}
+.area-form-comment {
+  position: relative;
+  width: 94%;
+  margin: 0;
+  background-color: unset;
+  border-radius: 4px;
+}
+.btn-comment {
+  position: absolute;
+  z-index: 100;
+  left: 97%;
+  float: right;
+  top: 7%;
+  svg {
+    width: 16px;
+  }
+}
+.cont-add-comment {
+  display: flex;
+  width: 950px;
+  padding: 1%;
+  background-color: #F1F1F1;
+  svg {
+    width: 1rem;
+    margin-right: 1%;
+  }
+}
+textarea {
+  width: 100%;
+  height: 35px;
+  padding-left: 1%;
+  border: 1px solid #c2c1c1;
+}
+.cont-comments-list {
+  padding: 0 2% 0 2%;
+  background-color: #e9e9e9;
+}
+.comments-list {
+  display: flex;
+  justify-content: space-between;
+}
+.cont-edit-delete-comment {
+  position: relative;
+  svg {
+    width: 60%;
+  }
+}
 
 hr {
   margin-bottom: 2%;

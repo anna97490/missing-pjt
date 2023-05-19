@@ -10,8 +10,9 @@ export class Post {
   image       : string;
   status      : string;
   comments: {
-    _id: string;
-    comment: string;
+    _id      : string;
+    comment  : string;
+    userId   : string;
     createdAt: Date;
   }[];
   createdAt   : Date;
@@ -29,12 +30,13 @@ export class Post {
     image       : string,
     status      : string,
     comments: {
-      _id: string;
-      comment: string;
+      _id      : string;
+      comment  : string;
+      userId   : string;
       createdAt: Date;
     }[],
-    createdAt   : Date,
-    userId      : string
+    createdAt: Date,
+    userId   : string
   ) {
     this._id          = _id;
     this.firstname    = firstname;

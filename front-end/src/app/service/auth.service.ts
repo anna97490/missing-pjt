@@ -37,6 +37,8 @@ export class AuthService {
           localStorage.setItem('encryptedUserId', encryptedUserId);
           localStorage.setItem('loggedIn', 'true');
           this.loggedIn = true;
+          this.router.navigate(['/posts-index']);
+          location.href = '/posts-index';
           return response;
         }),
         catchError(error => {

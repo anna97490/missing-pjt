@@ -23,8 +23,6 @@ router.post('/:id/post-picture', auth, multer, postController.updatePostPicture)
 router.delete('/:id', auth, postController.deletePost);
 
 // --------- Comments --------
-// Create comment
-router.post('/:id/create-comment', auth, postController.createComment);
 
 // Update comment
 router.put('/:id/update-comment', postController.updateComment);

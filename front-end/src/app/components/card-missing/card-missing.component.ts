@@ -2,11 +2,9 @@ import { Component, OnInit, Input  } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/User.model';
 import { Post } from 'src/app/models/Post.model';
-import { Comment } from 'src/app/models/Comment.model';
 import { PostService } from '../../service/post.service';
 import { UserService } from '../../service/user.service';
 import { AuthService } from '../../service/auth.service';
-import { CommentService } from '../../service/comment.service';
 import { DatePipe } from '@angular/common';
 
 @Component({
@@ -22,19 +20,12 @@ export class CardMissingComponent implements OnInit {
   user       : any;
   postId     : string = '';
   posts      : Post[] = [];
-  comments   : Comment[] = [];
-  comment    : any = Comment;
-  commentId  : any;
-  commentUserId : string = '';
-  commentArea: string = '';
-  commentAreaEdit: string = '';
   element: any;
 
   constructor(
     private authService: AuthService,
     private userService: UserService,
     private postService: PostService,
-    private commentService: CommentService,
     private router: Router,
     private datePipe: DatePipe
   ) {}
@@ -42,6 +33,7 @@ export class CardMissingComponent implements OnInit {
   ngOnInit() {
     this.isLoggedIn = this.authService.isLoggedIn();
     this.userId = this.authService.getDecryptedUserId();
+
     if (this.isLoggedIn) {
       // Get the user
       this.user = this.userService.getUserById(this.userId).subscribe((user: User) => {
@@ -55,16 +47,7 @@ export class CardMissingComponent implements OnInit {
         this.postId = post._id;
       })
     });
-    // Get all comments
-    this.commentService.getComments().subscribe((comments: Comment[]) => {
-      comments.forEach(comment => {
-        this.comments.push(comment)
-      })
-      this.comments.forEach(comment => {
-        this.comment = comment.comment;
-        this.commentUserId = comment.userId;
-      })
-    });
+
     // Birth date formated to age
     const birthDate = new Date(this.post.birthDate);
     const today = new Date();
@@ -91,59 +74,6 @@ export class CardMissingComponent implements OnInit {
       this.postService.deletePost(postId).subscribe(response => {
         window.location.reload();
       })
-    }
-  }
-
-  addComment(event: Event) {
-    event.preventDefault();
-
-    this.posts.forEach(post => {
-      this.postId = post._id;
-    });
-
-    let comment = {
-      comment: this.commentArea,
-      userId: this.userId,
-      postId: this.postId
-    }
-
-    this.commentService.addComment(comment, this.postId).subscribe(response => {
-      console.log(response)
-      window.location.reload();
-    });
-  }
-
-  editComment(event: Event, commentId: string, comment: string) {
-    event.preventDefault();
-
-    console.log('comment', comment)
-
-    this.posts.forEach(post => {
-      this.postId = post._id;
-    });
-
-    let updatedComment = {
-      _id: commentId,
-      comment: comment,
-      userId: this.userId,
-      postId: this.postId
-    }
-
-    this.commentService.editComment(updatedComment, this.postId).subscribe(response => {
-      console.log(response)
-      window.location.reload();
-    });
-  }
-
-  deleteComment(event: Event, commentId: string) {
-    event.preventDefault();
-    console.log(commentId)
-
-    if (confirm("Êtes-vous sûr de vouloir supprimer votre commentaire?")) {
-      this.commentService.deleteComment(commentId).subscribe(response => {
-        console.log(response)
-        // window.location.reload();
-      });
     }
   }
 }

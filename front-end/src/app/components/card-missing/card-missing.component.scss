@@ -1,5 +1,4 @@
 .card-link {
-  margin: 3% 0;
   width: 950px;
   position: relative;
   color: #000;
@@ -65,12 +64,6 @@
   color: black;
   word-wrap: break-word;
 }
-.field-comment {
-  width: 100%;
-  padding: 1% 0 0 1%;
-  border-radius: 4px;
-  background-color: #e9e8e8;
-}
 .cont-edit-delete {
   position: absolute;
   top: 3%;
@@ -79,50 +72,7 @@
     width: 66%;
   }
 }
-.cont-write-comment {
-  display: flex;
-  flex-wrap: wrap;
-  svg {
-    width: 15px;
-  }
-  span {
-    color: #6B7280;
-    margin-left: 1%;
-  }
-}
-.comments-lists {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-}
-.icon-valid-comment {
-  display: flex;
-  justify-content: end;
-  .valid-comment {
-    width: 18px;
-  }
-}
-.input-edit-comment {
-  display: none;
-}
-.btn-comment {
-  position: absolute;
-  bottom: 7%;
-  right: 2%;
-  svg {
-    width: 60%;
-  }
-}
-.cont-comments {
-  padding: 1% 0 1% 1%;
-}
-.cont-edit-delete-comment {
-  margin-right: 1%;
-  svg {
-    width: 65%;
-    right: 2%;
-  }
-}
+
 
 
 

@@ -43,8 +43,8 @@ export class CommentService {
   }
 
   // Create Comment method
-  addComment(comment: Object, postId: string): Observable<Comment> {
-    const url = `${this.apiUrl}/${postId}/create-comment`;
+  addComment(comment: Object): Observable<Comment> {
+    const url = `${this.apiUrl2}/create-comment`;
     const commentToSend = JSON.stringify(comment)
 
     const httpOptions = {
@@ -66,8 +66,8 @@ export class CommentService {
   }
 
   // Edit comment
-  editComment(updatedComment: Object, postId: string): Observable<Comment> {
-    const url = `${this.apiUrl}/${postId}/update-comment`;
+  editComment(updatedComment: Object, commentId: string): Observable<Comment> {
+    const url = `${this.apiUrl2}/${commentId}/update-comment`;
     const commentToSend = JSON.stringify(updatedComment);
 
     const httpOptions = {
@@ -89,7 +89,7 @@ export class CommentService {
 
   // Delete Comment
   deleteComment(commentId: string): Observable<Comment> {
-    const url = `${this.apiUrl}/${commentId}/delete-comment`;
+    const url = `${this.apiUrl2}/${commentId}/delete-comment`;
 
     const httpOptions = {
       headers: new HttpHeaders({
