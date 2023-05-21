@@ -28,21 +28,19 @@
 
   <!-- Page content  -->
   <section>
-    <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto
-      md:h-screen lg:py-0">
-      <div class="signin-content w-full rounded-lg shadow dark:border md:mt-0
-        sm:max-w-md xl:p-0 dark:border-gray-700">
+    <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+      <div class="signin-content w-full rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:border-gray-700">
         <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-          <h1 class="text-xl font-bold leading-tight tracking-tight
-            text-gray-900 md:text-2xl" style="text-align: center;">Créer un
-            compte</h1>
+          <h1 class="text-xl font-bold leading-tight tracking-tighttext-gray-900 md:text-2xl" style="text-align: center;">
+            Créer un compte
+          </h1>
           <!-- Form  -->
-          <form [formGroup]="signinForm" (submit)="signUp($event)"
-            class="space-y-4 md:space-y-6" action="#">
+          <form [formGroup]="signinForm" (submit)="signUp($event)" class="space-y-4 md:space-y-6" action="#">
             <!-- Firstname -->
             <div>
-              <label for="firstname" class="block mb-2 text-sm font-medium
-                text-gray-900">Prénom</label>
+              <label for="firstname" class="block mb-2 text-sm font-medium text-gray-900">
+                Prénom
+              </label>
               <input
                 type="text"
                 formControlName="firstname"
@@ -60,8 +58,9 @@
             </div>
             <!-- Lastname  -->
             <div>
-              <label for="lastname" class="block mb-2 text-sm font-medium
-                text-gray-900">Nom</label>
+              <label for="lastname" class="block mb-2 text-sm font-medium text-gray-900">
+                Nom
+              </label>
               <input
                 type="text"
                 formControlName="lastname"
@@ -79,8 +78,9 @@
             </div>
             <!-- Email  -->
             <div>
-              <label for="email" class="block mb-2 text-sm font-medium
-                text-gray-900">Email</label>
+              <label for="email" class="block mb-2 text-sm font-medium text-gray-900">
+                Email
+              </label>
               <input
                 type="email"
                 formControlName="email"
@@ -99,9 +99,7 @@
             </div>
             <!-- Birth date  -->
             <div>
-              <label
-                for="birthDate"
-                class="block mb-2 text-sm font-mediumtext-gray-900">
+              <label for="birthDate" class="block mb-2 text-sm font-mediumtext-gray-900">
                 Date de naissance
               </label>
               <input
@@ -157,8 +155,7 @@
 
             <!-- Login link  -->
             <p class="text-sm font-light text-gray-500 dark:text-gray-400">Vous possédez déjà un compte?
-              <a routerLink="/login" class="font-medium text-primary-600
-                hover:underline dark:text-primary-500">
+              <a routerLink="/login" class="font-medium text-primary-600 hover:underline dark:text-primary-500">
                 Identifiez-vous
               </a>
             </p>

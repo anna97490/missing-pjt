@@ -14,19 +14,17 @@ import { FormBuilder, Validators } from '@angular/forms';
 })
 export class PostsIndexComponent implements OnInit {
   @Input() modalOpen : boolean = false;
-  token: any;
   isLoggedIn: boolean = true;
-  posts: Post[] = [];
-  postId: any;
   userId: any;
+  postId: any;
+  posts: Post[] = [];
   allPosts: Post[] = [];
-  isComment: boolean = false;
   comment: any;
   comments: any = Comment;
   commentArea: string = "";
   commentUpdated: any = '';
-  searchText: string = '';
   areaForm: any;
+  searchText: string = '';
 
   selection :any;
   selectedPlace: string = "";
@@ -45,27 +43,10 @@ export class PostsIndexComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.token = this.authService.getAuthToken();
     this.isLoggedIn = this.authService.isLoggedIn();
     this.userId = this.authService.getDecryptedUserId();
     this.getPosts();
-    // Get all comments
-    this.commentService.getComments().subscribe((comments: Comment[]) => {
-      this.comments = comments;
-      comments.forEach(comment => {
-        this.comment = comment;
-      })
-    });
-  }
-
-  // Get posts
-  getPosts() {
-    this.postService.getPosts().subscribe((posts: Post[]) => {
-      this.posts = posts;
-      this.posts = posts.sort((a, b) => {
-        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-      });
-    });
+    this.getComments();
   }
 
   // Modal for non-connected or registered users
@@ -74,31 +55,73 @@ export class PostsIndexComponent implements OnInit {
     this.modalOpen = true;
   }
 
-  addComment(event: Event, postId: string, commentArea: string) {
-    event.preventDefault();
-    const commentString= this.areaForm.get('comment').value;
-
-    this.posts.forEach(post => {
-      if (postId === post._id) {
-        let comment = {
-          comment: commentString,
-          userId: this.userId,
-          postId: postId
-        }
-
-        this.commentService.addComment(comment).subscribe(response => {
-          console.log(response)
-          window.location.reload();
+  // Get posts
+  getPosts() {
+    this.postService.getPosts().subscribe(
+      (posts: Post[]) => {
+        this.posts = posts;
+        this.posts = posts.sort((a, b) => {
+          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
         });
+      },
+      (error: any) => {
+        console.error('An error occurred while retrieving the posts:', error);
       }
-    });
+    );
   }
 
-   editComment(event: Event, commentId: string) {
+  // --------- Comments ---------
+  // Add comment
+  addComment(event: Event, postId: string) {
+    event.preventDefault();
+
+    if (this.isLoggedIn) {
+      const commentString= this.areaForm.get('comment').value;
+
+      this.posts.forEach(post => {
+        if (postId === post._id) {
+          let comment = {
+            comment: commentString,
+            userId: this.userId,
+            postId: postId
+          }
+
+          this.commentService.addComment(comment).subscribe(
+            response => {
+            console.log(response)
+            window.location.reload();
+          },
+          error => {
+            console.error('An error occurred while adding the comment:', error);
+          });
+        }
+      });
+    } else {
+      confirm("Veuillez vous connecter ou vous inscrire.")
+    }
+  }
+
+   // Get comments
+   getComments() {
+    this.commentService.getComments().subscribe(
+      (comments: Comment[]) => {
+        this.comments = comments;
+        comments.forEach(comment => {
+          this.comment = comment;
+        });
+      },
+      (error: any) => {
+        console.error('An error occurred while retrieving the comments:', error);
+      }
+    );
+  }
+
+  // Edit comment
+  editComment(event: Event, commentId: string) {
     event.preventDefault();
     const commentString = this.areaForm.get('commentUpdated').value;
 
-      this.comments.forEach((comment: any) => {
+    this.comments.forEach((comment: any) => {
       if (commentId === comment._id && commentString !== '') {
         let updatedComment = {
           _id: commentId,
@@ -107,27 +130,37 @@ export class PostsIndexComponent implements OnInit {
           postId: this.postId
         }
 
-        this.commentService.editComment(updatedComment, commentId).subscribe(response => {
-          console.log(response)
-          window.location.reload();
-        });
+        this.commentService.editComment(updatedComment, commentId).subscribe(
+          response => {
+            console.log(response);
+            window.location.reload();
+          },
+          error => {
+            console.error('An error occurred while editing the comment:', error);
+          }
+        );
       }
-    })
+    });
   }
 
+  // Delete comment
   deleteComment(event: Event, commentId: string) {
     event.preventDefault();
-    console.log(commentId)
 
-    if (confirm("Êtes-vous sûr de vouloir supprimer votre commentaire?")) {
-      this.commentService.deleteComment(commentId).subscribe(response => {
-        console.log(response)
-        window.location.reload();
-      });
+    if (confirm("Souhaitez-vous supprimer votre commentaire?")) {
+      this.commentService.deleteComment(commentId).subscribe(
+        response => {
+          console.log(response);
+          window.location.reload();
+        },
+        error => {
+          console.error('An error occurred while deleting the comment:', error);
+        }
+      );
     }
   }
 
-
+  // --------- Filters ---------
   // Function for search bar
   onSearch() {
 

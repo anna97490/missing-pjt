@@ -56,10 +56,20 @@ export class PostService {
     )
   }
 
+
   // Get Post by id
   getPostById(postId: string): Observable<Post> {
     const url = `${this.apiUrl}/${postId}`;
-    return this.http.get<Post>(url);
+    return this.http.get<Post>(url)
+    .pipe(
+      map((response: any) => {
+        return response;
+      }),
+      catchError((error: HttpErrorResponse) => {
+        console.error(error);
+        return throwError('Error');
+      })
+    )
   }
 
   // Edit post
@@ -100,8 +110,6 @@ export class PostService {
   // Delete Post method
   deletePost(postId: string): Observable<Post> {
     const url = `${this.apiUrl}/${postId}`;
-    // this.getPostById(postId);
-    console.log("postId Service", postId)
 
     const httpOptions = {
       headers: new HttpHeaders({

@@ -22,8 +22,8 @@
         0-208-93.31-208-208S141.3 48 256 48s208
         93.31 208 208S370.7 464 256 464z"
         />
-      </svg>
-      <span class="flex-1 ml-3 whitespace-nowrap"></span>
+    </svg>
+    <span class="flex-1 ml-3 whitespace-nowrap"></span>
   </a>
 
   <div class="cont-title">
@@ -35,7 +35,7 @@
     [formGroup]="editPostForm"
     enctype="multipart/form-data"
     (submit)="editPost($event, postId)"
-    class="border border-gray-200 rounded-lg shadow dark:border-gray-700
+    class=" form-edit border border-gray-200 rounded-lg shadow dark:border-gray-700
     dark:bg-gray-800 dark:hover:bg-c-700">
 
      <!-- Post image -->
@@ -48,7 +48,6 @@
       </div>
     </div>
     <div class="grid md:grid-cols-2 md:gap-6">
-
       <!-- Firstname -->
       <div class="relative z-0 w-full mb-6 group">
         <input
@@ -75,7 +74,6 @@
           Prénom
         </label>
       </div>
-
       <!-- Lastname -->
       <div class="relative z-0 w-full mb-6 group">
         <input
@@ -104,6 +102,7 @@
       </div>
     </div>
 
+    <!-- Birth date and address  -->
     <div class="grid md:grid-cols-2 md:gap-6">
       <!-- Birth date -->
       <div class="relative z-0 w-full mb-6 group">
@@ -157,6 +156,7 @@
       </div>
     </div>
 
+    <!-- Missing place and missing date -->
     <div class="grid md:grid-cols-2 md:gap-6">
       <!-- MissingPlace -->
       <div class="relative z-0 w-full mb-6 group">
@@ -263,13 +263,13 @@
           <li class="status-choice py-1" (click)="onSelectStatus('Retrouvé(e)')">Retrouvé(e)</li>
         </ul>
       </div>
-      <div class="selected-status">{{ selectedStatus }}sdfs</div>
+      <div class="selected-status">{{ selectedStatus }}</div>
     </div>
 
     <!-- Submit button -->
     <button
       type="submit"
-      class="btn-submit py-2.5 px-5 mr-2 text-sm font-medium text-gray-900
+      class="btn-submit bck-color py-2.5 px-5 mr-2 text-sm font-medium text-gray-900
       bg-white rounded-lg border border-gray-200
       focus:z-10 focus:ring-4 focus:outline-none focus:ring-blue-700
       focus:text-blue-700 dark:bg-gray-800
@@ -277,21 +277,17 @@
       [ngClass]="{ 'btn-valid-form': editPostForm.valid }">
       Enregistrer
     </button>
-    <span *ngIf="isSend" class="message">
-      Votre fiche disparition a bien été crée
-    </span>
   </form>
 
+  <!-- Picture form  -->
   <form
     enctype="multipart/form-data"
     (submit)="updatePostPicture($event)"
-    class="border border-gray-200 rounded-lg shadow dark:border-gray-700
+    class="form-picture border border-gray-200 rounded-lg shadow dark:border-gray-700
     dark:bg-gray-800 dark:hover:bg-c-700">
-
     <!-- Drag and drop picture -->
     <div class="field-photo">
-      <div class="mt-1 mb-10 flex justify-center rounded-md border-2
-        border-dashed border-gray-300 px-6 pt-5 pb-6">
+      <div class="mt-1 mb-10 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
         <div class="space-y-1 text-center">
           <svg
             class="mx-auto h-12 w-12 text-gray-400"

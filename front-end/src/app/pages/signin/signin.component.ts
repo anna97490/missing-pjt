@@ -53,7 +53,12 @@ export class SigninComponent {
           this.router.navigate(['/posts-index']);
         },
         error => {
-          this.errorMessage = 'Cet email existe déjà.';
+          console.log(error.error.message)
+          if (error.error.message === 'Email already registered') {
+            this.errorMessage = 'Cet email existe déjà.';
+          } else {
+            console.log(error.error.message);
+          }
         }
       )
     }

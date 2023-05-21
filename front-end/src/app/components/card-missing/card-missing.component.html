@@ -25,8 +25,7 @@
 
   <!-- Edit and Delete buttons -->
   <div class="cont-edit-delete">
-    <button *ngIf="isLoggedIn && userId === post.userId"
-      (click)="editPost($event)">
+    <button *ngIf="isLoggedIn && userId === post.userId" (click)="editPost($event)">
       <svg
         aria-hidden="true"
         class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75
@@ -49,8 +48,7 @@
     </button>
 
     <!-- Delete Post button -->
-    <button *ngIf="isLoggedIn && userId === post.userId" class="btn-close"
-      (click)="deletePost($event, post._id)">
+    <button *ngIf="isLoggedIn && userId === post.userId" class="btn-close" (click)="deletePost($event, post._id)">
       <svg
         aria-hidden="true"
         class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75
@@ -66,7 +64,4 @@
       </svg>
     </button>
   </div>
-
-
-
 </div>

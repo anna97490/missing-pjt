@@ -70,9 +70,13 @@ export class CardMissingComponent implements OnInit {
   deletePost(event: Event, postId: string) {
     event.preventDefault();
 
-    if (this.isLoggedIn ) {
-      this.postService.deletePost(postId).subscribe(response => {
+    if (this.isLoggedIn && confirm("Êtes-vous sûr de vouloir supprimer cette fiche?")) {
+      this.postService.deletePost(postId).subscribe(
+        response => {
         window.location.reload();
+      },
+      (error) => {
+        console.log(error)
       })
     }
   }

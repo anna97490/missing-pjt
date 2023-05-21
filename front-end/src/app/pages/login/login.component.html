@@ -1,5 +1,4 @@
 <div class="container-login">
-
   <!-- Back Index -->
   <a href="/posts-index"
     class="link-index flex items-center text-base font-normal text-gray-900
@@ -23,28 +22,22 @@
         0 256s114.6 256 256 256s256-114.6 256-256S397.4 0 256 0zM256 464c-114.7
         0-208-93.31-208-208S141.3 48 256 48s208
         93.31 208 208S370.7 464 256 464z" />
-      </svg>
-      <span class="flex-1 ml-3 whitespace-nowrap"></span>
+    </svg>
+    <span class="flex-1 ml-3 whitespace-nowrap"></span>
   </a>
 
   <section>
     <div class="flex flex-col items-center justify-center px-6 py-4">
-
-      <div class="content-login w-full rounded-lg md:mt-0 sm:max-w-md xl:p-0
-        dark:border-gray-700">
+      <div class="content-login w-full rounded-lg md:mt-0 sm:max-w-md xl:p-0 dark:border-gray-700">
         <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-          <h1 class="text-xl font-bold leading-tight md:text-2xl"
-            style="text-align: center;">
+          <h1 class="text-xl font-bold leading-tight md:text-2xl" style="text-align: center;">
             Connectez-vous
           </h1>
           <!-- Login form -->
-          <form [formGroup]="loginForm" (submit)="login($event)"
-            class="space-y-4 md:space-y-6" action="#">
+          <form [formGroup]="loginForm" (submit)="login($event)" class="space-y-4 md:space-y-6" action="#">
             <!-- Email -->
             <div>
-              <label
-                for="email"
-                class="block mb-2 text-sm font-medium">
+              <label for="email" class="block mb-2 text-sm font-medium">
                 Email
               </label>
               <input
@@ -61,9 +54,8 @@
                 placeholder="Votre email"
                 required="true">
             </div>
-            <div
-              *ngIf="isCorrectEmail == true" class="message">
-              <span>Votre adresse mail n'est pas valide</span>
+            <div *ngIf="isCorrectEmail" class="message">
+              <span>L'email n'existe pas.</span>
             </div>
             <!-- Password -->
             <div>
@@ -86,11 +78,9 @@
                 dark:text-white dark:focus:ring-blue-500 dark:focus"
                 required="true">
             </div>
-            <div
-              *ngIf="isCorrectPassword" class="message">
-              <span>Votre mot de passe n'est pas valide</span>
+            <div *ngIf="isCorrectPassword" class="message">
+              <span>Votre mot de passe n'est pas valide.</span>
             </div>
-
             <!-- Login button -->
             <div class="btn">
               <button
@@ -112,8 +102,7 @@
             <!-- Signin link  -->
             <p class="text-sm font-light text-gray-500 dark:text-gray-400">
               Vous n'avez pas encore de compte?
-              <a routerLink="/signin" class="font-medium text-primary-600
-                hover:underline dark:text-primary-500">
+              <a routerLink="/signin" class="font-medium text-primary-600 hover:underline dark:text-primary-500">
                 Inscrivez-vous
               </a>
             </p>

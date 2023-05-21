@@ -3,9 +3,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { PostService } from '../service/post.service';
 import { UserService } from '../service/user.service';
 import { AuthService } from '../service/auth.service';
-import { Post } from '../models/Post.model';
 import { Comment } from '../models/Comment.model';
-import { Router } from '@angular/router';
 import { catchError, map, Observable, throwError } from 'rxjs';
 
 @Injectable({
@@ -13,14 +11,10 @@ import { catchError, map, Observable, throwError } from 'rxjs';
 })
 export class CommentService {
   private comment: Comment[] = [];
-  private apiUrl2 : string = 'http://localhost:3000/api/comment';
-  private apiUrl : string = 'http://localhost:3000/api/post';
+  private apiUrl : string = 'http://localhost:3000/api/comment';
   private token  : any = this.authService.getAuthToken();
 
   constructor(
-    private router: Router,
-    private userService: UserService,
-    private postService: PostService,
     private authService: AuthService,
     private http: HttpClient
   ) {}
@@ -30,7 +24,7 @@ export class CommentService {
   }
 
   getComments(): Observable<Comment[]> {
-    return this.http.get<Comment[]>(this.apiUrl2)
+    return this.http.get<Comment[]>(this.apiUrl)
     .pipe(
       map((response: any) => {
         return response;
@@ -44,7 +38,7 @@ export class CommentService {
 
   // Create Comment method
   addComment(comment: Object): Observable<Comment> {
-    const url = `${this.apiUrl2}/create-comment`;
+    const url = `${this.apiUrl}/create-comment`;
     const commentToSend = JSON.stringify(comment)
 
     const httpOptions = {
@@ -67,7 +61,7 @@ export class CommentService {
 
   // Edit comment
   editComment(updatedComment: Object, commentId: string): Observable<Comment> {
-    const url = `${this.apiUrl2}/${commentId}/update-comment`;
+    const url = `${this.apiUrl}/${commentId}/update-comment`;
     const commentToSend = JSON.stringify(updatedComment);
 
     const httpOptions = {
@@ -89,7 +83,7 @@ export class CommentService {
 
   // Delete Comment
   deleteComment(commentId: string): Observable<Comment> {
-    const url = `${this.apiUrl2}/${commentId}/delete-comment`;
+    const url = `${this.apiUrl}/${commentId}/delete-comment`;
 
     const httpOptions = {
       headers: new HttpHeaders({

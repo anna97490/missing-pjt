@@ -22,13 +22,13 @@ export class AuthService {
     private router: Router,
   ) {}
 
+  // Login method
   login(email: string, password: string): Observable<User> {
     return this.http.post<any>(`${this.apiUrl}/login`, { email, password })
       .pipe(
         map(response => {
           const userId = response._id;
           const token = response.token;
-
           // Encrypted userId
           const encryptedUserId = CryptoJS.AES.encrypt(userId, "Secret Passphrase").toString();
 
@@ -47,6 +47,7 @@ export class AuthService {
       );
   }
 
+  // Signup method
   signUp(user: Object): Observable<User> {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -77,6 +78,7 @@ export class AuthService {
       );
   }
 
+  // Logout method
   logout() {
     this.loggedIn = false;
     localStorage.removeItem('encryptedUserId');
@@ -86,6 +88,7 @@ export class AuthService {
     window.location.reload();
   }
 
+  // Get the loogedIn from Local Storage
   isLoggedIn(): boolean {
     const isLoggedIn = localStorage.getItem('loggedIn');
     if (isLoggedIn === 'true') {
@@ -95,14 +98,17 @@ export class AuthService {
     }
   }
 
+  // Get token from Local Storage
   getAuthToken(): string | null {
     return localStorage.getItem('token');
   }
 
+  // Get the userId crypted from Local Storage
   getUserIdLs(): string | null  {
     return localStorage.getItem('encryptedUserId');
   }
 
+  // Decrypt the userId from Local Storage
   getDecryptedUserId(): string | null {
     const encryptedUserId = localStorage.getItem('encryptedUserId');
       if (!encryptedUserId) {

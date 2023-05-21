@@ -12,10 +12,10 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
   styleUrls: ['./user-infos.component.scss']
 })
 export class UserInfosComponent implements OnInit {
-  isLoggedIn: boolean = this.authService.isLoggedIn();
-  userId: any = this.authService.getDecryptedUserId();
-  editUserForm: any = FormGroup;
+  isLoggedIn: boolean = true;
+  userId: any;
   user: any = User;
+  editUserForm: any = FormGroup;
   image: any = File;
   isImageSelected: boolean = false;
   fileName: any;
@@ -37,12 +37,22 @@ export class UserInfosComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.isLoggedIn) {
-      // Get the user to display infos
-      this.user = this.userService.getUserById(this.userId).subscribe((user: User) => {
+    this.isLoggedIn = this.authService.isLoggedIn();
+    this.userId = this.authService.getDecryptedUserId();
+    // Get the user to display infos
+   this.getUser();
+  }
+
+  // Get the user
+  getUser() {
+    this.userService.getUserById(this.userId).subscribe(
+      (user: User) => {
         this.user = user;
-      })
-    }
+      },
+      (error) => {
+        console.error('An error occurred while getting user:', error);
+      }
+    );
   }
 
   // Validation of age >= 18
@@ -105,6 +115,7 @@ export class UserInfosComponent implements OnInit {
     }
   }
 
+  // Change or add profile picture
   updateProfilePicture(event: Event) {
     event.preventDefault();
 
@@ -135,7 +146,6 @@ export class UserInfosComponent implements OnInit {
     if (confirmDelete && this.userId === this.user._id) {
       this.userService.deleteUser(this.userId).subscribe(response => {
           this.authService.logout();
-          this.router.navigate(['/posts-index']);
         },
         (error) => {
           console.log(error)

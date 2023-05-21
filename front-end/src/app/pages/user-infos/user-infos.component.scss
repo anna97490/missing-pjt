@@ -5,82 +5,82 @@
   width: 100%;
   padding: 12% 3% 0% 3%;
   background-color: rgba(219, 219, 219, 0.0784313725);
-  .link-index {
-    position: absolute;
-    top: 12%;
-    left: 2%;
+}
+.link-index {
+  position: absolute;
+  top: 12%;
+  left: 2%;
+}
+.cont-title {
+  font-weight: bold;
+  font-size: 17px;
+  height: 0%;
+  margin-bottom: 1%;
+}
+.cont-user-infos {
+  display: flex;
+  justify-content: space-between;
+  margin: 3% 0;
+  padding: 1%;
+  width: 95%;
+  position: relative;
+}
+.cont-edit {
+  position: absolute;
+  top: 6%;
+  right: 2%;
+  svg {
+    width: 75%;
   }
-  .cont-title {
-    font-weight: bold;
-    font-size: 17px;
-    height: 0%;
-    margin-bottom: 1%;
-  }
-  .cont-user-infos {
-    display: flex;
-    justify-content: space-between;
-    margin: 3% 0;
-    padding: 1%;
-    width: 95%;
-    position: relative;
-  }
-  .cont-edit {
-    position: absolute;
-    top: 6%;
-    right: 2%;
-    svg {
-      width: 75%;
-    }
-  }
-  .cont-delete {
-    display: flex;
-    justify-content: end;
-    width: 100%;
-    font-size: 12px;
-    cursor: pointer;
-  }
-  .cont-img {
-    width: 30%;
-  }
-  .datas {
-    width: 100%;
-  }
-  form {
-    width: 100%;
-    margin-bottom: 2%;
-    padding: 3%;
-    background-color: #fff;
-  }
-  .image-user {
-    margin: 2% 0;
-  }
-  .btn-submit {
-    float: right;
-    text-align: center;
-    color: #fff;
-    background-color: #6B7280;
-    box-shadow: 0px 0px 6px 1px rgba(0, 0, 0, 0.09);
-  }
-  .btn-submit-image {
-    float: right;
-    text-align: center;
-    color: #fff;
-    background-color: #edecec;
-    box-shadow: 0px 0px 6px 1px rgba(0, 0, 0, 0.09);
-  }
-  .btn-valid-form {
-    background-color: #6B7280;
-  }
-  .error-message {
-    color: red;
-    font-size: 11px;
-  }
-  .edit-message {
-    color: rgb(47, 209, 144);
-    font-size: 11px;
-  }
-  .instruction {
-    color: #9CA3AF;
-    font-size: 10px;
-  }
+}
+.cont-delete {
+  display: flex;
+  justify-content: end;
+  width: 100%;
+  font-size: 12px;
+  cursor: pointer;
+}
+.cont-img {
+  width: 30%;
+}
+.datas {
+  width: 100%;
+}
+form {
+  width: 100%;
+  margin-bottom: 2%;
+  padding: 3%;
+  background-color: #fff;
+}
+.image-user {
+  margin: 2% 0;
+}
+.btn-submit {
+  float: right;
+  text-align: center;
+  color: #fff;
+  background-color: #6B7280;
+  box-shadow: 0px 0px 6px 1px rgba(0, 0, 0, 0.09);
+}
+.btn-submit-image {
+  float: right;
+  text-align: center;
+  color: #fff;
+  background-color: #edecec;
+  box-shadow: 0px 0px 6px 1px rgba(0, 0, 0, 0.09);
+}
+.btn-valid-form {
+  background-color: #6B7280;
+}
+.error-message {
+  color: red;
+  font-size: 11px;
+}
+.edit-message {
+  color: rgb(47, 209, 144);
+  font-size: 11px;
+}
+.instruction {
+  color: #9CA3AF;
+  font-size: 10px;
 }

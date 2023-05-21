@@ -15,17 +15,16 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./posts-edit.component.scss']
 })
 export class PostsEditComponent {
-  isLoggedIn  : boolean = this.authService.isLoggedIn();
-  userId      : any = this.authService.getDecryptedUserId();
-  postId      : any =this.route.snapshot.paramMap.get('id');
+  isLoggedIn: boolean = false;
+  user: any = User;
+  userId: any;
+  postId: any;
   editPostForm: any = FormGroup;
-  user        : any;
-  isSend      : boolean = false;
-  image       : any = File;
-  fileInput   : any;
-  fileName    : any;
-  post        : any;
-  message     : string = '';
+  image: any = File;
+  fileInput: any;
+  fileName: any;
+  post: any;
+  message: string = '';
   isDropdownVisible: boolean = false;
   selectedStatus: string = "";
 
@@ -52,23 +51,25 @@ export class PostsEditComponent {
   }
 
   ngOnInit() {
-    if (this.isLoggedIn) {
-      // Get user
-      this.user = this.userService.getUserById(this.userId).subscribe((user: User) => {
-        this.user = user;
-      })
-      // Get post
-      this.postService.getPostById(this.postId).subscribe((post: Post) => {
-        if (post) {
-          this.post = post;
-          // Birth date formated to age
-          const birthDate = new Date(this.post.birthDate);
-          const today = new Date();
-          const age = Math.floor((today.getTime() - birthDate.getTime()) / (365.25 * 24 * 60 * 60 * 1000));
-          this.post.age = age;
-        }
-      });
-    }
+    this.userId = this.authService.getDecryptedUserId();
+    this.postId = this.route.snapshot.paramMap.get('id');
+    // Check if user is logged
+    this.isLoggedIn = this.authService.isLoggedIn();
+    // Get user
+    this.user = this.userService.getUserById(this.userId).subscribe((user: User) => {
+      this.user = user;
+    });
+    // Get post
+    this.postService.getPostById(this.postId).subscribe((post: Post) => {
+      if (post) {
+        this.post = post;
+        // Birth date formated to age
+        const birthDate = new Date(this.post.birthDate);
+        const today = new Date();
+        const age = Math.floor((today.getTime() - birthDate.getTime()) / (365.25 * 24 * 60 * 60 * 1000));
+        this.post.age = age;
+      }
+    });
   }
 
   toggleDropdownMenu(event: Event): void {

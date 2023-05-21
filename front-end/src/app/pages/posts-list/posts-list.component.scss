@@ -4,73 +4,24 @@
   justify-content: center;
   width: 100%;
   padding: 12% 3% 0% 3%;
-  .link-index {
-    position: absolute;
-    top: 12%;
-    left: 2%;
+}
+.link-index {
+  position: absolute;
+  top: 12%;
+  left: 2%;
+}
+.cont-title {
+  width: 100%;
+  h1 {
+    text-align: center;
   }
-  .cont-title {
-    width: 100%;
-    h1 {
-      text-align: center;
-    }
-  }
-  .container-page {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  .card-link {
-    margin: 3% 0;
-    width: 950px;
-    height: 60%;
-    position: relative;
-    color: #000;
-    border: none;
-    border-radius: 4px;
-    box-shadow:  0px 0px 5px 3px rgba(0, 0, 0, 9%);
-    .cont-img-txt {
-      display: flex;
-      width: 100%;
-      height: 100%;
-      .cont-img {
-        width: 28%;
-        img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-        }
-      }
-      .cont-infos-missing {
-        width: 70%;
-        height: 75%;
-        padding: 2%;
-      }
-      .field-disappearance {
-        margin-bottom: 2px;
-      }
-      .field-description {
-        color: black;
-        height: auto;
-        padding: 2% 0 0 2%;
-        margin-bottom: 2%;
-        border-radius: 2px;
-        word-wrap: break-word;
-        background-color: #ecececb5;
-      }
-      .field-comment {
-        width: 100%;
-        background-color: #e9e8e8;
-      }
-    }
-    .cont-edit-delete {
-      position: absolute;
-      top: 6%;
-      right: 2%;
-      svg {
-        width: 66%;
-      }
-    }
-  }
+}
+.container-page {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.posts-lists {
+  margin-bottom: 5%;
 }
 

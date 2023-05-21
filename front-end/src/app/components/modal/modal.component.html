@@ -1,7 +1,11 @@
-<div class="modal-background" [ngClass]="{'modal-background': true, 'hide':
-  !modalOpen}" (click)="closeModal($event)">
-  <div [ngClass]="{'modal-container': true, 'hide': !modalOpen}"
-    class="modal-container" (click)="$event.stopPropagation()">
+<div
+  class="modal-background"
+  [ngClass]="{'modal-background': true, 'hide': !modalOpen}"
+  (click)="closeModal($event)">
+  <div
+    class="modal-container"
+    [ngClass]="{'modal-container': true, 'hide': !modalOpen}"
+    (click)="$event.stopPropagation()">
 
     <!-- Close the modal -->
     <div class="cont-btn-close">
@@ -23,20 +27,20 @@
             370.9 48 256 48z" />
           </svg>
         </button>
-      </div>
+    </div>
 
-      <div class="modal-content">
-        <!-- Modal content -->
-        <span class="modal-txt">Veuillez vous connecter ou vous inscrire.</span>
-        <!-- Links -->
-        <div class="btn-content">
-          <a class="nav-links" routerLink="/signin">
-            S'inscrire
-          </a>
-          <a class="nav-links" routerLink="/login">
-            Se connecter
-          </a>
-        </div>
+    <div class="modal-content">
+      <!-- Modal content -->
+      <span class="modal-txt">Veuillez vous connecter ou vous inscrire.</span>
+      <!-- Links -->
+      <div class="btn-content">
+        <a class="nav-links" routerLink="/signin">
+          S'inscrire
+        </a>
+        <a class="nav-links" routerLink="/login">
+          Se connecter
+        </a>
       </div>
     </div>
   </div>
+</div>
