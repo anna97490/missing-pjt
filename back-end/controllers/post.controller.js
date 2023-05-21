@@ -79,6 +79,11 @@ exports.updatePostPicture = async (req, res, next) => {
 
         // If there is a file in the request
         if (req.file) {
+              // Delete the old profile picture
+              if (post.image) {
+                const filename = post.image.split('/images/')[1];
+                await fs.promises.unlink(`images/${filename}`);
+            }
             const image = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
             post.image = image;
         }

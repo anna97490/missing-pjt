@@ -15,7 +15,6 @@ exports.getAllComments = async (req, res, next) => {
 // Create comment 
 exports.createComment = async (req, res, next) => {
     const commentReq = JSON.parse(req.body.comment);
-    console.log('commentReq', commentReq)
 
     try {
         const post = await Post.findById(commentReq.postId);
@@ -44,16 +43,13 @@ exports.updateComment = async (req, res, next) => {
     
     try {
         const comment = await Comment.findById(req.params.id);
-        console.log("comment", comment)
         const post = await Post.findById(comment.postId);
-        console.log("post", post)
 
         if (!post || !comment) {
             return res.status(404).json({ message: 'Not found!' });
         }
 
         const commentObject = {...commentReq};
-        console.log("commentObject", commentObject)
 
         // Update the comment
         await Comment.findByIdAndUpdate(commentReq._id, commentObject, {
@@ -85,12 +81,8 @@ exports.updateComment = async (req, res, next) => {
 // Delete Comment
 exports.deleteComment = async (req, res, next) => {
     try {
-        console.log('yo')
-
         const comment = await Comment.findById(req.params.id);
-        console.log('comment', comment)
         const post = await Post.findById(comment.postId);
-        console.log('post', post)
     
         await comment.deleteOne({ _id: req.params.id });
 

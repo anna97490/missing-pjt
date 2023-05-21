@@ -66,7 +66,11 @@ exports.login = async (req, res, next) => {
 exports.getUser = async (req, res, next) => {
     try {
         const user = await User.findOne({ _id: req.params.id });
-        res.status(200).json(user);
+        if (!user) {
+            return res.status(401).json({ message: 'User not found' });
+        } else {
+            res.status(200).json(user);
+        }
     } catch (error) {
         res.status(404).json({ error });
     }
@@ -111,6 +115,11 @@ exports.updateProfilePicture = async (req, res, next) => {
         } else {
             // If there is a file in the request
             if (req.file) {
+                // Delete the old profile picture
+                if (user.image) {
+                    const filename = user.image.split('/images/')[1];
+                    await fs.promises.unlink(`images/${filename}`);
+                }
                 const image = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
                 user.image = image;
             }
