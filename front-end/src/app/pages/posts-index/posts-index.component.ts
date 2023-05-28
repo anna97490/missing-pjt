@@ -25,10 +25,8 @@ export class PostsIndexComponent implements OnInit {
   commentUpdated: any = '';
   areaForm: any;
   searchText: string = '';
-
-  selection :any;
-  selectedPlace: string = "";
-  selectedDate: any;
+  selection: string = '';
+  selectionYear: number = 0;
 
   constructor(
     private authService: AuthService,
@@ -53,6 +51,72 @@ export class PostsIndexComponent implements OnInit {
   openModal(event: Event) {
     event.preventDefault();
     this.modalOpen = true;
+  }
+
+  // --------- Filter ---------
+  // Filter posts by missingPlace
+  filterPostsByMissingPlace() {
+    const checkbox = document.getElementById('checked-missingPlace') as HTMLInputElement;
+
+    if (checkbox.checked) {
+      if (this.selection && this.selection !== '') {
+        this.allPosts = this.posts.filter(post =>
+          post.missingPlace.toLowerCase().includes(this.selection.toLowerCase())
+        );
+        this.posts = this.allPosts;
+      }
+    } else {
+      this.getPosts();
+    }
+  }
+
+  // Filter posts by year of missingDate
+  filterPostsByYear() {
+    let checkbox = document.getElementById('checked-year') as HTMLInputElement;
+    let postYear = 0;
+
+    if (checkbox.checked && this.selectionYear) {
+      this.allPosts = this.posts.filter(post => {
+        postYear = new Date(post.missingDate).getFullYear();
+
+        if (postYear === this.selectionYear) {
+          const date = new Date(post.missingDate);
+          const year = date.getFullYear().toString().substring(0, 4);
+          console.log('year', year);
+          return true;
+        }
+
+        return false;
+      });
+
+      this.posts = this.allPosts;
+    } else {
+      this.getPosts();
+    }
+  }
+
+  // Filter posts by status "En cours"
+  filterByEnCourStatus() {
+    let checkbox = document.getElementById('checked-encours') as HTMLInputElement;
+
+    if (checkbox.checked) {
+      this.allPosts = this.posts.filter(post => post.status === 'En cours');
+      this.posts = this.allPosts;
+    } else {
+      this.getPosts();
+    }
+  }
+
+  // Filter posts by status "Retrouve"
+  filterByRetrouveStatus() {
+    let checkbox = document.getElementById('checked-retrouve') as HTMLInputElement;
+
+    if (checkbox.checked) {
+      this.allPosts = this.posts.filter(post => post.status === 'Retrouvé(e)');
+      this.posts = this.allPosts;
+    } else {
+      this.getPosts();
+    }
   }
 
   // Get posts
@@ -158,16 +222,5 @@ export class PostsIndexComponent implements OnInit {
         }
       );
     }
-  }
-
-  // --------- Filters ---------
-  // Function for search bar
-  onSearch() {
-
-  }
-
-  // Reset filters method
-  onResetFilters() {
-    this.posts = [...this.allPosts];
   }
 }

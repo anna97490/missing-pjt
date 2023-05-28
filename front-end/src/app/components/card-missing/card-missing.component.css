@@ -1,0 +1,99 @@
+.card-link {
+  width: 950px;
+  position: relative;
+  color: #000;
+  border: none;
+  border-radius: 4px;
+  -webkit-box-shadow: 0px 0px 5px 3px black;
+          box-shadow: 0px 0px 5px 3px black;
+}
+
+.cont-img-txt {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  height: 20rem;
+}
+
+.cont-img {
+  width: 28%;
+}
+
+.cont-img img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.cont-infos-missing {
+  width: 72%;
+  padding: 1% 2% 0 2%;
+  position: relative;
+}
+
+.cont-status-author {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-bottom: 2%;
+  background-color: #F1F1F1;
+  padding: 1% 2% 1% 2%;
+  border-radius: 4px;
+}
+
+.cont-status-author .author {
+  font-size: 11px;
+}
+
+.cont-status-author .author-margin {
+  margin-right: 10%;
+}
+
+.cont-status-author .status {
+  font-weight: bold;
+  color: green;
+}
+
+.cont-place-date {
+  margin-bottom: 2%;
+}
+
+.field-disappearance {
+  margin-bottom: 1%;
+}
+
+.missing-place {
+  margin-left: 1%;
+}
+
+.cont-description {
+  height: 50rem;
+  padding: 1% 0 0 2%;
+  border-radius: 4px;
+  max-height: 200px;
+  overflow: auto;
+  background-color: #ecececb5;
+}
+
+.field-description {
+  color: black;
+  word-wrap: break-word;
+}
+
+.cont-edit-delete {
+  position: absolute;
+  top: 3%;
+  right: 2%;
+}
+
+.cont-edit-delete svg {
+  width: 66%;
+}

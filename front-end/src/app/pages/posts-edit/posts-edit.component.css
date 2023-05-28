@@ -1,0 +1,79 @@
+.container-edit-card {
+  height: 100%;
+  padding: 8% 3% 0% 3%;
+  background-color: rgba(219, 219, 219, 0.0784314);
+}
+
+.cont-title {
+  font-weight: bold;
+  font-size: 17px;
+  margin-bottom: 3%;
+  text-align: center;
+}
+
+.form-edit {
+  padding: 3%;
+  height: 75%;
+  margin-bottom: 1%;
+  background-color: #fff;
+}
+
+.form-edit input {
+  margin-top: 5%;
+}
+
+.form-edit textarea {
+  padding-top: 2rem;
+}
+
+.form-picture {
+  padding: 3%;
+  height: 31%;
+  background-color: #fff;
+}
+
+.description-txt {
+  height: 9rem;
+}
+
+.field-photo span {
+  height: 5rem;
+  width: 5rem;
+}
+
+.btn-submit {
+  float: right;
+  text-align: center;
+  color: #fff;
+  background-color: #edecec;
+  -webkit-box-shadow: 0px 0px 6px 1px rgba(0, 0, 0, 0.09);
+          box-shadow: 0px 0px 6px 1px rgba(0, 0, 0, 0.09);
+}
+
+.btn-valid-form {
+  background-color: #6B7280;
+}
+
+.bck-color {
+  background-color: #6B7280;
+}
+
+.dropdown-menu {
+  display: none;
+}
+
+.show {
+  display: block;
+}
+
+.status-choice {
+  cursor: pointer;
+}
+
+.selected-status {
+  height: 55%;
+  background-color: #efefef;
+  padding: 1%;
+  width: 20%;
+  border-radius: 4px;
+}

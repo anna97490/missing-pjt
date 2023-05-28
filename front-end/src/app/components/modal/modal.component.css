@@ -1,0 +1,93 @@
+.modal-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 9999;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.modal-container {
+  position: relative;
+  max-width: 490px;
+  width: 90%;
+  height: 21%;
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 20px;
+  -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.modal-container h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.hide {
+  display: none;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.cont-btn-close .btn-close {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: end;
+  width: 100%;
+  margin-bottom: 2%;
+}
+
+.cont-btn-close svg {
+  width: 20px;
+}
+
+.modal-content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.modal-content .modal-txt {
+  width: 100%;
+  margin-bottom: 7%;
+  font-size: 15px;
+}
+
+.modal-content .btn-content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  width: 100%;
+  text-align: center;
+}
+
+.modal-content .btn-content .nav-links {
+  cursor: pointer;
+  padding: 1%;
+  border-radius: 7px;
+  width: 22%;
+  font-size: 13px;
+  background-color: #ececec;
+  -webkit-box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.3);
+          box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.3);
+}
+/*# sourceMappingURL=modal.component.css.map */
