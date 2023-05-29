@@ -24,7 +24,6 @@
     "crypto-js": "^4.1.1",
     "jwt-decode": "^3.1.2",
     "ng-sidebar": "^9.4.3",
-    "postcss-loader": "^7.1.0",
     "rxjs": "~7.8.0",
     "stream-browserify": "^3.0.0",
     "tslib": "^2.3.0",

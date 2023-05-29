@@ -1,7 +1,7 @@
 .container-signin {
   position: relative;
   height: 100%;
-  padding: 12% 16% 0% 16%;
+  padding: 18% 16% 0% 16%;
 }
 .signin-content {
   background-color: #fff;
@@ -37,8 +37,47 @@
     background-color: #6B7280;
   }
 }
-span{
+span {
   display: block;
 }
 
+@media (max-width: 992px) {
+  .container-signin {
+    padding: 32% 0% 0% 0%;
+  }
+}
+
+@media (max-width: 768px)  {
+  .container-signin {
+    padding: 20% 0% 0% 0%;
+  }
+}
+
+@media (max-width: 580px)  {
+  .link-index {
+    top: 16%;
+  }
+  .container-signin {
+    padding: 36% 0% 0% 0%;
+  }
+  h1 {
+    font-size: 15px;
+  }
+  label {
+    font-size: 12px !important;
+  }
+  input {
+    font-size: 12px !important;
+  }
+  p {
+    font-size: 12px !important;
+  }
+  button {
+    font-size: 12px !important;
+    padding: 3% !important;
+  }
+  svg {
+    width: 17px;
+  }
+}
 

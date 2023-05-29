@@ -6,7 +6,7 @@
   padding: 0 5px;
   position: absolute;
   z-index: 100;
-  background-color: rgb(255 255 255);
+  background-color: rgb(255, 255, 255);
   box-shadow: 4px 5px 8px 0px rgba(0, 0, 0, 9%);
   .logo {
     display: flex;
@@ -22,10 +22,8 @@
     position: relative;
     .nav-links {
       text-decoration: none;
-      color: rgb(0 0 0);
-      --c:linear-gradient(#000 0 0); /* update the color here */
+      color: rgb(0, 0, 0);
       padding-bottom: .15em;
-      background: var(--c), var(--c);
       background-size: .3em .1em;
       background-position:50% 100%;
       background-repeat: no-repeat;
@@ -39,6 +37,60 @@
     }
   }
 }
+
+@media (max-width: 1200px)  {
+  .navigation {
+    width: 65% !important;
+  }
+}
+
+@media (max-width: 991px)  {
+  .navigation {
+    width: 82% !important;
+  }
+}
+
+@media (max-width: 769px)  {
+  .navigation {
+    width: 82% !important;
+  }
+}
+
+@media (max-width: 768px)  {
+  .navigation {
+    font-size: 12px;
+    width: 87% !important;
+  }
+  .logo {
+    width: 60px !important;
+  }
+  .nav-links {
+    margin-right: 2%;
+  }
+}
+
+@media (max-width: 600px)  {
+  a {
+    word-wrap: break-word;
+  }
+}
+
+@media (max-width: 580px)  {
+  .container-header {
+    height: 17%;
+  }
+  .navigation {
+    font-size: 11px !important;
+  }
+  a {
+    word-wrap: break-word;
+  }
+  .logo {
+    margin: 0 1% 0 0 !important;
+    width: 40px !important;
+  }
+}
+
 
 
 

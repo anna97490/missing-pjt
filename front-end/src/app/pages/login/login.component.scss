@@ -34,3 +34,37 @@
   color: red;
   font-size: 12px;
 }
+
+@media (max-width: 768px)  {
+  .container-login {
+    padding: 20% 0% 0% 0%;
+  }
+}
+
+@media (max-width: 580px)  {
+  .link-index {
+    top: 16%;
+  }
+  .container-login {
+    padding: 36% 0% 0% 0%;
+  }
+  h1 {
+    font-size: 15px;
+  }
+  label {
+    font-size: 12px !important;
+  }
+  input {
+    font-size: 12px !important;
+  }
+  p {
+    font-size: 12px !important;
+  }
+  button {
+    font-size: 12px !important;
+    padding: 4% !important;
+  }
+  svg {
+    width: 17px;
+  }
+}

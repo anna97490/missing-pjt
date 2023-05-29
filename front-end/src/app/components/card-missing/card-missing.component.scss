@@ -1,5 +1,5 @@
 .card-link {
-  width: 950px;
+  // width: 950px;
   position: relative;
   color: #000;
   border: none;
@@ -9,7 +9,7 @@
 .cont-img-txt {
   display: flex;
   width: 100%;
-  height: 20rem;
+  height: 30rem;
 }
 .cont-img {
   width: 28%;
@@ -42,6 +42,10 @@
     font-weight: bold;
     color: green;
   }
+  .status-retrouve {
+    font-weight: bold;
+    color: red !important;
+  }
 }
 .cont-place-date {
   margin-bottom: 2%;
@@ -71,6 +75,49 @@
   svg {
     width: 66%;
   }
+}
+
+
+@media (max-width: 1200px)  {
+  .cont-img-txt {
+    height: 24rem;
+  }
+}
+
+@media (max-width: 991px)  {
+
+}
+
+@media (max-width: 768px)  {
+  .cont-img {
+    width: 16%;
+    position: absolute;
+    right: 2%;
+  }
+  .cont-infos-missing {
+    width: 83%;
+  }
+  .cont-description {
+    width: 122%;
+  }
+}
+
+@media (max-width: 600px)  {
+  .cont-img {
+    width: 20%;
+    position: absolute;
+    right: 2%;
+  }
+  .cont-infos-missing {
+    width: 79%;
+  }
+  .cont-description {
+    width: 128%;
+  }
+}
+
+@media (max-width: 580px)  {
+
 }
 
 
