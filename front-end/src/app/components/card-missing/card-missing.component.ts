@@ -40,14 +40,13 @@ export class CardMissingComponent implements OnInit {
         this.user = user;
       });
     }
-    console.log(this.posts)
-    // // Get all posts
-    // this.postService.getPosts().subscribe((posts: Post[]) => {
-    //   this.posts = posts;
-    //   this.posts.forEach(post => {
-    //     this.postId = post._id;
-    //   })
-    // });
+    // Get all posts
+    this.postService.getPosts().subscribe((posts: Post[]) => {
+      this.posts = posts;
+      this.posts.forEach(post => {
+        this.postId = post._id;
+      })
+    });
 
     // Birth date formated to age
     const birthDate = new Date(this.post.birthDate);
@@ -59,7 +58,7 @@ export class CardMissingComponent implements OnInit {
   // Edit Post
   editPost(event: Event) {
     event.preventDefault();
-
+    console.log('test')
     this.posts.forEach(post => {
       if (this.isLoggedIn) {
         this.router.navigate(['/edit-post/', post.userId, post._id], { state: { post: post }})

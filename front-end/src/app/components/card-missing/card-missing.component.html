@@ -9,7 +9,7 @@
     <div class="cont-infos-missing flex flex-col justify-between leading-normal">
       <div class="cont-status-author">
         <span class="status" [ngClass]="{'status-retrouve': post.status == 'Retouvé(e)'}">{{ post.status }}</span>
-        <span class="author" [ngClass]="{'author-margin': isLoggedIn && userId === post.userId}">Créé par {{ post.firstname }} le {{ post.createdAt | date: 'dd/MM/yyyy'}}</span>
+        <span class="author" [ngClass]="{'author-margin': isLoggedIn && userId === post.userId}">Créé par {{ post.firstname | titlecase }} le {{ post.createdAt | date: 'dd/MM/yyyy'}}</span>
       </div>
       <span class="field-disappearance">{{ post.firstname | titlecase }} &nbsp; {{post.lastname | titlecase }}, &nbsp; {{ post.age }} ans</span>
       <div class="cont-place-date">

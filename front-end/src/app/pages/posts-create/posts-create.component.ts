@@ -1,4 +1,5 @@
 import { Component, ElementRef } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/User.model';
 import { UserService } from '../../service/user.service';
@@ -21,6 +22,10 @@ export class PostsCreateComponent {
   fileName: any;
   isDropdownVisible: boolean = false;
   selectedStatus: string = "";
+  filteredCitiesArray: string[] = [];
+  selectedCity: string = "";
+  selectedMissingPlace: string = "";
+  filteredMissingPlacesArray: string[] = [];
 
   constructor(
     private router: Router,
@@ -28,7 +33,8 @@ export class PostsCreateComponent {
     private authService: AuthService,
     private userService: UserService,
     private postService: PostService,
-    private el: ElementRef
+    private el: ElementRef,
+    private http: HttpClient
   ) {
     // Datas from form
     this.createPostForm = this.formBuilder.group({
@@ -54,6 +60,44 @@ export class PostsCreateComponent {
         this.user = user;
       })
     }
+  }
+
+  filteredCities(value: string) {
+    console.log(value)
+    const filterValue = value.toLowerCase();
+    this.http.get<any[]>(`https://geo.api.gouv.fr/communes?nom=${filterValue}&fields=nom&format=json&geometry=centre&limit=4`)
+      .subscribe((response: any) => {
+        console.log(response)
+        this.filteredCitiesArray = response.slice(0, 4).map((city: any) => city.nom);
+        console.log(this.filteredCitiesArray)
+      }, (error) => {
+        console.error('Une erreur s\'est produite lors de la récupération des villes :', error);
+      });
+  }
+
+  selectCity(city: string) {
+    console.log('Ville sélectionnée:', city);
+    this.selectedCity = city;
+    this.filteredCitiesArray = [];
+  }
+
+  filteredMissingPlaces(value: string) {
+    console.log(value);
+    const filterValue = value.toLowerCase();
+    this.http.get<any[]>(`https://geo.api.gouv.fr/communes?nom=${filterValue}&fields=nom&format=json&geometry=centre&limit=4`)
+      .subscribe((response: any) => {
+        console.log(response);
+        this.filteredMissingPlacesArray = response.slice(0, 4).map((place: any) => place.nom);
+        console.log(this.filteredMissingPlacesArray);
+      }, (error) => {
+        console.error('Une erreur s\'est produite lors de la récupération des lieux de disparition:', error);
+      });
+  }
+
+  selectMissingPlace(missingPlace: string) {
+    console.log('Lieu de disparition sélectionné:', missingPlace);
+    this.selectedMissingPlace = missingPlace;
+    this.filteredMissingPlacesArray = [];
   }
 
   // Dropdown menu to pick status

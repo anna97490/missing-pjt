@@ -60,7 +60,7 @@
           appearance-none dark:text-white dark:border-gray-600
           dark:focus:border-grey-500 focus:outline-none
           focus:ring-0 focus:border-grey-600 peer"
-          placeholder="{{ post?.firstname }}"
+          placeholder="{{ post?.firstname | titlecase }}"
         />
         <label
           for="floating_first_name"
@@ -86,7 +86,7 @@
           appearance-none dark:text-white dark:border-gray-600
           dark:focus:border-grey-500 focus:outline-none
           focus:ring-0 focus:border-grey-600 peer"
-          placeholder="{{ post?.lastname }}"
+          placeholder="{{ post?.lastname | titlecase }}"
         />
         <label
           for="floating_last_name"
@@ -136,11 +136,13 @@
           name="address"
           id="address"
           formControlName="address"
+          [value]="selectedCity"
+          (keyup)="filteredCities($event.target.value)"
           class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent
           border-0 border-b-2 border-gray-300 appearance-none
           dark:text-white dark:border-gray-600 dark:focus:border-blue-500
           focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-          placeholder="{{ post?.address }}"
+          placeholder="{{ post?.address| titlecase }}"
         />
         <label
           for="address"
@@ -153,6 +155,9 @@
           peer-focus:-translate-y-2">
           Résidant à:
         </label>
+        <ul>
+          <li *ngFor="let city of filteredCitiesArray"  (click)="selectCity(city)">{{ city }}</li>
+        </ul>
       </div>
     </div>
 
@@ -165,11 +170,13 @@
           name="missingPlace"
           id="missingPlace"
           formControlName="missingPlace"
+          [value]="selectedMissingPlace"
+          (keyup)="filteredMissingPlaces($event.target.value)"
           class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent
           border-0 border-b-2 border-gray-300 appearance-none
           dark:text-white dark:border-gray-600 dark:focus:border-blue-500
           focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-          placeholder="{{ post?.missingPlace }}"
+          placeholder="{{ post?.missingPlace| titlecase }}"
         />
         <label
           for="missingPlace"
@@ -182,6 +189,9 @@
           peer-focus:-translate-y-2">
           Lieu de disparition
         </label>
+        <ul>
+          <li *ngFor="let missingPlace of filteredMissingPlacesArray" (click)="selectMissingPlace(missingPlace)">{{ missingPlace }}</li>
+        </ul>
       </div>
       <!-- MissingDate -->
       <div class="relative z-0 w-full mb-6 group">
@@ -223,7 +233,7 @@
           appearance-none
           dark:text-white dark:border-gray-300 dark:focus:border-blue-500
           focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-          placeholder="{{ post?.description }}"></textarea>
+          placeholder="{{ post?.description | titlecase }}"></textarea>
         <label
           for="description"
           class="peer-focus:font-medium absolute text-sm text-gray-500
