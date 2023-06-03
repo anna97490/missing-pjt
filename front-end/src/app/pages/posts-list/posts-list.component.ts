@@ -13,9 +13,9 @@ import { Router } from '@angular/router';
 })
 export class PostsListComponent {
   @Input() modalOpen : boolean = false;
+  private userId: any;
+  private postId: any;
   isLoggedIn: boolean = true;
-  userId: any;
-  postId: any;
   posts: Post[] = [];
   allPosts: Post[] = [];
   post: any;

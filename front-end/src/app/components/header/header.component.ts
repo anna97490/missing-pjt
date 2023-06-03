@@ -34,7 +34,6 @@ export class HeaderComponent implements OnInit {
 
     if(confirm("Êtes-vous sûr de vouloir vous déconnecter ?")) {
       this.authService.logout();
-      window.location.reload();
     }
   }
 }

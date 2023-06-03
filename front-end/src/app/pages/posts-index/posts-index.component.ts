@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input,  ChangeDetectorRef } from '@angular/core';
 import { Post } from '../../models/Post.model';
 import { Comment } from '../../models/Comment.model';
 import { PostService } from '../../service/post.service';
@@ -16,7 +16,7 @@ export class PostsIndexComponent implements OnInit {
   @Input() modalOpen : boolean = false;
   isLoggedIn: boolean = true;
   userId: any;
-  postId: any;
+  private postId: any;
   posts: Post[] = [];
   allPosts: Post[] = [];
   comment: any;
@@ -33,6 +33,7 @@ export class PostsIndexComponent implements OnInit {
     private postService: PostService,
     private commentService: CommentService,
     private formBuilder: FormBuilder,
+    private changeDetectorRef: ChangeDetectorRef
   ) {
     this.areaForm = this.formBuilder.group({
       comment: ['', []],
@@ -150,14 +151,16 @@ export class PostsIndexComponent implements OnInit {
             postId: postId
           }
 
-          this.commentService.addComment(comment).subscribe(
+          this.commentService.addComment(comment)
+          .subscribe(
             response => {
-            console.log(response)
-            window.location.reload();
-          },
-          error => {
-            console.error('An error occurred while adding the comment:', error);
-          });
+              this.getPosts();
+              return this.posts;
+            },
+            error => {
+              console.error('An error occurred while adding the comment:', error);
+            }
+          );
         }
       });
     } else {
@@ -194,10 +197,13 @@ export class PostsIndexComponent implements OnInit {
           postId: this.postId
         }
 
-        this.commentService.editComment(updatedComment, commentId).subscribe(
+        this.commentService.editComment(updatedComment, commentId)
+        .subscribe(
           response => {
-            console.log(response);
-            window.location.reload();
+            this.getComments();
+            this.getPosts();
+            this.areaForm.get('commentUpdated').setValue('');
+            return this.comments;
           },
           error => {
             console.error('An error occurred while editing the comment:', error);
@@ -214,8 +220,9 @@ export class PostsIndexComponent implements OnInit {
     if (confirm("Souhaitez-vous supprimer votre commentaire?")) {
       this.commentService.deleteComment(commentId).subscribe(
         response => {
-          console.log(response);
-          window.location.reload();
+          this.getComments();
+          this.getPosts();
+          return this.comments;
         },
         error => {
           console.error('An error occurred while deleting the comment:', error);

@@ -23,12 +23,11 @@ export class PostService {
     this.token = this.authService.getAuthToken();
   }
 
-  // Create Post
+  // Create Post - params formData contains infos of the post
   createPost(formData: FormData): Observable<Post> {
     const httpOptions = {
       headers: new HttpHeaders({
-        'Authorization': 'Bearer ' + this.token
-      })
+        'Authorization': 'Bearer ' + this.token })
     };
 
     return this.http.post<Post>(`${this.apiUrl}/create`, formData, httpOptions)
@@ -56,11 +55,11 @@ export class PostService {
     )
   }
 
-
-  // Get Post by id
+  // Get Post by id - params postId
   getPostById(postId: string): Observable<Post> {
-    const url = `${this.apiUrl}/${postId}`;
-    return this.http.get<Post>(url)
+    const httpOptions = this.getHttpOptions();
+
+    return this.http.get<Post>(`${this.apiUrl}/${postId}`, httpOptions)
     .pipe(
       map((response: any) => {
         return response;
@@ -72,56 +71,54 @@ export class PostService {
     )
   }
 
-  // Edit post
+  // Edit post - params postId - updatedPost contains updated infos
   editPost(postId: string, updatedPost: Object): Observable<Post> {
-    const url = `${this.apiUrl}/${postId}`;
+    const httpOptions = this.getHttpOptions();
     const post = JSON.stringify(updatedPost)
 
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type' : 'application/json',
-        'Authorization': 'Bearer ' + this.token })
-    };
-
-    return this.http.put<Post>(url, {post: post}, httpOptions).pipe(
+    return this.http.put<Post>(`${this.apiUrl}/${postId}`, {post: post}, httpOptions)
+    .pipe(
       catchError((error: HttpErrorResponse) => {
         return throwError('An error occurred while modifying the user.');
       })
     );
   }
 
-  // Update profile picture
+  // Update picture - params formData contains the picture - postId
   updatePostPicture(formData: FormData, postId: string): Observable<Post> {
-    console.log('postId', postId)
-    const url = `${this.apiUrl}/${postId}/post-picture`;
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Authorization': 'Bearer ' + this.token })
     };
 
-    return this.http.post<Post>(url, formData, httpOptions).pipe(
+    return this.http.post<Post>(`${this.apiUrl}/${postId}/post-picture`, formData, httpOptions)
+    .pipe(
       catchError((error: HttpErrorResponse) => {
         return throwError('An error occurred while modifying the post picture.');
       })
     );
   }
 
-  // Delete Post method
+  // Delete Post method - params postId
   deletePost(postId: string): Observable<Post> {
-    const url = `${this.apiUrl}/${postId}`;
+    const httpOptions = this.getHttpOptions();
 
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type' : 'application/json',
-        'Authorization': 'Bearer ' + this.token })
-    };
-
-    return this.http.delete<Post>(url, httpOptions).pipe(
+    return this.http.delete<Post>(`${this.apiUrl}/${postId}`, httpOptions)
+    .pipe(
       map(response => {
         this.getPosts();
         return response;
       })
     );
+  }
+
+  // Declare the httpOptions
+  getHttpOptions() {
+    return {
+      headers: new HttpHeaders({
+        'Content-Type' : 'application/json',
+        'Authorization': 'Bearer ' + this.token
+      })
+    };
   }
 }

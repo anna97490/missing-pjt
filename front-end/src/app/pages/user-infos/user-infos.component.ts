@@ -12,8 +12,8 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
   styleUrls: ['./user-infos.component.scss']
 })
 export class UserInfosComponent implements OnInit {
+  private userId: any;
   isLoggedIn: boolean = true;
-  userId: any;
   user: any = User;
   editUserForm: any = FormGroup;
   image: any = File;
@@ -24,7 +24,7 @@ export class UserInfosComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private userService: UserService,
-    private router     : Router,
+    private router: Router,
     private formBuilder: FormBuilder,
   ) {
     this.editUserForm = this.formBuilder.group({
@@ -106,7 +106,7 @@ export class UserInfosComponent implements OnInit {
         (user: User) => {
           // Update user informations with new datas
           this.user = user;
-          window.location.reload();
+          this.getUser();
         },
         (error) => {
           this.errorMessage = 'Cet email existe déjà.';
@@ -127,7 +127,7 @@ export class UserInfosComponent implements OnInit {
         (user: User) => {
           // Update user with new profile picture
           this.user = user;
-          window.location.reload();
+          this.getUser();
         },
         (error) => {
           console.log(error)

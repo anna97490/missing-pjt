@@ -14,8 +14,8 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
 
 export class PostsCreateComponent {
   isLoggedIn: boolean = false;
+  private userId: any;
   user: any = User;
-  userId: any;
   createPostForm: any = FormGroup;
   image: any = File;
   fileName: any;
@@ -122,7 +122,8 @@ export class PostsCreateComponent {
       formData.append('image', this.image, this.image.name);
       formData.append('userId', this.userId);
 
-      this.postService.createPost(formData).subscribe(
+      this.postService.createPost(formData)
+      .subscribe(
         (response) => {
           // Post creation successful
           this.router.navigate(['/posts-index']);

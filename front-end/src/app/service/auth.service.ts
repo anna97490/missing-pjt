@@ -12,70 +12,61 @@ import * as CryptoJS from 'crypto-js';
 export class AuthService {
   private apiUrl: string  = 'http://localhost:3000/api/user';
   private loggedIn: boolean = false;
-  private token: any;
-  private user : any;
-  private key  : string = 'crypt_key';
-
 
   constructor(
     private http: HttpClient,
     private router: Router,
   ) {}
 
-  // Login method
+  // Login method - email - password
   login(email: string, password: string): Observable<User> {
     return this.http.post<any>(`${this.apiUrl}/login`, { email, password })
-      .pipe(
-        map(response => {
-          const userId = response._id;
-          const token = response.token;
-          // Encrypted userId
-          const encryptedUserId = CryptoJS.AES.encrypt(userId, "Secret Passphrase").toString();
+    .pipe(
+      map(response => {
+        const userId = response._id;
+        const token = response.token;
+        // Encrypted userId
+        const encryptedUserId = CryptoJS.AES.encrypt(userId, "Secret Passphrase").toString();
 
-          //  Set token and userId in local storage
-          localStorage.setItem('token', token);
-          localStorage.setItem('encryptedUserId', encryptedUserId);
-          localStorage.setItem('loggedIn', 'true');
-          this.loggedIn = true;
-          this.router.navigate(['/posts-index']);
-          location.href = '/posts-index';
-          return response;
-        }),
-        catchError(error => {
-          return throwError(error);
-        })
-      );
+        //  Set token and userId in local storage
+        localStorage.setItem('token', token);
+        localStorage.setItem('encryptedUserId', encryptedUserId);
+        localStorage.setItem('loggedIn', 'true');
+        this.loggedIn = true;
+        this.router.navigate(['/posts-index']);
+        location.href = '/posts-index';
+        return response;
+      }),
+      catchError(error => {
+        return throwError(error);
+      })
+    );
   }
 
-  // Signup method
+  // Signup method - user contains user infos
   signUp(user: Object): Observable<User> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
+    return this.http.post<User>(`${this.apiUrl}/signup`, user)
+    .pipe(
+      map(response => {
+        const userId = response._id;
+        const token = response.token;
+
+        // Encrypted userId
+        const encryptedUserId = CryptoJS.AES.encrypt(userId, "Secret Passphrase").toString();
+
+        //  Set token and userId in local storage
+        localStorage.setItem('token', token);
+        localStorage.setItem('encryptedUserId', encryptedUserId);
+        localStorage.setItem('loggedIn', 'true');
+        this.loggedIn = true;
+        this.router.navigate(['/posts-index']);
+        location.href = '/posts-index';
+        return response;
+      }),
+      catchError(error => {
+        return throwError(error);
       })
-    }
-    return this.http.post<User>(`${this.apiUrl}/signup`, user, httpOptions)
-      .pipe(
-        map(response => {
-          const userId = response._id;
-          const token = response.token;
-
-          // Encrypted userId
-          const encryptedUserId = CryptoJS.AES.encrypt(userId, "Secret Passphrase").toString();
-
-          //  Set token and userId in local storage
-          localStorage.setItem('token', token);
-          localStorage.setItem('encryptedUserId', encryptedUserId);
-          localStorage.setItem('loggedIn', 'true');
-          this.loggedIn = true;
-          this.router.navigate(['/posts-index']);
-          location.href = '/posts-index';
-          return response;
-        }),
-        catchError(error => {
-          return throwError(error);
-        })
-      );
+    );
   }
 
   // Logout method
@@ -84,8 +75,8 @@ export class AuthService {
     localStorage.removeItem('encryptedUserId');
     localStorage.removeItem('token');
     localStorage.setItem('loggedIn', 'false');
-    this.router.navigate(['/posts-index']);
-    window.location.reload();
+    this.router.navigate(['/']);
+    location.href = '/';
   }
 
   // Get the loogedIn from Local Storage

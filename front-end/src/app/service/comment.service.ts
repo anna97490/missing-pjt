@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { PostService } from '../service/post.service';
-import { UserService } from '../service/user.service';
 import { AuthService } from '../service/auth.service';
 import { Comment } from '../models/Comment.model';
 import { catchError, map, Observable, throwError } from 'rxjs';
@@ -23,6 +21,7 @@ export class CommentService {
     this.token = this.authService.getAuthToken();
   }
 
+  // Get all the comments
   getComments(): Observable<Comment[]> {
     return this.http.get<Comment[]>(this.apiUrl)
     .pipe(
@@ -36,69 +35,60 @@ export class CommentService {
     )
   }
 
-  // Create Comment method
+  // Create Comment method - params comment
   addComment(comment: Object): Observable<Comment> {
-    const url = `${this.apiUrl}/create-comment`;
     const commentToSend = JSON.stringify(comment)
+    const httpOptions = this.getHttpOptions();
 
-    const httpOptions = {
+    return this.http.post<Comment>(`${this.apiUrl}/create-comment`, {comment: commentToSend}, httpOptions)
+    .pipe(
+      map((response: any) => {
+        return response;
+      }),
+      catchError(error => {
+        return throwError(error);
+      })
+    );
+  }
+
+  // Edit comment - params updatedComment - commentId
+  editComment(updatedComment: Object, commentId: string): Observable<Comment> {
+    const commentToSend = JSON.stringify(updatedComment);
+    const httpOptions = this.getHttpOptions();
+
+    return this.http.put<Comment>(`${this.apiUrl}/${commentId}/update-comment`, {comment: commentToSend}, httpOptions)
+    .pipe(
+      map((response: any) => {
+        return response;
+      }),
+      catchError(error => {
+        return throwError(error);
+      })
+    );
+  }
+
+  // Delete Comment - params commentId
+  deleteComment(commentId: string): Observable<Comment> {
+    const httpOptions = this.getHttpOptions();
+
+    return this.http.delete<Comment>(`${this.apiUrl}/${commentId}/delete-comment`, httpOptions)
+    .pipe(
+      map((response: any) => {
+        return response;
+      }),
+      catchError(error => {
+        return throwError(error);
+      })
+    );
+  }
+
+  // Declare the httpOptions
+  getHttpOptions() {
+    return {
       headers: new HttpHeaders({
         'Content-Type' : 'application/json',
         'Authorization': 'Bearer ' + this.token
       })
     };
-
-    return this.http.post<Comment>(url, {comment: commentToSend}, httpOptions)
-    .pipe(
-      map((response: any) => {
-        return response;
-      }),
-      catchError(error => {
-        return throwError(error);
-      })
-    );
-  }
-
-  // Edit comment
-  editComment(updatedComment: Object, commentId: string): Observable<Comment> {
-    const url = `${this.apiUrl}/${commentId}/update-comment`;
-    const commentToSend = JSON.stringify(updatedComment);
-
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type' : 'application/json',
-        'Authorization': 'Bearer ' + this.token })
-    };
-
-    return this.http.put<Comment>(url, {comment: commentToSend}, httpOptions)
-    .pipe(
-      map((response: any) => {
-        return response;
-      }),
-      catchError(error => {
-        return throwError(error);
-      })
-    );
-  }
-
-  // Delete Comment
-  deleteComment(commentId: string): Observable<Comment> {
-    const url = `${this.apiUrl}/${commentId}/delete-comment`;
-
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type' : 'application/json',
-        'Authorization': 'Bearer ' + this.token })
-    };
-
-    return this.http.delete<Comment>(url, httpOptions)
-    .pipe(
-      map((response: any) => {
-        return response;
-      }),
-      catchError(error => {
-        return throwError(error);
-      })
-    );
   }
 }

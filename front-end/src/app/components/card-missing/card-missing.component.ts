@@ -40,13 +40,14 @@ export class CardMissingComponent implements OnInit {
         this.user = user;
       });
     }
-    // Get all posts
-    this.postService.getPosts().subscribe((posts: Post[]) => {
-      this.posts = posts;
-      this.posts.forEach(post => {
-        this.postId = post._id;
-      })
-    });
+    console.log(this.posts)
+    // // Get all posts
+    // this.postService.getPosts().subscribe((posts: Post[]) => {
+    //   this.posts = posts;
+    //   this.posts.forEach(post => {
+    //     this.postId = post._id;
+    //   })
+    // });
 
     // Birth date formated to age
     const birthDate = new Date(this.post.birthDate);
@@ -71,13 +72,15 @@ export class CardMissingComponent implements OnInit {
     event.preventDefault();
 
     if (this.isLoggedIn && confirm("Êtes-vous sûr de vouloir supprimer cette fiche?")) {
-      this.postService.deletePost(postId).subscribe(
-        response => {
-        window.location.reload();
-      },
-      (error) => {
-        console.log(error)
-      })
+      this.postService.deletePost(postId)
+      .subscribe(
+          response => {
+            window.location.reload(); // -----------------------------
+        },
+        (error) => {
+          console.log(error)
+        }
+      )
     }
   }
 }

@@ -6,7 +6,6 @@ import { User } from 'src/app/models/User.model';
 import { UserService } from '../../service/user.service';
 import { PostService } from '../../service/post.service';
 import { ActivatedRoute } from '@angular/router';
-import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -35,7 +34,6 @@ export class PostsEditComponent {
     private route      : ActivatedRoute,
     private datePipe   : DatePipe,
     private formBuilder: FormBuilder,
-    private renderer: Renderer2,
     private el: ElementRef
   ) {
     this.editPostForm = this.formBuilder.group({
@@ -60,6 +58,10 @@ export class PostsEditComponent {
       this.user = user;
     });
     // Get post
+    this.getPost();
+  }
+
+  getPost() {
     this.postService.getPostById(this.postId).subscribe((post: Post) => {
       if (post) {
         this.post = post;
@@ -69,6 +71,7 @@ export class PostsEditComponent {
         const age = Math.floor((today.getTime() - birthDate.getTime()) / (365.25 * 24 * 60 * 60 * 1000));
         this.post.age = age;
       }
+      return this.post;
     });
   }
 
@@ -133,9 +136,12 @@ export class PostsEditComponent {
       // Update the updatedUser object with new datas
       updatedPost = { ...updatedPost, ...nonEmptyValues };
 
-      this.postService.editPost(postId, updatedPost).subscribe(
+      this.postService.editPost(postId, updatedPost)
+      .subscribe(
         () => {
-          window.location.reload();
+          this.post = updatedPost;
+          this.getPost(); //----------------------------------------
+          // window.location.reload();
         },
         (error) => {
           this.message = 'Une erreur est survenue lors de la modification du post';
@@ -155,11 +161,12 @@ export class PostsEditComponent {
     const formData = new FormData();
     formData.append('image', this.image, this.image.name);
 
-    this.postService.updatePostPicture(formData, this.post._id).subscribe(
+    this.postService.updatePostPicture(formData, this.post._id)
+    .subscribe(
       (post: Post) => {
         // Update user information with new profile picture
         this.post = post;
-        window.location.reload();
+        this.getPost();
       },
       (error) => {
         this.message = 'Une erreur est survenue lors de la modification du post';

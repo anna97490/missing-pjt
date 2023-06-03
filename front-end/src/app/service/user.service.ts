@@ -16,71 +16,65 @@ export class UserService {
     private authService: AuthService
   ) {}
 
-  // Get the user
+  // Get the user - params userId
   getUserById(userId: string): Observable<User> {
-    const url = `${this.apiUrl}/${userId}`;
+    const httpOptions = this.getHttpOptions();
 
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type' : 'application/json',
-        'Authorization': 'Bearer ' + this.token })
-    };
-
-    return this.http.get<User>(url, httpOptions).pipe(
+    return this.http.get<User>(`${this.apiUrl}/${userId}`, httpOptions)
+    .pipe(
       catchError((error: HttpErrorResponse) => {
         return throwError('An error occurred while retrieving the user');
       })
     );
   }
 
-  // Update the user
+  // Update the user - params userId - updatedUser contains infos updated
   editUser(userId: string, updatedUser: Object): Observable<User> {
-    const url = `${this.apiUrl}/${userId}`;
     const user = JSON.stringify(updatedUser)
+    const httpOptions = this.getHttpOptions();
 
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type' : 'application/json',
-        'Authorization': 'Bearer ' + this.token })
-    };
-
-    return this.http.put<User>(url, {user: user}, httpOptions).pipe(
+    return this.http.put<User>(`${this.apiUrl}/${userId}`, {user: user}, httpOptions)
+    .pipe(
       catchError((error: HttpErrorResponse) => {
         return throwError('An error occurred while modifying the user.');
       })
     );
   }
 
-  // Update profile picture
+  // Update profile picture - params formData contains picture - userId
   updateProfilePicture(formData: FormData, userId: string): Observable<User> {
-    const url = `${this.apiUrl}/${userId}/profile-picture`;
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Authorization': 'Bearer ' + this.token })
     };
 
-    return this.http.post<User>(url, formData, httpOptions).pipe(
+    return this.http.post<User>(`${this.apiUrl}/${userId}/profile-picture`, formData, httpOptions)
+    .pipe(
       catchError((error: HttpErrorResponse) => {
         return throwError('An error occurred while modifying the prifile picuture.');
       })
     );
   }
 
- // Delete user
+ // Delete user - params userId
   deleteUser(userId: string): Observable<User> {
-    const url = `${this.apiUrl}/${userId}`;
+    const httpOptions = this.getHttpOptions();
 
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type' : 'application/json',
-        'Authorization': 'Bearer ' + this.token })
-    };
-
-    return this.http.delete<User>(url, httpOptions).pipe(
+    return this.http.delete<User>(`${this.apiUrl}/${userId}`, httpOptions)
+    .pipe(
       catchError((error: HttpErrorResponse) => {
         return throwError('An error occurred while deleting the user.');
       })
     );
+  }
+
+  // Declare the httpOptions
+  getHttpOptions() {
+    return {
+      headers: new HttpHeaders({
+        'Content-Type' : 'application/json',
+        'Authorization': 'Bearer ' + this.token
+      })
+    };
   }
 }
