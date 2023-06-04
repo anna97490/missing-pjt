@@ -1,6 +1,20 @@
 <div class="container-pages">
   <!-- Container for the page -->
   <div class="container-posts-list">
+    <!-- Arrow back to top  -->
+    <button id="top" class="back-to-top">
+      <svg aria-hidden="true"  class="creation-icon flex-shrink-0 w-6 h-6
+        text-gray-500 transition duration-75 dark:text-gray-400
+        group-hover:text-gray-900 dark:group-hover:text-white"
+        fill="currentColor" viewBox="0 0 576 512"
+        xmlns="http://www.w3.org/2000/svg"
+        height="1em" viewBox="0 0 512 512">
+        <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM385 231c9.4 9.4 9.4 24.6 0
+          33.9s-24.6 9.4-33.9 0l-71-71V376c0 13.3-10.7 24-24 24s-24-10.7-24-24V193.9l-71 71c-9.4
+          9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9L239 119c9.4-9.4 24.6-9.4 33.9 0L385 231z"/>
+      </svg>
+    </button>
+
     <!-- Modal  -->
     <div *ngIf="!isLoggedIn" class="cont-creation">
       <a
@@ -37,6 +51,7 @@
       <form class="form-search">
         <div class="cont-search-check">
           <div class="cont-place-year">
+
             <!-- Search by missingPlace-->
             <div class="search-and-check flex items-center">
               <input
@@ -90,7 +105,7 @@
               <input
                 id="checked-encours"
                 type="checkbox" value=""
-                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600
+                class="checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600
                 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                 (change)="filterByEnCourStatus()">
               <label for="checked-checkbox" class="input ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
@@ -102,7 +117,7 @@
               <input
                 id="checked-retrouve"
                 type="checkbox" value=""
-                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600
+                class="checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600
                 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                 (change)="filterByRetrouveStatus()">
               <label for="checked-checkbox" class="input ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
@@ -146,7 +161,7 @@
                     formControlName="comment">
                   </textarea>
                   <!-- Add comment button  -->
-                  <button class="btn-comment" (click)="addComment($event, post._id)">
+                  <button class="btn-comment no-effect" (click)="addComment($event, post._id)">
                     <svg
                       aria-hidden="true"
                       class="valid-comment flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75
@@ -173,7 +188,7 @@
                     <!-- Cont edit and delete comments buttons -->
                     <div class="cont-edit-delete-comment">
                       <!-- Edit comment  -->
-                      <button *ngIf="userId === comment.userId" (click)="editComment($event, comment._id)">
+                      <button class="no-effect" *ngIf="userId === comment.userId" (click)="editComment($event, comment._id)">
                         <svg
                           aria-hidden="true"
                           class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75
@@ -195,7 +210,7 @@
                         </svg>
                       </button>
                       <!-- Delete Comment  -->
-                      <button *ngIf="userId === comment.userId" (click)="deleteComment($event, comment._id)">
+                      <button class="no-effect" *ngIf="userId === comment.userId" (click)="deleteComment($event, comment._id)">
                         <svg
                           aria-hidden="true"
                           class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75
@@ -213,9 +228,12 @@
                     </div>
                   </div>
                 </div>
+
               </div>
             </div>
+
           </div>
+
         </div>
       </form>
     </div>

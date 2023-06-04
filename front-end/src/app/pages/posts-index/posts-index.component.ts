@@ -1,5 +1,4 @@
 import { Component, OnInit, Input,  ChangeDetectorRef } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Post } from '../../models/Post.model';
 import { Comment } from '../../models/Comment.model';
 import { PostService } from '../../service/post.service';
@@ -28,16 +27,13 @@ export class PostsIndexComponent implements OnInit {
   searchText: string = '';
   selection: string = '';
   selectionYear: number = 0;
-  filteredCitiesArray: string[] = [];
-  selectedCity: string = "";
 
   constructor(
     private authService: AuthService,
     private postService: PostService,
     private commentService: CommentService,
     private formBuilder: FormBuilder,
-    private changeDetectorRef: ChangeDetectorRef,
-    private http: HttpClient
+    private changeDetectorRef: ChangeDetectorRef
   ) {
     this.areaForm = this.formBuilder.group({
       comment: ['', []],
@@ -51,6 +47,17 @@ export class PostsIndexComponent implements OnInit {
     this.getPosts();
     this.getComments();
   }
+
+  // backToTop(): void {
+  //   let backToTopLink = document.querySelector('.back-to-top');
+
+  //   backToTopLink.addEventListener('click', (e) => {
+  //     e.preventDefault();
+  //     const topElement = document.getElementById('top');
+
+  //     topElement.scrollIntoView({ behavior: 'smooth' });
+  //   });
+  // }
 
   // Modal for non-connected or registered users
   openModal(event: Event) {
@@ -73,25 +80,6 @@ export class PostsIndexComponent implements OnInit {
     } else {
       this.getPosts();
     }
-  }
-
-  filteredCities(value: string) {
-    console.log(value)
-    const filterValue = value.toLowerCase();
-    this.http.get<any[]>(`https://geo.api.gouv.fr/communes?nom=${filterValue}&fields=nom&format=json&geometry=centre&limit=4`)
-      .subscribe((response: any) => {
-        console.log(response)
-        this.filteredCitiesArray = response.slice(0, 4).map((city: any) => city.nom);
-        console.log(this.filteredCitiesArray)
-      }, (error) => {
-        console.error('Une erreur s\'est produite lors de la récupération des villes :', error);
-      });
-  }
-
-  selectCity(city: string) {
-    console.log('Ville sélectionnée:', city);
-    this.selectedCity = city;
-    this.filteredCitiesArray = [];
   }
 
   // Filter posts by year of missingDate
