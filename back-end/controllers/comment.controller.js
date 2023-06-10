@@ -1,6 +1,11 @@
 const Comment = require('../models/Comment.model');
 const Post = require('../models/Post.model');
-const User = require('../models/User.model');
+
+const errorMessage = {
+    notFound: 'Not found!',
+    postNotFound: 'Post not found!',
+    serverError: 'Server Error!',
+};
 
 // Get all comments 
 exports.getAllComments = async (req, res, next) => {
@@ -18,10 +23,9 @@ exports.createComment = async (req, res, next) => {
 
     try {
         const post = await Post.findById(commentReq.postId);
-        console.log('post', post)
 
         if (!post) {
-        return res.status(404).json({ message: 'Post not found' });
+        return res.status(404).json({  message: errorMessage.postNotFound });
         }
 
         const commentObject = new Comment({
@@ -46,7 +50,7 @@ exports.updateComment = async (req, res, next) => {
         const post = await Post.findById(comment.postId);
 
         if (!post || !comment) {
-            return res.status(404).json({ message: 'Not found!' });
+            return res.status(404).json({ message: errorMessage.notFound });
         }
 
         const commentObject = {...commentReq};
@@ -74,7 +78,7 @@ exports.updateComment = async (req, res, next) => {
  
         res.status(200).json({ message: 'Comment updated!' });
     } catch (error) {
-        res.status(500).json({ error: 'Server Error!' });
+        res.status(500).json({ error: errorMessage.serverError });
     }
 };
 
@@ -92,6 +96,6 @@ exports.deleteComment = async (req, res, next) => {
         res.status(200).json({ message: 'Comment deleted !' });
         
     } catch (error) {
-        res.status(500).json({ error });
+        res.status(500).json({ error: errorMessage.serverError });
     }
 };

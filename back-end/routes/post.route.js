@@ -21,13 +21,5 @@ router.post('/:id/post-picture', auth, multer, postController.updatePostPicture)
   
 // Delete post
 router.delete('/:id', auth, postController.deletePost);
-
-// --------- Comments --------
-
-// Update comment
-router.put('/:id/update-comment', postController.updateComment);
-
-// Delete comment
-router.delete('/:commentId/delete-comment', auth, postController.deleteComment);
  
 module.exports = router;

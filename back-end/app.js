@@ -10,6 +10,7 @@ const commentRoutes = require('./routes/comment.route');
 require('dotenv').config();
 
 const app = express();
+const helmet = require('helmet');
 
 mongoose
 .connect(process.env.SECRET_DB,
@@ -20,8 +21,15 @@ mongoose
 .then(() => console.log('Connection to MongoDB successful !'))
 .catch(() => console.log('Connection to MongoDB failed !'));
 
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      imgSrc: ["'self'", "localhost:3000"],
+    },
+  })
+);
 app.use(express.json());
-
 app.use(cors());
 
 app.use((req, res, next) => {
