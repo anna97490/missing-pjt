@@ -1,4 +1,4 @@
-import { Component, OnInit, Input,  ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { Post } from '../../models/Post.model';
 import { Comment } from '../../models/Comment.model';
 import { PostService } from '../../service/post.service';
@@ -16,11 +16,11 @@ export class PostsIndexComponent implements OnInit {
   @Input() modalOpen : boolean = false;
   isLoggedIn: boolean = true;
   userId: any;
-  private postId: any;
+  postId: any;
   posts: Post[] = [];
   allPosts: Post[] = [];
   comment: any;
-  comments: any = Comment;
+  comments: Comment[] = [];
   commentArea: string = "";
   commentUpdated: any = '';
   areaForm: any;
@@ -30,8 +30,8 @@ export class PostsIndexComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private postService: PostService,
-    private commentService: CommentService,
+    public postService: PostService,
+    public commentService: CommentService,
     private formBuilder: FormBuilder,
     private changeDetectorRef: ChangeDetectorRef
   ) {
@@ -47,17 +47,6 @@ export class PostsIndexComponent implements OnInit {
     this.getPosts();
     this.getComments();
   }
-
-  // backToTop(): void {
-  //   let backToTopLink = document.querySelector('.back-to-top');
-
-  //   backToTopLink.addEventListener('click', (e) => {
-  //     e.preventDefault();
-  //     const topElement = document.getElementById('top');
-
-  //     topElement.scrollIntoView({ behavior: 'smooth' });
-  //   });
-  // }
 
   // Modal for non-connected or registered users
   openModal(event: Event) {
@@ -146,13 +135,19 @@ export class PostsIndexComponent implements OnInit {
     );
   }
 
+
   // --------- Comments ---------
   // Add comment
   addComment(event: Event, postId: string) {
     event.preventDefault();
 
     if (this.isLoggedIn) {
-      const commentString= this.areaForm.get('comment').value;
+      const commentString = this.areaForm.get('comment').value;
+
+      if (commentString.trim() === '') {
+        alert('Veuillez saisir un commentaire.');
+        return;
+      }
 
       this.posts.forEach(post => {
         if (postId === post._id) {
@@ -160,10 +155,9 @@ export class PostsIndexComponent implements OnInit {
             comment: commentString,
             userId: this.userId,
             postId: postId
-          }
+          };
 
-          this.commentService.addComment(comment)
-          .subscribe(
+          this.commentService.addComment(comment).subscribe(
             response => {
               this.getPosts();
               return this.posts;
@@ -175,18 +169,14 @@ export class PostsIndexComponent implements OnInit {
         }
       });
     } else {
-      confirm("Veuillez vous connecter ou vous inscrire.")
+      alert('Veuillez vous connecter ou vous inscrire.');
     }
   }
 
-   // Get comments
-   getComments() {
+  getComments() {
     this.commentService.getComments().subscribe(
       (comments: Comment[]) => {
         this.comments = comments;
-        comments.forEach(comment => {
-          this.comment = comment;
-        });
       },
       (error: any) => {
         console.error('An error occurred while retrieving the comments:', error);
@@ -194,51 +184,56 @@ export class PostsIndexComponent implements OnInit {
     );
   }
 
-  // Edit comment
   editComment(event: Event, commentId: string) {
     event.preventDefault();
     const commentString = this.areaForm.get('commentUpdated').value;
 
-    this.comments.forEach((comment: any) => {
-      if (commentId === comment._id && commentString !== '') {
-        let updatedComment = {
-          _id: commentId,
-          comment: commentString,
-          userId: this.userId,
-          postId: this.postId
-        }
+    const index = this.comments.findIndex((comment: any) => comment._id === commentId);
 
-        this.commentService.editComment(updatedComment, commentId)
-        .subscribe(
-          response => {
-            this.getComments();
-            this.getPosts();
-            this.areaForm.get('commentUpdated').setValue('');
-            return this.comments;
-          },
-          error => {
-            console.error('An error occurred while editing the comment:', error);
-          }
-        );
+    if (index !== -1 && commentString !== '') {
+      let updatedComment = {
+        _id: commentId,
+        comment: commentString,
+        userId: this.userId,
+        postId: this.postId
       }
-    });
+
+      this.commentService.editComment(updatedComment, commentId)
+      .subscribe({
+        next: (response: any) => {
+          const updatedCommentObject = new Comment(
+            response._id,
+            response.userId,
+            response.postId,
+            response.comment,
+            response.createdAt
+          );
+          this.comments[index] = updatedCommentObject;
+          this.areaForm.get('commentUpdated').setValue(response.comment);
+        },
+        error: (error: any) => {
+          console.error('An error occurred while editing the comment:', error);
+        }
+      });
+    }
   }
 
-  // Delete comment
+  // Delete comment 666666666666
   deleteComment(event: Event, commentId: string) {
     event.preventDefault();
 
     if (confirm("Souhaitez-vous supprimer votre commentaire?")) {
-      this.commentService.deleteComment(commentId).subscribe(
-        response => {
+      this.commentService.deleteComment(commentId)
+      .subscribe({
+        next: (response: any) => {
           this.getComments();
           this.getPosts();
           return this.comments;
         },
-        error => {
+        error: (error: any) => {
           console.error('An error occurred while deleting the comment:', error);
         }
-      );
+      });
     }
   }
 }

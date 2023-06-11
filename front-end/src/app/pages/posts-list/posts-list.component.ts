@@ -12,14 +12,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./posts-list.component.scss']
 })
 export class PostsListComponent {
-  @Input() modalOpen : boolean = false;
+  @Input() modalOpen: boolean = false;
   private userId: any;
   private postId: any;
   isLoggedIn: boolean = true;
   posts: Post[] = [];
   allPosts: Post[] = [];
   post: any;
-  user: any;
+  user: User | null = null;
 
   constructor(
     private authService: AuthService,
@@ -29,30 +29,34 @@ export class PostsListComponent {
   ) {}
 
   ngOnInit() {
-    // Get the userId
     this.isLoggedIn = this.authService.isLoggedIn();
     this.userId = this.authService.getDecryptedUserId();
+    this.getUserById();
     this.getPosts();
-
-    // Get the user
-    this.user = this.userService.getUserById(this.userId).subscribe((user: User) => {
-      this.user = user;
-    });
-    // Birth date formated to age
-    const birthDate = new Date(this.post.birthDate);
-    const today = new Date();
-    const age = Math.floor((today.getTime() - birthDate.getTime()) / (365.25 * 24 * 60 * 60 * 1000));
-    this.post.age = age;
   }
 
-  // Get posts
+  getUserById() {
+    this.userService.getUserById(this.userId).subscribe((user: User) => {
+      this.user = user;
+    });
+  }
+
+  calculateAge(birthDate: Date) {
+    const today = new Date();
+    const age = Math.floor((today.getTime() - birthDate.getTime()) / (365.25 * 24 * 60 * 60 * 1000));
+    return age;
+  }
+
   getPosts() {
     this.postService.getPosts().subscribe((posts) => {
-      this.posts = posts.filter(post => post.userId === this.userId)
-                        .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
-      this.posts.forEach((post: any) => {
-        this.post = post;
-      })
+      this.posts = posts
+        .filter(post => post.userId === this.userId)
+        .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+
+      if (this.posts.length > 0) {
+        this.post = this.posts[0];
+        this.post.age = this.calculateAge(new Date(this.post.birthDate));
+      }
     });
   }
 }

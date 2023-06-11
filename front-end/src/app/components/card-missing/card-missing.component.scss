@@ -47,6 +47,12 @@
     color: red !important;
   }
 }
+.cont-profile-picture {
+   width: 5%;
+   img {
+    border-radius: 50%;
+   }
+}
 .cont-place-date {
   margin-bottom: 2%;
 }

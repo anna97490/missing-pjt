@@ -15,8 +15,8 @@ export class Post {
     userId   : string;
     createdAt: Date;
   }[];
-  createdAt   : Date;
-  userId      : string;
+  createdAt  : Date;
+  userId     : string;
 
   constructor(
     _id         : string,

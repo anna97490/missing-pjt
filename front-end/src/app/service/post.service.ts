@@ -36,7 +36,7 @@ export class PostService {
         return response;
       }),
       catchError(error => {
-        return throwError(error);
+        return throwError(() => error);
       })
     );
   }
@@ -50,7 +50,7 @@ export class PostService {
       }),
       catchError((error: HttpErrorResponse) => {
         console.error(error);
-        return throwError('Error');
+        return throwError(() => error);
       })
     )
   }
@@ -66,7 +66,7 @@ export class PostService {
       }),
       catchError((error: HttpErrorResponse) => {
         console.error(error);
-        return throwError('Error');
+        return throwError(() => error);
       })
     )
   }
@@ -79,7 +79,7 @@ export class PostService {
     return this.http.put<Post>(`${this.apiUrl}/${postId}`, {post: post}, httpOptions)
     .pipe(
       catchError((error: HttpErrorResponse) => {
-        return throwError('An error occurred while modifying the user.');
+        return throwError(() => error);
       })
     );
   }
@@ -94,7 +94,7 @@ export class PostService {
     return this.http.post<Post>(`${this.apiUrl}/${postId}/post-picture`, formData, httpOptions)
     .pipe(
       catchError((error: HttpErrorResponse) => {
-        return throwError('An error occurred while modifying the post picture.');
+        return throwError(() => error);
       })
     );
   }

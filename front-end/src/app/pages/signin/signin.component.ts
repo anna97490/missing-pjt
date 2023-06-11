@@ -14,8 +14,8 @@ export class SigninComponent {
 
   constructor(private formBuilder: FormBuilder,private authService: AuthService, private router: Router) {
     this.signinForm = this.formBuilder.group({
-      firstname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(80)]],
-      lastname : ['', [Validators.required, Validators.minLength(2), Validators.maxLength(80)]],
+      firstname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(40)]],
+      lastname : ['', [Validators.required, Validators.minLength(2), Validators.maxLength(40)]],
       email    : ['', [Validators.required, Validators.email,Validators.pattern(/^\w+([\.-]?\w+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(com|fr)$/i)]],
       password : ['', [Validators.required, Validators.minLength(8), Validators.maxLength(50)]],
       birthDate: ['', [Validators.required, this.minimumAgeValidator(18)]],
@@ -49,18 +49,20 @@ export class SigninComponent {
 
     if (this.signinForm.valid) {
       this.authService.signUp(user).subscribe(
-        response => {
-          this.router.navigate(['/posts-index']);
-        },
-        error => {
-          console.log(error.error.message)
-          if (error.error.message === 'Email already registered') {
-            this.errorMessage = 'Cet email existe déjà.';
-          } else {
+        {
+          next: response => {
+            this.router.navigate(['/posts-index']);
+          },
+          error: error => {
             console.log(error.error.message);
+            if (error.error.message === 'Email already registered') {
+              this.errorMessage = 'Cet email existe déjà.';
+            } else {
+              console.log(error.error.message);
+            }
           }
         }
-      )
+      );
     }
   }
 }

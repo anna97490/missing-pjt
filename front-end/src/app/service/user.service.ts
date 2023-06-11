@@ -51,7 +51,7 @@ export class UserService {
     return this.http.post<User>(`${this.apiUrl}/${userId}/profile-picture`, formData, httpOptions)
     .pipe(
       catchError((error: HttpErrorResponse) => {
-        return throwError('An error occurred while modifying the prifile picuture.');
+        return throwError(() => error);
       })
     );
   }
@@ -63,7 +63,7 @@ export class UserService {
     return this.http.delete<User>(`${this.apiUrl}/${userId}`, httpOptions)
     .pipe(
       catchError((error: HttpErrorResponse) => {
-        return throwError('An error occurred while deleting the user.');
+        return throwError(() => error);
       })
     );
   }

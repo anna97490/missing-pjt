@@ -11,6 +11,5 @@ export class ModalComponent {
   closeModal(event: Event) {
     event.preventDefault();
     this.modalOpen = false;
-    console.log("modal",this.modalOpen)
   }
 }

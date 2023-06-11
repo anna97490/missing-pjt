@@ -130,7 +130,7 @@ export class UserInfosComponent implements OnInit {
           this.getUser();
         },
         (error) => {
-          console.log(error)
+          console.log(error);
         }
       );
     } else {

@@ -66,13 +66,12 @@ export class PostsCreateComponent {
     console.log(value)
     const filterValue = value.toLowerCase();
     this.http.get<any[]>(`https://geo.api.gouv.fr/communes?nom=${filterValue}&fields=nom&format=json&geometry=centre&limit=4`)
-      .subscribe((response: any) => {
-        console.log(response)
-        this.filteredCitiesArray = response.slice(0, 4).map((city: any) => city.nom);
-        console.log(this.filteredCitiesArray)
-      }, (error) => {
-        console.error('Une erreur s\'est produite lors de la récupération des villes :', error);
-      });
+    .subscribe((response: any) => {
+      this.filteredCitiesArray = response.slice(0, 4).map((city: any) => city.nom);
+      console.log(this.filteredCitiesArray)
+    }, (error) => {
+      console.error('Une erreur s\'est produite lors de la récupération des villes :', error);
+    });
   }
 
   selectCity(city: string) {
@@ -85,13 +84,13 @@ export class PostsCreateComponent {
     console.log(value);
     const filterValue = value.toLowerCase();
     this.http.get<any[]>(`https://geo.api.gouv.fr/communes?nom=${filterValue}&fields=nom&format=json&geometry=centre&limit=4`)
-      .subscribe((response: any) => {
-        console.log(response);
-        this.filteredMissingPlacesArray = response.slice(0, 4).map((place: any) => place.nom);
-        console.log(this.filteredMissingPlacesArray);
-      }, (error) => {
-        console.error('Une erreur s\'est produite lors de la récupération des lieux de disparition:', error);
-      });
+    .subscribe((response: any) => {
+      console.log(response);
+      this.filteredMissingPlacesArray = response.slice(0, 4).map((place: any) => place.nom);
+      console.log(this.filteredMissingPlacesArray);
+    }, (error) => {
+      console.error('Une erreur s\'est produite lors de la récupération des lieux de disparition:', error);
+    });
   }
 
   selectMissingPlace(missingPlace: string) {
@@ -135,7 +134,6 @@ export class PostsCreateComponent {
     if (missingDateControl && birthDate > new Date(missingDateControl.value)) {
       return { 'birthDateAfterMissingDate': true };
     }
-
     return null;
   }
 

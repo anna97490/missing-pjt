@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../service/auth.service';
-import { UserService } from '../../service/user.service';
 
 @Component({
   selector: 'app-header',
@@ -8,15 +7,11 @@ import { UserService } from '../../service/user.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  isLoggedIn : boolean = false;
-  user       : any;
-  showSidebar: boolean = true;
-  userId     : any;
-  token      : any;
+  isLoggedIn: boolean = false;
+  userId: any;
 
   constructor(
     private authService: AuthService,
-    private userService: UserService,
   ) {}
 
   ngOnInit() {
@@ -24,7 +19,6 @@ export class HeaderComponent implements OnInit {
     this.isLoggedIn = this.authService.isLoggedIn();
     // Get elements of user from Local Storage
     if (this.isLoggedIn) {
-      this.token = this.authService.getAuthToken();
       this.userId = this.authService.getDecryptedUserId();
     }
   }

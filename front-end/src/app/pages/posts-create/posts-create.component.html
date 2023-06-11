@@ -280,32 +280,32 @@
               stroke-linecap="round"
               stroke-linejoin="round"
               />
-            </svg>
-            <div class="flex text-sm text-gray-600">
-              <label
-                for="image"
-                class="relative cursor-pointer rounded-md bg-white font-medium
-                focus-within:outline-none
-                focus-within:ring-2 focus-within:ring-indigo-500
-                focus-within:ring-offset-2 hover:text-indigo-500">
-                <span class="font-medium dark:text-primary-500
-                  text-primary-600 upload-text">Upload a file</span>
-                <input
-                  id="image"
-                  name="image"
-                  type="file"
-                  enctype="multipart/form-data"
-                  (change)="onFileSelected($event)"
-                  class="sr-only"
-                  required="true"
-                  />
-              </label>
-              <p class="pl-1">or drag and drop</p>
-            </div>
-            <p id="file-name"></p>
-            <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+          </svg>
+          <div class="flex text-sm text-gray-600">
+            <label
+              for="image"
+              class="relative cursor-pointer rounded-md bg-white font-medium
+              focus-within:outline-none
+              focus-within:ring-2 focus-within:ring-indigo-500
+              focus-within:ring-offset-2 hover:text-indigo-500">
+              <span class="font-medium dark:text-primary-500
+                text-primary-600 upload-text">Upload a file</span>
+              <input
+                id="image"
+                name="image"
+                type="file"
+                enctype="multipart/form-data"
+                (change)="onFileSelected($event)"
+                class="sr-only"
+                required="true"
+                />
+            </label>
+            <p class="pl-1">or drag and drop</p>
           </div>
+          <p id="file-name"></p>
+          <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
         </div>
+      </div>
     </div>
 
     <!-- Submit button -->

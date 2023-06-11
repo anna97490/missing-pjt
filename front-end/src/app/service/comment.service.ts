@@ -30,7 +30,7 @@ export class CommentService {
       }),
       catchError((error: HttpErrorResponse) => {
         console.error(error);
-        return throwError('Error');
+        return throwError(() => error);
       })
     )
   }
@@ -42,11 +42,11 @@ export class CommentService {
 
     return this.http.post<Comment>(`${this.apiUrl}/create-comment`, {comment: commentToSend}, httpOptions)
     .pipe(
-      map((response: any) => {
+      map((response: Comment) => {
         return response;
       }),
       catchError(error => {
-        return throwError(error);
+        return throwError(() => error);
       })
     );
   }
@@ -62,7 +62,7 @@ export class CommentService {
         return response;
       }),
       catchError(error => {
-        return throwError(error);
+        return throwError(() => error);
       })
     );
   }
@@ -77,7 +77,7 @@ export class CommentService {
         return response;
       }),
       catchError(error => {
-        return throwError(error);
+        return throwError(() => error);
       })
     );
   }

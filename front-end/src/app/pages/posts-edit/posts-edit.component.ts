@@ -188,8 +188,7 @@ export class PostsEditComponent {
       .subscribe(
         () => {
           this.post = oldPost;
-          this.getPost(); //----------------------------------------
-          // window.location.reload();
+          this.getPost();
         },
         (error) => {
           this.message = 'Une erreur est survenue lors de la modification du post';

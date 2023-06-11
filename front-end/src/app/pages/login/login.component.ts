@@ -12,8 +12,6 @@ export class LoginComponent {
   loginForm: any;
   isCorrectEmail: boolean = false;
   isCorrectPassword: boolean = false;
-  messageEmail: string = '';
-  messagePassword: string = '';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -21,8 +19,8 @@ export class LoginComponent {
     private router: Router
   ) {
     this.loginForm = this.formBuilder.group({
-      email    : ['', [Validators.required, Validators.email,Validators.pattern(/^\w+([\.-]?\w+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(com|fr)$/i)]],
-      password : ['', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]],
     });
   }
 
@@ -37,9 +35,11 @@ export class LoginComponent {
           this.router.navigate(['/posts-index']);
         },
         error => {
-          if (error.error.message === 'Uncorrect email') {
+          if (error.error.message === 'Incorrect email') {
             this.isCorrectEmail = true;
-          } else if (error.error.message === 'Uncorrect password') {
+            this.isCorrectPassword = false;
+          } else if (error.error.message === 'Incorrect password') {
+            this.isCorrectEmail = false;
             this.isCorrectPassword = true;
           } else {
             console.log(error.error.message);
