@@ -40,7 +40,7 @@ export class PostsEditComponent {
     private datePipe   : DatePipe,
     private formBuilder: FormBuilder,
     private el: ElementRef,
-    private http: HttpClient
+    public http: HttpClient
   ) {
     this.editPostForm = this.formBuilder.group({
       firstname   : ['', [Validators.minLength(2), Validators.maxLength(70)]],

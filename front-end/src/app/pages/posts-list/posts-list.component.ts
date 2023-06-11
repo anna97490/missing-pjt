@@ -13,8 +13,8 @@ import { Router } from '@angular/router';
 })
 export class PostsListComponent {
   @Input() modalOpen: boolean = false;
-  private userId: any;
-  private postId: any;
+  userId: any;
+  postId: any;
   isLoggedIn: boolean = true;
   posts: Post[] = [];
   allPosts: Post[] = [];

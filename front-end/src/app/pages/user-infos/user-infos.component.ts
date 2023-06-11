@@ -12,7 +12,7 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
   styleUrls: ['./user-infos.component.scss']
 })
 export class UserInfosComponent implements OnInit {
-  private userId: any;
+  userId: any;
   isLoggedIn: boolean = true;
   user: any = User;
   editUserForm: any = FormGroup;
@@ -31,7 +31,7 @@ export class UserInfosComponent implements OnInit {
       firstname : ['', [Validators.required, Validators.minLength(2), Validators.maxLength(70)]],
       lastname  : ['', [Validators.required, Validators.minLength(2), Validators.maxLength(70)]],
       email     : ['', [Validators.required, Validators.minLength(2), Validators.maxLength(70)]],
-      password  : ['', [Validators.required, Validators.minLength(8), Validators.maxLength(50)]],
+      // password  : ['', [Validators.required, Validators.minLength(8), Validators.maxLength(50)]],
       birthDate : ['', [Validators.required, this.minimumAgeValidator(18)]],
     });
   }

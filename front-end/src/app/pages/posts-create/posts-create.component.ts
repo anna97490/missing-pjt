@@ -94,7 +94,6 @@ export class PostsCreateComponent {
   }
 
   selectMissingPlace(missingPlace: string) {
-    console.log('Lieu de disparition sélectionné:', missingPlace);
     this.selectedMissingPlace = missingPlace;
     this.filteredMissingPlacesArray = [];
   }
