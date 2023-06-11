@@ -10,7 +10,7 @@ import * as CryptoJS from 'crypto-js';
 })
 
 export class AuthService {
-  private apiUrl: string  = 'http://localhost:3000/api/user';
+  apiUrl: string  = 'http://localhost:3000/api/user';
   private loggedIn: boolean = false;
 
   constructor(
