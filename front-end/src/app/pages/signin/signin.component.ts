@@ -18,7 +18,6 @@ export class SigninComponent {
       lastname : ['', [Validators.required, Validators.minLength(2), Validators.maxLength(40)]],
       email    : ['', [Validators.required, Validators.email,Validators.pattern(/^\w+([\.-]?\w+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(com|fr)$/i)]],
       password : ['', [Validators.required, Validators.minLength(8), Validators.maxLength(50)]],
-      birthDate: ['', [Validators.required, this.minimumAgeValidator(18)]],
     });
   }
 
@@ -43,7 +42,6 @@ export class SigninComponent {
       firstname: this.signinForm.get('firstname').value,
       lastname : this.signinForm.get('lastname').value,
       email    : this.signinForm.get('email').value,
-      birthDate: this.signinForm.get('birthDate').value,
       password : this.signinForm.get('password').value
     }
 

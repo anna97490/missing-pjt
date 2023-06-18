@@ -1,7 +1,7 @@
 .container-posts-list {
   position: relative;
   height: 100%;
-  padding: 8% 3% 0 3%;
+  padding: 12% 3% 0 3%;
 }
 app-card-missing {
   width: 100%;
@@ -34,7 +34,6 @@ app-card-missing {
   line-height: 40px;
   font-size: 20px;
 }
-
 .cont-search-bar {
   display: flex;
   justify-content: center;
@@ -86,14 +85,10 @@ app-card-missing {
 .write-comment {
   position: absolute;
   width: 100%;
-
   top: 100%;
   border-radius: 4px;
   box-shadow: -5px 0 5px -1px rgba(0, 0, 0, 0.09),
   5px 5px 5px -1px rgba(0, 0, 0, 0.09);
-}
-.comment-relative {
-  position: relative;
 }
 #area-form-comment {
   position: relative;
@@ -109,7 +104,6 @@ app-card-missing {
   z-index: 100;
   left: 97%;
   float: right;
-  top: 10%;
   svg {
     width: 16px;
   }
@@ -117,7 +111,8 @@ app-card-missing {
 .cont-add-comment {
   display: flex;
   padding: 1%;
-  background-color: #f4f4f4;
+  background-color: rgb(246 246 246);
+  box-shadow: 13px 0px 6px 3px rgba(0, 0, 0, 3%);
   svg {
     width: 1rem;
     margin-right: 1%;
@@ -129,6 +124,7 @@ textarea {
   padding: 1%;
   border-radius: 4px;
   border: 1px solid #e2e2e2;
+  position: relative;
 }
 .cont-comments-list {
   padding: 0 2% 0 2%;
@@ -172,6 +168,9 @@ hr {
   }.cont-creation {
     margin-top: 2%;
   }
+  .container-posts-list {
+    padding-top: 14% !important;
+  }
 }
 
 @media (max-width: 768px)  {
@@ -192,6 +191,12 @@ hr {
     margin-top: 4%;
     margin-right: 0;
   }
+  .btn-comment {
+    left: 96%;
+  }
+  .container-posts-list {
+    padding-top: 18% !important;
+  }
 }
 
 @media (max-width: 600px)  {
@@ -199,11 +204,17 @@ hr {
     font-size: 12px !important;
     padding: 13% 3% 0 3%;
   }
+  .posts-lists {
+    margin-bottom: 62%;
+  }
+  .btn-comment {
+    left: 95%;
+  }
 }
 
 @media (max-width: 580px)  {
   .container-posts-list {
-    padding: 21% 3% 0 3%;
+    padding-top: 20% !important;
   }
   .cont-status {
     margin-top: 5%;
@@ -211,13 +222,25 @@ hr {
   }
   .span-creation {
     font-size: 12px !important;
-   }
-   #search {
+  }
+  #search {
     font-size: 12px !important;
-   }
-   .input {
+  }
+  .input {
     font-size: 12px !important;
-   }
+  }
+  .btn-comment {
+    left: 93%;
+    svg {
+      width: 15px;
+    }
+  }
+}
+
+@media (max-width: 425px) {
+  .container-posts-list {
+    padding-top: 28% !important;
+  }
 }
 
 

@@ -8,8 +8,8 @@ html, body {
 }
 
 body {
-  background-color: #fafafa;
-  height: 135vh;
+  background-color: rgba(219, 219, 219, 0.0784313725);
+  height: 155vh;
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
@@ -47,5 +47,10 @@ button:hover {
 
 .checkbox {
   cursor: pointer;
+}
+
+.h-w-profile {
+  width: 5rem;
+  height: 5rem;
 }
 

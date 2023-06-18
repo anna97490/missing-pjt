@@ -16,10 +16,9 @@ export class UserInfosComponent implements OnInit {
   isLoggedIn: boolean = true;
   user: any = User;
   editUserForm: any = FormGroup;
-  image: any = File;
-  isImageSelected: boolean = false;
-  fileName: any;
-  errorMessage: string = '';
+  errorMessage: boolean = false;
+  errorPicture: boolean = false;
+  isFieldsCorrect: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -28,11 +27,9 @@ export class UserInfosComponent implements OnInit {
     private formBuilder: FormBuilder,
   ) {
     this.editUserForm = this.formBuilder.group({
-      firstname : ['', [Validators.required, Validators.minLength(2), Validators.maxLength(70)]],
-      lastname  : ['', [Validators.required, Validators.minLength(2), Validators.maxLength(70)]],
-      email     : ['', [Validators.required, Validators.minLength(2), Validators.maxLength(70)]],
-      // password  : ['', [Validators.required, Validators.minLength(8), Validators.maxLength(50)]],
-      birthDate : ['', [Validators.required, this.minimumAgeValidator(18)]],
+      firstname: ['', [Validators.minLength(2), Validators.maxLength(70)]],
+      lastname : ['', [Validators.minLength(2), Validators.maxLength(70)]],
+      email    : ['', [Validators.email,Validators.pattern(/^\w+([\.-]?\w+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(com|fr)$/i)]],
     });
   }
 
@@ -40,7 +37,7 @@ export class UserInfosComponent implements OnInit {
     this.isLoggedIn = this.authService.isLoggedIn();
     this.userId = this.authService.getDecryptedUserId();
     // Get the user to display infos
-   this.getUser();
+    this.getUser();
   }
 
   // Get the user
@@ -53,6 +50,14 @@ export class UserInfosComponent implements OnInit {
         console.error('An error occurred while getting user:', error);
       }
     );
+  }
+
+  checkFields() {
+    this.isFieldsCorrect = this.editUserForm.valid;
+  }
+
+  areFieldsValid() {
+    return this.editUserForm.valid; 
   }
 
   // Validation of age >= 18
@@ -70,22 +75,11 @@ export class UserInfosComponent implements OnInit {
     };
   }
 
-  // File selected
-  onFileSelected(event: Event) {
-    this.image = (event.target as HTMLInputElement).files![0];
-    this.fileName  = document.getElementById('file-name');
-
-    if (this.image) {
-      this.isImageSelected = true;
-      this.fileName.innerHTML = this.image.name;
-    }
-  }
-
   // Edit the user
   editUser(event: Event) {
     event.preventDefault();
 
-    if (this.userId === this.user._id) {
+    if (this.userId === this.user._id && this.isFieldsCorrect === true) {
       // Get datas from user
       let updatedUser = {
         firstname: this.user.firstname,
@@ -109,32 +103,11 @@ export class UserInfosComponent implements OnInit {
           this.getUser();
         },
         (error) => {
-          this.errorMessage = 'Cet email existe déjà.';
-        }
-      );
-    }
-  }
-
-  // Change or add profile picture
-  updateProfilePicture(event: Event) {
-    event.preventDefault();
-
-    if (this.image && this.userId === this.user._id) {
-      const formData = new FormData();
-      formData.append('image', this.image, this.image.name);
-
-      this.userService.updateProfilePicture(formData, this.userId).subscribe(
-        (user: User) => {
-          // Update user with new profile picture
-          this.user = user;
-          this.getUser();
-        },
-        (error) => {
           console.log(error);
         }
       );
     } else {
-      return;
+      this.errorMessage = true;
     }
   }
 

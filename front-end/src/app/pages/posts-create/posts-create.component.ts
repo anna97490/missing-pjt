@@ -21,11 +21,13 @@ export class PostsCreateComponent {
   image: any = File;
   fileName: any;
   isDropdownVisible: boolean = false;
+  isFileSelected: boolean = false;
   selectedStatus: string = "";
   filteredCitiesArray: string[] = [];
   selectedCity: string = "";
   selectedMissingPlace: string = "";
   filteredMissingPlacesArray: string[] = [];
+  errorMessage: boolean = false;
 
   constructor(
     private router: Router,
@@ -44,7 +46,7 @@ export class PostsCreateComponent {
       address     : ['', [Validators.required]],
       missingPlace: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(70)]],
       missingDate : ['', [Validators.required]],
-      description : ['', [Validators.required, Validators.minLength(2), Validators.maxLength(300)]],
+      description : ['', [Validators.required, Validators.minLength(10), Validators.maxLength(300)]],
       status      : ['', [Validators.required]],
     });
   }
@@ -142,7 +144,10 @@ export class PostsCreateComponent {
     this.fileName  = document.getElementById('file-name');
 
     if (this.image) {
+      this.isFileSelected = true;
       this.fileName.innerHTML = this.image.name;
+    } else {
+      this.isFileSelected = false;
     }
   }
 
@@ -150,7 +155,7 @@ export class PostsCreateComponent {
   createPost(event: Event) {
     event.preventDefault();
 
-    if (this.createPostForm.valid  && this.userId === this.user._id) {
+    if (this.createPostForm.valid  && this.userId === this.user._id  && this.isFileSelected) {
       const formData = new FormData();
       formData.append('firstname', this.createPostForm.get('firstname').value);
       formData.append('lastname', this.createPostForm.get('lastname').value);
@@ -174,6 +179,8 @@ export class PostsCreateComponent {
           console.error('An error occurred while creating the post:', error);
         }
       );
+    } else {
+      this.errorMessage = true;
     }
   }
 }

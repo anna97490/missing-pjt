@@ -27,7 +27,7 @@
   </a>
 
   <div class="cont-title">
-    <h1>Modifier les information de la fiche</h1>
+    <h1>Modifier les informations de la fiche</h1>
   </div>
 
   <!-- Form to submit changes of Post -->
@@ -38,8 +38,8 @@
     class=" form-edit border border-gray-200 rounded-lg shadow dark:border-gray-700
     dark:bg-gray-800 dark:hover:bg-c-700">
 
-     <!-- Post image -->
-     <div class="field-photo">
+    <!-- Post image -->
+    <div class="field-photo">
       <label class="block text-sm font-medium text-gray-700">Photo</label>
       <div class="mt-1 flex items-center">
         <span class="inline-block overflow-hidden rounded-full bg-gray-100">
@@ -47,6 +47,7 @@
         </span>
       </div>
     </div>
+
     <div class="grid md:grid-cols-2 md:gap-6">
       <!-- Firstname -->
       <div class="relative z-0 w-full mb-6 group">
@@ -61,6 +62,7 @@
           dark:focus:border-grey-500 focus:outline-none
           focus:ring-0 focus:border-grey-600 peer"
           placeholder="{{ post?.firstname | titlecase }}"
+          (change)="checkFields()"
         />
         <label
           for="floating_first_name"
@@ -87,6 +89,7 @@
           dark:focus:border-grey-500 focus:outline-none
           focus:ring-0 focus:border-grey-600 peer"
           placeholder="{{ post?.lastname | titlecase }}"
+          (change)="checkFields()"
         />
         <label
           for="floating_last_name"
@@ -177,6 +180,7 @@
           dark:text-white dark:border-gray-600 dark:focus:border-blue-500
           focus:outline-none focus:ring-0 focus:border-blue-600 peer"
           placeholder="{{ post?.missingPlace| titlecase }}"
+          (change)="checkFields()"
         />
         <label
           for="missingPlace"
@@ -205,6 +209,7 @@
           dark:text-white dark:border-gray-600 dark:focus:border-blue-500
           focus:outline-none focus:ring-0 focus:border-blue-600 peer"
           placeholder=""(input)="validateDate($event)"
+          (change)="checkFields()"
         />
         <label
           for="missing-date"
@@ -233,7 +238,9 @@
           appearance-none
           dark:text-white dark:border-gray-300 dark:focus:border-blue-500
           focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-          placeholder="{{ post?.description | titlecase }}"></textarea>
+          placeholder="{{ post?.description | titlecase }}"
+          (change)="checkFields()">
+        </textarea>
         <label
           for="description"
           class="peer-focus:font-medium absolute text-sm text-gray-500
@@ -279,14 +286,17 @@
     <!-- Submit button -->
     <button
       type="submit"
-      class="btn-submit bck-color py-2.5 px-5 mr-2 text-sm font-medium text-gray-900
+      class="btn-submit py-2.5 px-5 mr-2 text-sm font-medium text-gray-900
       bg-white rounded-lg border border-gray-200
       focus:z-10 focus:ring-4 focus:outline-none focus:ring-blue-700
       focus:text-blue-700 dark:bg-gray-800
       dark:text-gray-400 dark:border-gray-600 inline-flex items-center"
-      [ngClass]="{ 'btn-valid-form': editPostForm.valid }">
+      [ngClass]="{'color-submit': isFieldsCorrect, 'color-submit-status': selectedStatus }">
       Enregistrer
     </button>
+    <div *ngIf="errorMessage" class="error-msg">
+      La saisie est incorrecte.
+    </div>
   </form>
 
   <!-- Picture form  -->
@@ -331,7 +341,6 @@
                 enctype="multipart/form-data"
                 (change)="onFileSelected($event)"
                 class="sr-only"
-                required="true"
               />
             </label>
             <p class="pl-1">or drag and drop</p>
@@ -350,8 +359,11 @@
       focus:z-10 focus:ring-4 focus:outline-none focus:ring-blue-700
       focus:text-blue-700 dark:bg-gray-800
       dark:text-gray-400 dark:border-gray-600 inline-flex items-center"
-      [ngClass]="{ 'btn-valid-form': editPostForm.valid }">
+      [ngClass]="{'color-submit': isFile }">
       Enregistrer la photo
     </button>
+    <div *ngIf="errorFile" class="error-msg">
+      Veuillez sélectionner une image.
+    </div>
   </form>
 </div>

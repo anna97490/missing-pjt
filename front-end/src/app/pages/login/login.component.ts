@@ -30,7 +30,8 @@ export class LoginComponent {
     const password = this.loginForm.get('password').value;
 
     if (email && password && this.loginForm.valid) {
-      this.authService.login(email, password).subscribe(
+      this.authService.login(email, password)
+      .subscribe(
         response => {
           this.router.navigate(['/posts-index']);
         },

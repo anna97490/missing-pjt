@@ -1,7 +1,7 @@
 <div class="card-link">
   <div class="cont-img-txt">
     <!-- Picture -->
-    <div class="cont-img">
+    <div class="cont-img" [ngClass]="{'padding-img': isLoggedIn && userId === post.userId}">
       <img class="object-cover md:rounded-none md:rounded-l-lg" src="{{post.image }}" alt="Missing person's picture">
     </div>
 
@@ -9,7 +9,7 @@
     <div class="cont-infos-missing flex flex-col justify-between leading-normal">
       <div class="cont-status-author">
         <!-- Status  -->
-        <span class="status" [ngClass]="{'status-retrouve': post.status == 'Retouvé(e)'}">{{ post.status }}</span>
+        <span class="status" [ngClass]="{'status-current': post.status == 'En cours'}">{{ post.status }}</span>
         <!-- <div class="cont-profile-picture" *ngIf="isLoggedIn && user.image">
           <img class="object-cover md:rounded-none md:rounded-l-lg" src="{{ user.image }}" alt="Profile picture">
         </div> -->

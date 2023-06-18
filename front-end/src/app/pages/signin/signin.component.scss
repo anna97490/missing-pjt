@@ -1,7 +1,7 @@
 .container-signin {
   position: relative;
   height: 100%;
-  padding: 18% 16% 0% 16%;
+  padding: 17% 16% 0% 16%;
 }
 .signin-content {
   background-color: #fff;
@@ -9,7 +9,7 @@
 }
 .link-index {
   position: absolute;
-  top: 12%;
+  top: 8%;
   left: 2%;
 }
 .logo {
@@ -54,9 +54,6 @@ span {
 }
 
 @media (max-width: 580px)  {
-  .link-index {
-    top: 16%;
-  }
   .container-signin {
     padding: 36% 0% 0% 0%;
   }

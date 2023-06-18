@@ -14,7 +14,7 @@
   position: relative;
   max-width: 490px;
   width: 90%;
-  height: 21%;
+  height: 23%;
   background-color: #fff;
   border-radius: 5px;
   padding: 20px;
@@ -27,6 +27,9 @@
 .hide {
   display: none;
   flex-wrap: wrap;
+}
+button:hover {
+  box-shadow: unset !important;
 }
 .cont-btn-close {
   .btn-close {
@@ -58,8 +61,12 @@
       border-radius: 7px;
       width: 22%;
       font-size: 13px;
-      background-color: #ececec;
+      background-color: #fff;
       box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease-in-out;
+    }
+    .nav-links:hover {
+      transform: translateY(-2px);
     }
   }
 }

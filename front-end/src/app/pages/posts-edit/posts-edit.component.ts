@@ -21,7 +21,6 @@ export class PostsEditComponent {
   postId: any;
   editPostForm: any = FormGroup;
   image: any = File;
-  fileInput: any;
   fileName: any;
   post: any;
   message: string = '';
@@ -31,6 +30,10 @@ export class PostsEditComponent {
   selectedCity: string = "";
   selectedMissingPlace: string = "";
   filteredMissingPlacesArray: string[] = [];
+  isFieldsCorrect: boolean = false;
+  isFile: boolean = false;
+  errorMessage: boolean = false;
+  errorFile: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -46,11 +49,11 @@ export class PostsEditComponent {
       firstname   : ['', [Validators.minLength(2), Validators.maxLength(70)]],
       lastname    : ['', [Validators.minLength(2), Validators.maxLength(70)]],
       birthDate   : ['', []],
-      address     : ['', []],
+      address     : ['', [Validators.minLength(2), Validators.maxLength(70)]],
       missingPlace: ['', [Validators.minLength(2), Validators.maxLength(70)]],
       missingDate : ['', []],
-      description : ['', [Validators.minLength(2), Validators.maxLength(300)]],
-      status      : ['', [Validators.required]],
+      description : ['', [Validators.minLength(10), Validators.maxLength(300)]],
+      status      : ['', []],
     });
   }
 
@@ -65,6 +68,7 @@ export class PostsEditComponent {
     });
     // Get post
     this.getPost();
+    console.log(this.isFile)
   }
 
   getPost() {
@@ -87,7 +91,7 @@ export class PostsEditComponent {
     this.http.get<any[]>(`https://geo.api.gouv.fr/communes?nom=${filterValue}&fields=nom&format=json&geometry=centre&limit=4`)
       .subscribe((response: any) => {
         console.log(response)
-        this.filteredCitiesArray = response.slice(0, 4).map((city: any) => city.nom);
+        this.filteredCitiesArray = response.slice(0, 3).map((city: any) => city.nom);
         console.log(this.filteredCitiesArray)
       }, (error) => {
         console.error('Une erreur s\'est produite lors de la récupération des villes :', error);
@@ -106,7 +110,7 @@ export class PostsEditComponent {
     this.http.get<any[]>(`https://geo.api.gouv.fr/communes?nom=${filterValue}&fields=nom&format=json&geometry=centre&limit=4`)
       .subscribe((response: any) => {
         console.log(response);
-        this.filteredMissingPlacesArray = response.slice(0, 4).map((place: any) => place.nom);
+        this.filteredMissingPlacesArray = response.slice(0, 3).map((place: any) => place.nom);
         console.log(this.filteredMissingPlacesArray);
       }, (error) => {
         console.error('Une erreur s\'est produite lors de la récupération des lieux de disparition:', error);
@@ -145,13 +149,23 @@ export class PostsEditComponent {
     }
   }
 
+  checkFields() {
+    this.isFieldsCorrect = this.editPostForm.valid;
+  }
+
+  areFieldsValid() {
+    return this.editPostForm.valid;
+  }
+
   // File selected method
   onFileSelected(event: Event) {
     this.image = (event.target as HTMLInputElement).files![0];
     this.fileName  = document.getElementById('file-name');
 
     if (this.image) {
+      this.isFile = true;
       this.fileName.innerHTML = this.image.name;
+      console.log(2,this.isFile)
     }
   }
 
@@ -162,7 +176,8 @@ export class PostsEditComponent {
     this.editPostForm.get('address').value = this.selectedCity;
     this.editPostForm.get('missingPlace').value = this.selectedMissingPlace;
 
-    if (this.userId === this.user._id) {
+    if (this.userId === this.user._id && this.isFieldsCorrect === true ||
+        this.userId === this.user._id && this.selectedStatus) {
       // Get datas from post
       let oldPost = {
         firstname: this.user.firstname,
@@ -194,6 +209,8 @@ export class PostsEditComponent {
           this.message = 'Une erreur est survenue lors de la modification du post';
         }
       );
+    } else {
+      this.errorMessage = true;
     }
   }
 
@@ -201,23 +218,28 @@ export class PostsEditComponent {
   updatePostPicture(event: Event) {
     event.preventDefault();
 
+    console.log(this.image)
     if (!this.image) {
       return;
     }
+    if (this.isFile) {
+      const formData = new FormData();
+      formData.append('image', this.image, this.image.name);
 
-    const formData = new FormData();
-    formData.append('image', this.image, this.image.name);
+      this.postService.updatePostPicture(formData, this.post._id)
+      .subscribe(
+        (post: Post) => {
+          // Update user information with new profile picture
+          this.post = post;
+          this.getPost();
+        },
+        (error) => {
+          this.message = 'Une erreur est survenue lors de la modification du post';
+        }
+      );
+    } else {
+      this.errorFile = true;
+    }
 
-    this.postService.updatePostPicture(formData, this.post._id)
-    .subscribe(
-      (post: Post) => {
-        // Update user information with new profile picture
-        this.post = post;
-        this.getPost();
-      },
-      (error) => {
-        this.message = 'Une erreur est survenue lors de la modification du post';
-      }
-    );
   }
 }

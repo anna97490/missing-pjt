@@ -49,7 +49,7 @@
           dark:focus:border-blue-500 focus:outline-none focus:ring-0
           focus:border-blue-600 peer"
           placeholder="{{ user.firstname| titlecase }}"
-          required
+          (change)="checkFields()"
         />
         <label
           for="floating_first_name"
@@ -75,7 +75,7 @@
           dark:text-white dark:border-gray-600 dark:focus:border-blue-500
           focus:outline-none focus:ring-0 focus:border-blue-600 peer"
           placeholder="{{ user.lastname | titlecase}}"
-          required
+          (change)="checkFields()"
         />
         <label
           for="floating_last_name"
@@ -89,37 +89,8 @@
           Nom
         </label>
       </div>
-    </div>
-
-    <div class="grid md:grid-cols-2 md:gap-6">
-      <!-- Birth date -->
-      <div class="relative z-0 w-full mb-6 group">
-        <input
-          type="date"
-          name="birthDate"
-          id="birthDate"
-          formControlName="birthDate"
-          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent
-          border-0 border-b-2 border-gray-300 appearance-none
-          dark:text-white dark:border-gray-600 dark:focus:border-blue-500
-          focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-          required
-        />
-        <label
-          for="floating_last_name"
-          class="peer-focus:font-medium absolute text-sm text-gray-500
-          dark:text-gray-400 duration-300 transform -translate-y-2
-          scale-55 bottom-11 -z-10 origin-[0] peer-focus:left-0
-          peer-focus:text-blue-600 peer-focus:dark:text-blue-500
-          peer-placeholder-shown:scale-100
-          peer-placeholder-shown:translate-y-0 peer-focus:scale-55
-          peer-focus:-translate-y-2">
-          Date de naissance
-        </label>
-        <div class="instruction">Vous devez être âgé de 18 ans ou plus</div>
-      </div>
-      <!-- Email -->
-      <div class="relative z-0 w-full mb-6 group">
+       <!-- Lastname -->
+       <div class="relative z-0 w-full mb-6 group">
         <input
           type="text"
           name="email"
@@ -128,124 +99,42 @@
           class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent
           border-0 border-b-2 border-gray-300 appearance-none
           dark:text-white dark:border-gray-600 dark:focus:border-blue-500
-          focus:outline-none focus:ring-0 peer"
-          placeholder="{{ user.email}}"
-          required
+          focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          placeholder="{{ user.email }}"
+          (change)="checkFields()"
         />
         <label
           for="email"
           class="peer-focus:font-medium absolute text-sm text-gray-500
           dark:text-gray-400 duration-300 transform -translate-y-2
-          scale-55 bottom-12 -z-10 origin-[0] peer-focus:left-0
+          scale-55 bottom-8 -z-10 origin-[0] peer-focus:left-0
           peer-focus:text-blue-600 peer-focus:dark:text-blue-500
           peer-placeholder-shown:scale-100
           peer-placeholder-shown:translate-y-0 peer-focus:scale-55
           peer-focus:-translate-y-2">
           Email
         </label>
-        <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
       </div>
     </div>
 
     <!-- Submit button -->
-    <button
-      type="submit"
-      class="btn-submit py-2.5 px-5 mr-2 text-sm font-medium text-gray-900
-      rounded-lg border border-gray-200
-      focus:z-10 focus:ring-4 focus:outline-none focus:ring-blue-700
-      focus:text-blue-700 dark:bg-gray-800
-      dark:text-gray-400 dark:border-gray-600 inline-flex items-center">
-      Enregistrer
-    </button>
-  </form>
-
-  <!-- Form to add or update profile picture -->
-  <form
-    enctype="multipart/form-data"
-    (submit)="updateProfilePicture($event)"
-    class="border border-gray-200 rounded-lg shadow dark:border-gray-700s">
-    <!-- Picture -->
-    <div class="field-photo">
-      <label class="block text-sm font-medium text-gray-700">Ajouter une photo</label>
-      <div class="image-user mt-1 flex items-center">
-        <span class="inline-block h-12 w-12 overflow-hidden rounded-full
-          bg-gray-100">
-          <svg *ngIf="!user.image" class="h-full w-full text-gray-300"
-            fill="currentColor" viewBox="0 0 24 24">
-            <path
-              d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0
-              9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0
-              11-8 0 4 4 0 018 0z"
-              />
-          </svg>
-          <img *ngIf="user.image" class="h-full w-full object-cover" src="{{
-            user.image }}" alt="Photo de profil">
-        </span>
+    <div class="cont-submit">
+      <button
+        type="submit"
+        class="btn-submit py-2.5 px-5 mb-1 text-sm font-medium text-gray-900
+        rounded-lg border border-gray-200
+        focus:z-10 focus:ring-4 focus:outline-none focus:ring-blue-700
+        focus:text-blue-700 dark:bg-gray-800
+        dark:text-gray-400 dark:border-gray-600 inline-flex items-center"
+        [ngClass]="{'color-submit': isFieldsCorrect}">
+        Enregistrer
+      </button>
+      <div *ngIf="errorMessage" class="error-msg">
+        La saisie est incorrecte.
       </div>
     </div>
-
-    <!-- Drag and drop picture -->
-    <div class="field-photo">
-      <div class="mt-1 mb-10 flex justify-center rounded-md border-2
-        border-dashed border-gray-300 px-6 pt-5 pb-6">
-        <div class="space-y-1 text-center">
-          <svg
-            class="mx-auto h-12 w-12 text-gray-400"
-            stroke="currentColor"
-            fill="none"
-            viewBox="0 0 48 48"
-            aria-hidden="true">
-            <path
-              d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4
-              0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8
-              32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12
-              4h.02"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-          <div class="flex text-sm text-gray-600">
-            <label
-              for="image"
-              class="relative cursor-pointer rounded-md bg-white
-              font-medium focus-within:outline-none
-              focus-within:ring-2 focus-within:ring-indigo-500
-              focus-within:ring-offset-2 hover:text-indigo-500">
-              <span class="font-medium dark:text-primary-500
-                text-primary-600 upload-text">Upload a file</span>
-              <input
-                id="image"
-                name="image"
-                type="file"
-                enctype="multipart/form-data"
-                (change)="onFileSelected($event)"
-                class="sr-only"
-                required="true"
-                />
-            </label>
-            <p class="pl-1">or drag and drop</p>
-          </div>
-          <p id="file-name"></p>
-          <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Submit button -->
-    <button
-      type="submit"
-      class="btn-submit-image py-2.5 px-5 mr-2 text-sm font-medium text-gray-900
-      rounded-lg border border-gray-200
-      focus:z-10 focus:ring-4 focus:outline-none focus:ring-blue-700
-      focus:text-blue-700 dark:bg-gray-800
-      dark:text-gray-400 dark:border-gray-600 inline-flex items-center"
-      [disabled]="!isImageSelected"
-      [ngClass]="{ 'btn-valid-form': isImageSelected }">
-      Enregistrer la photo
-    </button>
-  </form>
-
+  </form>  
+ 
   <!-- Button Delete Account -->
   <div class="cont-delete">
     <span (click)="deleteUser($event)">Supprimer mon compte</span>

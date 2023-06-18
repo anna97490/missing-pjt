@@ -4,25 +4,61 @@
     </div>
 
     <!-- Links to SignUp and Login if user not connected or registered -->
-    <div class="navigation" [ngStyle]="{'width': isLoggedIn === false ? '17%' : '60%' }" >
+    <div [ngClass]="{'navigation-notlogged': !isLoggedIn, 'navigation': isLoggedIn}" >
+      <!-- Signup link  -->
       <a *ngIf="!isLoggedIn" class="nav-links" routerLink="/signin">
         S'inscrire
       </a>
+       <!-- Icon signup  -->
+       <div *ngIf="!isLoggedIn" class="icon-header-notlogged" routerLink="/signin">
+        <a><i class="fa-solid fa-user-plus"></i></a>
+      </div>
+
+      <!-- Login Link  -->
       <a *ngIf="!isLoggedIn" class="nav-links" routerLink="/login">
         Se connecter
       </a>
+       <!-- Icon login  -->
+       <div *ngIf="!isLoggedIn" class="icon-header-notlogged" routerLink="/login">
+        <a><i class="fa-solid fa-right-to-bracket"></i></a>
+      </div>
+
+      <!-- User informations  -->
       <a *ngIf="isLoggedIn" class="nav-links" routerLink="/user-infos/{{ userId }}">
         Mes informations
       </a>
+      <!-- Icon user informations  -->
+      <div *ngIf="isLoggedIn" class="icon-header" routerLink="/user-infos/{{ userId }}">
+        <a><i class="fa-solid fa-user-pen"></i></a>
+      </div>
+
+      <!-- Create post  -->
       <a *ngIf="isLoggedIn" class="nav-links" routerLink="/create-post/{{ userId }}">
         Créer une fiche disparition
       </a>
+      <!-- Icon create post  -->
+      <div *ngIf="isLoggedIn" class="icon-header" routerLink="/create-post/{{ userId }}">
+        <a><i class="fa-solid fa-person-circle-plus"></i></a>
+      </div>
+
+      <!-- User posts  -->
       <a *ngIf="isLoggedIn" class="nav-links" routerLink="/list-posts/{{ userId }}">
         Mes fiches disparition
       </a>
+      <!-- Icon user posts  -->
+      <div *ngIf="isLoggedIn" class="icon-header" routerLink="/list-posts/{{ userId }}">
+        <a><i class="fa-solid fa-users-rectangle"></i></a>
+      </div>
+
+      <!-- Logout  -->
       <a *ngIf="isLoggedIn" class="nav-links" (click)="logout($event)">
         Se déconnecter
       </a>
+      <!-- Icon logout  -->
+      <div *ngIf="isLoggedIn" class="icon-header" (click)="logout($event)">
+        <a><i class="fa-solid fa-right-from-bracket"></i></a>
+      </div>
+
     </div>
 </div>
 

@@ -1,7 +1,7 @@
 .container-login {
   position: relative;
   height: 100%;
-  padding: 12% 16% 0% 16%;
+  padding: 20% 3% 0% 3%;
 }
 .content-login {
   background-color: #fff;
@@ -9,7 +9,7 @@
 }
 .link-index {
   position: absolute;
-  top: 12%;
+  top: 8%;
   left: 2%;
 }
 .logo {
@@ -37,14 +37,11 @@
 
 @media (max-width: 768px)  {
   .container-login {
-    padding: 20% 0% 0% 0%;
+    padding: 25% 0% 0% 0%;
   }
 }
 
 @media (max-width: 580px)  {
-  .link-index {
-    top: 16%;
-  }
   .container-login {
     padding: 36% 0% 0% 0%;
   }
