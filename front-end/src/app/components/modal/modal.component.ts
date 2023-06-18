@@ -8,6 +8,10 @@ import { Component, EventEmitter } from '@angular/core';
 export class ModalComponent {
   public modalOpen = true;
 
+  /**
+   * Close the modal
+   * @param event - The event object
+   */
   closeModal(event: Event) {
     event.preventDefault();
     this.modalOpen = false;

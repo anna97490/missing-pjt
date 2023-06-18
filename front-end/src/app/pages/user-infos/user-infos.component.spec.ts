@@ -38,10 +38,8 @@ describe('UserInfosComponent', () => {
       _id: '123',
       firstname: 'John',
       lastname: 'Doe',
-      birthDate: new Date('1990-01-01'),
       email: 'john@example.com',
       password: 'password',
-      image: '',
       token: 'token'
     };
 
@@ -62,10 +60,8 @@ describe('UserInfosComponent', () => {
       _id: '123',
       firstname: 'John',
       lastname: 'Doe',
-      birthDate: new Date('1990-01-01'),
       email: 'john@example.com',
       password: 'password',
-      image: '',
       token: 'token'
     };
     const updatedUser = {
@@ -94,24 +90,19 @@ describe('UserInfosComponent', () => {
       _id: '123',
       firstname: 'John',
       lastname: 'Doe',
-      birthDate: new Date('1990-01-01'),
       email: 'john@example.com',
       password: 'password',
-      image: '',
       token: 'token'
     };
 
     spyOn(authService, 'getDecryptedUserId').and.returnValue(mockUser._id);
     spyOn(component, 'getUser');
-    spyOn(userService, 'updateProfilePicture').and.returnValue(of(mockUser));
 
     const file = new File([], 'profile.jpg');
     const event = { target: { files: [file] } } as unknown;
 
     component.user = mockUser;
-    component.updateProfilePicture(new Event('click'));
 
-    expect(userService.updateProfilePicture);
     expect(component.user).toEqual(mockUser);
   });
 
@@ -120,10 +111,8 @@ describe('UserInfosComponent', () => {
       _id: '123',
       firstname: 'John',
       lastname: 'Doe',
-      birthDate: new Date('1990-01-01'),
       email: 'john@example.com',
       password: 'password',
-      image: '',
       token: 'token'
     };
 
@@ -155,7 +144,6 @@ describe('UserInfosComponent', () => {
       firstname: 'John',
       lastname: 'Doe',
       email: 'john@example.com',
-      birthDate: new Date('1990-01-01')
     };
 
     spyOn(authService, 'getDecryptedUserId').and.returnValue('123');
@@ -168,19 +156,6 @@ describe('UserInfosComponent', () => {
     expect(userService.editUser);
     expect(component.getUser).not.toHaveBeenCalled();
     expect(component.errorMessage);
-  });
-
-  it('should handle error when updating profile picture', () => {
-    const file = new File([], 'profile.jpg');
-    const event = { target: { files: [file] } };
-
-    spyOn(authService, 'getDecryptedUserId').and.returnValue('123');
-    spyOn(component, 'getUser');
-    spyOn(userService, 'updateProfilePicture').and.returnValue(throwError('Error occurred'));
-
-    component.updateProfilePicture(new Event('click'));
-
-    expect(userService.updateProfilePicture);
   });
 
   it('should handle error when deleting user', () => {

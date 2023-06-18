@@ -12,13 +12,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./posts-list.component.scss']
 })
 export class PostsListComponent {
-  @Input() modalOpen: boolean = false;
+  // @Input() modalOpen: boolean = false;
   userId: any;
   postId: any;
   isLoggedIn: boolean = true;
   posts: Post[] = [];
   allPosts: Post[] = [];
-  post: any;
+  post: any = Post;
   user: User | null = null;
 
   constructor(
@@ -35,18 +35,31 @@ export class PostsListComponent {
     this.getPosts();
   }
 
+  /**
+  * Get the user by ID
+  */
   getUserById() {
     this.userService.getUserById(this.userId).subscribe((user: User) => {
       this.user = user;
     });
   }
 
+
+  /**
+  * Calculate the age based on the birth date
+  * @param birthDate - The birth date of the user
+  * @returns number - The calculated age
+  */
   calculateAge(birthDate: Date) {
     const today = new Date();
     const age = Math.floor((today.getTime() - birthDate.getTime()) / (365.25 * 24 * 60 * 60 * 1000));
     return age;
   }
 
+
+  /**
+  * Get the posts for the current user
+  */
   getPosts() {
     this.postService.getPosts().subscribe((posts) => {
       this.posts = posts

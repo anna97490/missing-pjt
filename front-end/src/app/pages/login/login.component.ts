@@ -19,11 +19,16 @@ export class LoginComponent {
     private router: Router
   ) {
     this.loginForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]],
+      email   : ['', [Validators.required, Validators.email, Validators.pattern(/^\w+([\.-]?\w+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z]{2,3}$/i)]],
+      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(50), Validators.pattern(/^[a-zA-Z0-9]+$/)]],
     });
   }
 
+
+  /**
+   * Method triggered when the login form is submitted.
+   * @param event - The form submission event.
+   */
   login(event: Event) {
     event.preventDefault();
     const email = this.loginForm.get('email').value;
@@ -31,11 +36,11 @@ export class LoginComponent {
 
     if (email && password && this.loginForm.valid) {
       this.authService.login(email, password)
-      .subscribe(
-        response => {
+      .subscribe({
+        next: (response) => {
           this.router.navigate(['/posts-index']);
         },
-        error => {
+        error: (error) => {
           if (error.error.message === 'Incorrect email') {
             this.isCorrectEmail = true;
             this.isCorrectPassword = false;
@@ -43,10 +48,10 @@ export class LoginComponent {
             this.isCorrectEmail = false;
             this.isCorrectPassword = true;
           } else {
-            console.log(error.error.message);
+            console.log(error);
           }
         }
-      );
+      });
     }
   }
 }

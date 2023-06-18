@@ -27,9 +27,9 @@ export class UserInfosComponent implements OnInit {
     private formBuilder: FormBuilder,
   ) {
     this.editUserForm = this.formBuilder.group({
-      firstname: ['', [Validators.minLength(2), Validators.maxLength(70)]],
-      lastname : ['', [Validators.minLength(2), Validators.maxLength(70)]],
-      email    : ['', [Validators.email,Validators.pattern(/^\w+([\.-]?\w+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(com|fr)$/i)]],
+      firstname: ['', [Validators.minLength(2), Validators.maxLength(40), Validators.pattern(/^[a-zA-Z]+$/)]],
+      lastname : ['', [Validators.minLength(2), Validators.maxLength(40), Validators.pattern(/^[a-zA-Z]+$/)]],
+      email    : ['', [Validators.email, Validators.pattern(/^\w+([\.-]?\w+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(com|fr)$/i)]],
     });
   }
 
@@ -40,27 +40,45 @@ export class UserInfosComponent implements OnInit {
     this.getUser();
   }
 
-  // Get the user
+
+  /**
+  Get the user information by userId.
+  */
   getUser() {
-    this.userService.getUserById(this.userId).subscribe(
-      (user: User) => {
+    this.userService.getUserById(this.userId)
+    .subscribe({
+      next: (user: User) => {
         this.user = user;
       },
-      (error) => {
+      error: (error) => {
         console.error('An error occurred while getting user:', error);
       }
-    );
+    });
   }
 
+
+  /**
+  Check if the form fields are valid
+  */
   checkFields() {
     this.isFieldsCorrect = this.editUserForm.valid;
   }
 
+
+  /**
+  Check if the form fields are valid
+  @returns boolean - True if the form fields are valid, false otherwise
+  */
   areFieldsValid() {
-    return this.editUserForm.valid; 
+    return this.editUserForm.valid;
   }
 
-  // Validation of age >= 18
+
+  /**
+  Custom validator for minimum age
+  @param minimumAge - The minimum age allowed
+  @returns ValidatorFn - The validator function
+  */
   minimumAgeValidator(minimumAge: number) {
     return (control: AbstractControl) => {
       if (control.value) {
@@ -75,55 +93,97 @@ export class UserInfosComponent implements OnInit {
     };
   }
 
-  // Edit the user
+
+  /**
+   * Updates the user data based on the specified field.
+   * @param field - The field to update (firstname, lastname, email)
+   */
+  updateUserData(field: string) {
+    setTimeout(() => {
+      switch (field) {
+        case 'firstname':
+          this.user.firstname = this.editUserForm.value.firstname;
+          break;
+        case 'lastname':
+          this.user.lastname = this.editUserForm.value.lastname;
+          break;
+        case 'email':
+          this.user.email = this.editUserForm.value.email;
+          break;
+        default:
+          break;
+      }
+    });
+  }
+
+
+  /**
+  Edit user information
+  @param event - The form submit event
+  */
   editUser(event: Event) {
     event.preventDefault();
 
     if (this.userId === this.user._id && this.isFieldsCorrect === true) {
-      // Get datas from user
+      // Get data from user
       let updatedUser = {
         firstname: this.user.firstname,
-        lastname : this.user.lastname,
-        email    : this.user.email,
+        lastname: this.user.lastname,
+        email: this.user.email,
         birthDate: this.user.birthDate,
       };
 
+      // Get the form values
       const formValues = this.editUserForm.value;
+      // Filter les non empte values of the form
       const nonEmptyValues = Object.fromEntries(
         Object.entries(formValues).filter(([key, value]) => value !== '')
       );
 
-      // Update the updatedUser object with new datas
+      // Update the object updatedUser object with new datas
       updatedUser = { ...updatedUser, ...nonEmptyValues };
 
-      this.userService.editUser(this.userId, updatedUser).subscribe(
-        (user: User) => {
-          // Update user informations with new datas
-          this.user = user;
-          this.getUser();
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+      // Call the user service
+      this.userService.editUser(this.userId, updatedUser)
+        .subscribe({
+          next: (user: User) => {
+            // Update user information with new data
+            this.user = user;
+            this.getUser();
+          },
+          error: (error) => {
+            console.log(error);
+          }
+        });
     } else {
+      // Display the error message
       this.errorMessage = true;
     }
   }
 
-  // Delete the user method
+
+  /**
+  * Delete the user.
+  * @param event - The event object.
+  */
   deleteUser(event: Event) {
     event.preventDefault();
 
-    const confirmDelete = confirm('Voulez-vous vraiment supprimer votre compte ?');
+    // Confirmation before deleting the account
+    const confirmDelete = confirm('Are you sure you want to delete your account?');
+
     if (confirmDelete && this.userId === this.user._id) {
-      this.userService.deleteUser(this.userId).subscribe(response => {
+      // Call the service method to delete the user
+      this.userService.deleteUser(this.userId)
+      .subscribe({
+        next: (response) => {
+          // Log out the user after successful deletion
           this.authService.logout();
         },
-        (error) => {
-          console.log(error)
+        error: (error) => {
+          console.log(error);
         }
-      );
+      });
     }
   }
 }

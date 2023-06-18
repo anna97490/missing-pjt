@@ -7,7 +7,7 @@ import { User } from 'src/app/models/User.model';
 import { UserService } from '../../service/user.service';
 import { PostService } from '../../service/post.service';
 import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, AbstractControl, } from '@angular/forms';
 
 @Component({
   selector: 'app-posts-edit',
@@ -46,12 +46,12 @@ export class PostsEditComponent {
     public http: HttpClient
   ) {
     this.editPostForm = this.formBuilder.group({
-      firstname   : ['', [Validators.minLength(2), Validators.maxLength(70)]],
-      lastname    : ['', [Validators.minLength(2), Validators.maxLength(70)]],
-      birthDate   : ['', []],
+      firstname   : ['', [Validators.minLength(2), Validators.maxLength(40), Validators.pattern(/^[a-zA-Z]+$/)]],
+      lastname    : ['', [Validators.minLength(2), Validators.maxLength(40), Validators.pattern(/^[a-zA-Z]+$/)]],
+      birthDate   : ['', [this.birthDateValidator]],
       address     : ['', [Validators.minLength(2), Validators.maxLength(70)]],
       missingPlace: ['', [Validators.minLength(2), Validators.maxLength(70)]],
-      missingDate : ['', []],
+      missingDate : ['', [this.birthDateValidator]],
       description : ['', [Validators.minLength(10), Validators.maxLength(300)]],
       status      : ['', []],
     });
@@ -68,9 +68,11 @@ export class PostsEditComponent {
     });
     // Get post
     this.getPost();
-    console.log(this.isFile)
   }
 
+  /**
+  * Fet the post with the ID
+  */
   getPost() {
     this.postService.getPostById(this.postId).subscribe((post: Post) => {
       if (post) {
@@ -85,44 +87,70 @@ export class PostsEditComponent {
     });
   }
 
+
+  /**
+   * Filter the cities withe teh value
+   * @param value - The value of the input
+   */
   filteredCities(value: string) {
-    console.log(value)
+    console.log(value);
     const filterValue = value.toLowerCase();
     this.http.get<any[]>(`https://geo.api.gouv.fr/communes?nom=${filterValue}&fields=nom&format=json&geometry=centre&limit=4`)
-      .subscribe((response: any) => {
-        console.log(response)
-        this.filteredCitiesArray = response.slice(0, 3).map((city: any) => city.nom);
-        console.log(this.filteredCitiesArray)
-      }, (error) => {
-        console.error('Une erreur s\'est produite lors de la récupération des villes :', error);
-      });
+    .subscribe({
+      next: (response: any) => {
+        this.filteredCitiesArray = response.slice(0, 4).map((city: any) => city.nom);
+        console.log(this.filteredCitiesArray);
+      },
+      error: (error: any) => {
+        console.error('Une erreur s\'est produite lors de la récupération des villes:', error);
+      }
+    });
   }
 
+
+  /**
+   * Select a city
+   * @param city - The city selected
+   */
   selectCity(city: string) {
     console.log('Ville sélectionnée:', city);
     this.selectedCity = city;
     this.filteredCitiesArray = [];
   }
 
+  /**
+   * Filter missing places with the value
+   * @param value - The value of the input
+   */
   filteredMissingPlaces(value: string) {
-    console.log(value);
     const filterValue = value.toLowerCase();
     this.http.get<any[]>(`https://geo.api.gouv.fr/communes?nom=${filterValue}&fields=nom&format=json&geometry=centre&limit=4`)
-      .subscribe((response: any) => {
+    .subscribe({
+      next: (response: any) => {
         console.log(response);
-        this.filteredMissingPlacesArray = response.slice(0, 3).map((place: any) => place.nom);
+        this.filteredMissingPlacesArray = response.slice(0, 4).map((place: any) => place.nom);
         console.log(this.filteredMissingPlacesArray);
-      }, (error) => {
+      },
+      error: (error: any) => {
         console.error('Une erreur s\'est produite lors de la récupération des lieux de disparition:', error);
-      });
+      }
+    });
   }
 
+  /**
+   * Select a missing place
+   * @param missingPlace - Missing place selected
+   */
   selectMissingPlace(missingPlace: string) {
-    console.log('Lieu de disparition sélectionné:', missingPlace);
     this.selectedMissingPlace = missingPlace;
     this.filteredMissingPlacesArray = [];
   }
 
+
+  /**
+   * Drop down th e menu
+   * @param event - Click event
+   */
   toggleDropdownMenu(event: Event): void {
     event.preventDefault();
 
@@ -135,12 +163,36 @@ export class PostsEditComponent {
     this.isDropdownVisible = !this.isDropdownVisible;
   }
 
+  /**
+   * Custom validator for birthDate field to check if it is after the missingDate field
+   * @param control - The birthDate form control
+   * @returns Validation error if birthDate is after missingDate, null otherwise
+   */
+  birthDateValidator(control: AbstractControl): { [key: string]: boolean } | null {
+    const birthDate = new Date(control.value);
+    const missingDateControl = control.root.get('missingDate');
+
+    if (missingDateControl && birthDate > new Date(missingDateControl.value)) {
+      return { 'birthDateAfterMissingDate': true };
+    }
+    return null;
+  }
+
+
+  /**
+   * Select a status.
+   * @param status - Selected status.
+   */
   onSelectStatus(status: string): void {
     this.editPostForm.get('status').setValue(status);
     this.selectedStatus = status;
   }
 
-  // Function to pick date not after today's date
+
+  /**
+   * Function to validate that the selected date is not after today's date.
+   * @param event - The date selection event.
+   */
   validateDate(event: any) {
     const selectedDate = new Date(event.target.value);
     const now = Date.now();
@@ -149,15 +201,28 @@ export class PostsEditComponent {
     }
   }
 
+
+  /**
+   * Check if the form fields are correct.
+   */
   checkFields() {
     this.isFieldsCorrect = this.editPostForm.valid;
   }
 
+
+  /**
+   * Check if the form fields are valid.
+   * @returns boolean - True if the form fields are valid, false otherwise.
+   */
   areFieldsValid() {
     return this.editPostForm.valid;
   }
 
-  // File selected method
+
+  /**
+   * Method called when a file is selected.
+   * @param event - The file selection event.
+   */
   onFileSelected(event: Event) {
     this.image = (event.target as HTMLInputElement).files![0];
     this.fileName  = document.getElementById('file-name');
@@ -169,7 +234,12 @@ export class PostsEditComponent {
     }
   }
 
-  // Edit post
+
+  /**
+   * Edit a post.
+   * @param event - The click event.
+   * @param postId - The ID of the post to edit.
+   */
   editPost(event: Event, postId: string) {
     event.preventDefault();
     postId = this.postId;
@@ -200,21 +270,25 @@ export class PostsEditComponent {
       oldPost = { ...oldPost, ...nonEmptyValues };
 
       this.postService.editPost(postId, oldPost)
-      .subscribe(
-        () => {
+      .subscribe({
+        next: () => {
           this.post = oldPost;
           this.getPost();
         },
-        (error) => {
+        error: (error) => {
           this.message = 'Une erreur est survenue lors de la modification du post';
         }
-      );
+      });
     } else {
       this.errorMessage = true;
     }
   }
 
-  // Update the picture of the post
+
+  /**
+   * Update the picture of the post.
+   * @param event - The click event.
+   */
   updatePostPicture(event: Event) {
     event.preventDefault();
 
@@ -226,20 +300,18 @@ export class PostsEditComponent {
       const formData = new FormData();
       formData.append('image', this.image, this.image.name);
 
-      this.postService.updatePostPicture(formData, this.post._id)
-      .subscribe(
-        (post: Post) => {
+      this.postService.updatePostPicture(formData, this.post._id).subscribe({
+        next: (post: Post) => {
           // Update user information with new profile picture
           this.post = post;
           this.getPost();
         },
-        (error) => {
+        error: (error) => {
           this.message = 'Une erreur est survenue lors de la modification du post';
         }
-      );
+      });
     } else {
       this.errorFile = true;
     }
-
   }
 }

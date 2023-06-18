@@ -33,35 +33,48 @@ export class CardMissingComponent implements OnInit {
     this.getUser();
   }
 
-  // Get the user
+  /**
+   * Get the user information based on the post's userId
+   */
   getUser() {
-    this.userService.getUserById(this.post.userId).subscribe(
-      (user: User) => {
-        this.user = user;
-      },
-      (error) => {
-        console.error('An error occurred while getting user:', error);
-      }
-    );
+    this.userId = this.authService.getDecryptedUserId();
+
+    if (!this.userId) {
+      console.error('Invalid userId');
+      return;
+    }
   }
 
-  // Edit post
+
+  /**
+   * Edit the post
+   * @param event - The event object
+   */
   editPost(event: Event) {
     event.preventDefault();
+
     if (this.isLoggedIn) {
       const post = this.posts.find(post => post.userId === this.userId && post._id === this.post._id);
+
       if (post) {
         this.router.navigate(['/edit-post/', post.userId, post._id], { state: { post: post }});
       }
     }
   }
 
-  // Delete post with postId
+
+  /**
+   * Delete the post with postId
+   * @param event - The event object
+   * @param postId - The ID of the post to delete
+   */
   deletePost(event: Event, postId: string) {
     event.preventDefault();
+    const post = this.posts.find(post => post.userId === this.userId && post._id === this.post._id);
 
     // Check if user is connected and if "Ok" to confirm
-    if (this.isLoggedIn && confirm("Êtes-vous sûr de vouloir supprimer cette fiche?")) {
+    if (this.isLoggedIn && confirm("Êtes-vous sûr de vouloir supprimer cette fiche?") &&
+      post?.userId === this.userId) {
       this.postService.deletePost(postId).subscribe({
         next: (response: any) => {
           window.location.reload(); // a supprimer
@@ -74,7 +87,10 @@ export class CardMissingComponent implements OnInit {
     }
   }
 
-  // Get the posts
+
+  /**
+   * Get the posts
+   */
   private getPosts() {
     this.postService.getPosts().subscribe((posts: Post[]) => {
       // Array of posts
@@ -82,6 +98,10 @@ export class CardMissingComponent implements OnInit {
     });
   }
 
+
+  /**
+   * Calculate the age from birthDate and update the post's age property
+   */
   private calculateAge() {
     // Calculate age from birthDate
     const birthDate = new Date(this.post.birthDate);
@@ -90,7 +110,11 @@ export class CardMissingComponent implements OnInit {
     this.post.age = age;
   }
 
-  // Update posts array after delete post
+
+  /**
+   * Update the posts array after deleting a post
+   * @param postId - The ID of the post to remove from the array
+   */
   private removePostFromArray(postId: string) {
     this.getPosts();
     const index = this.posts.findIndex(post => post._id === postId);

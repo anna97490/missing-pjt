@@ -54,8 +54,10 @@ export class PostsIndexComponent implements OnInit {
     this.modalOpen = true;
   }
 
-  // --------- Filter ---------
-  // Filter posts by missingPlace
+  // -------------------------------------- Filters --------------------------------------------
+  /**
+  * Filter posts by missingPlace
+  */
   filterPostsByMissingPlace() {
     const checkbox = document.getElementById('checked-missingPlace') as HTMLInputElement;
 
@@ -71,7 +73,10 @@ export class PostsIndexComponent implements OnInit {
     }
   }
 
-  // Filter posts by year of missingDate
+
+  /**
+  * Filter posts by year of missingDate
+  */
   filterPostsByYear() {
     let checkbox = document.getElementById('checked-year') as HTMLInputElement;
     let postYear = 0;
@@ -83,7 +88,6 @@ export class PostsIndexComponent implements OnInit {
         if (postYear === this.selectionYear) {
           const date = new Date(post.missingDate);
           const year = date.getFullYear().toString().substring(0, 4);
-          console.log('year', year);
           return true;
         }
 
@@ -96,7 +100,10 @@ export class PostsIndexComponent implements OnInit {
     }
   }
 
-  // Filter posts by status "En cours"
+
+  /**
+  * Filter posts by status "En cours"
+  */
   filterByEnCourStatus() {
     let checkbox = document.getElementById('checked-encours') as HTMLInputElement;
 
@@ -108,7 +115,10 @@ export class PostsIndexComponent implements OnInit {
     }
   }
 
-  // Filter posts by status "Retrouve"
+
+  /**
+  * Filter posts by status "Retrouve"
+  */
   filterByRetrouveStatus() {
     let checkbox = document.getElementById('checked-retrouve') as HTMLInputElement;
 
@@ -120,7 +130,9 @@ export class PostsIndexComponent implements OnInit {
     }
   }
 
-  // Get posts
+  /**
+  * Get the posts
+  */
   getPosts() {
     this.postService.getPosts().subscribe(
       (posts: Post[]) => {
@@ -136,8 +148,12 @@ export class PostsIndexComponent implements OnInit {
   }
 
 
-  // --------- Comments ---------
-  // Add comment
+  // -------------------------------------- Comments --------------------------------------------
+  /**
+  * Add a comment to a post
+  * @param event - The click event
+  * @param postId - The ID of the post to add the comment to
+  */
   addComment(event: Event, postId: string) {
     event.preventDefault();
 
@@ -159,6 +175,8 @@ export class PostsIndexComponent implements OnInit {
 
           this.commentService.addComment(comment).subscribe(
             response => {
+              // Clear the textarea
+              this.areaForm.get('comment').setValue('');
               this.getPosts();
               return this.posts;
             },
@@ -173,6 +191,10 @@ export class PostsIndexComponent implements OnInit {
     }
   }
 
+
+  /**
+  * Retrieve comments from the server
+  */
   getComments() {
     this.commentService.getComments().subscribe(
       (comments: Comment[]) => {
@@ -184,6 +206,12 @@ export class PostsIndexComponent implements OnInit {
     );
   }
 
+
+  /**
+  * Edit a comment
+  * @param event - The click event
+  * @param commentId - The ID of the comment to edit
+  */
   editComment(event: Event, commentId: string) {
     event.preventDefault();
     const commentString = this.areaForm.get('commentUpdated').value;
@@ -201,15 +229,7 @@ export class PostsIndexComponent implements OnInit {
       this.commentService.editComment(updatedComment, commentId)
       .subscribe({
         next: (response: any) => {
-          const updatedCommentObject = new Comment(
-            response._id,
-            response.userId,
-            response.postId,
-            response.comment,
-            response.createdAt
-          );
-          this.comments[index] = updatedCommentObject;
-          this.areaForm.get('commentUpdated').setValue(response.comment);
+          this.getComments();
         },
         error: (error: any) => {
           console.error('An error occurred while editing the comment:', error);
@@ -218,7 +238,12 @@ export class PostsIndexComponent implements OnInit {
     }
   }
 
-  // Delete comment 666666666666
+
+  /**
+  * Delete a comment
+  * @param event - The click event
+  * @param commentId - The ID of the comment to delete
+  */
   deleteComment(event: Event, commentId: string) {
     event.preventDefault();
 
@@ -235,5 +260,16 @@ export class PostsIndexComponent implements OnInit {
         }
       });
     }
+  }
+
+  /**
+   * Filter comments by date
+   */
+  sortCommentsByDate() {
+    this.posts.forEach(post => {
+      post.comments.sort((a, b) => {
+        return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+      });
+    });
   }
 }

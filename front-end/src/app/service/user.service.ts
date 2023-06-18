@@ -16,59 +16,105 @@ export class UserService {
     private authService: AuthService
   ) {}
 
-  // Get the user - params userId
+
+  /**
+   * Get the user by userId.
+   * @param userId The ID of the user.
+   * @returns An observable that emits the user.
+   */
   getUserById(userId: string): Observable<User> {
+    // Get the HTTP options for the request
     const httpOptions = this.getHttpOptions();
 
+    // Check if the userId is invalid
+    if (!userId) {
+      return throwError(() => new Error('Invalid userId'));
+    }
+
+    // Check if the user is not authenticated
+    if (!this.authService.isLoggedIn()) {
+      return throwError(() => new Error('User not authenticated'));
+    }
+
+    // Send a GET request to retrieve the user
     return this.http.get<User>(`${this.apiUrl}/${userId}`, httpOptions)
     .pipe(
       catchError((error: HttpErrorResponse) => {
-        return throwError('An error occurred while retrieving the user');
+        console.log(error)
+        return throwError(() => new Error('An error occurred while getting the user'));
       })
     );
   }
 
-  // Update the user - params userId - updatedUser contains infos updated
+
+  /**
+   * Update the user with new information.
+   * @param userId The ID of the user to update.
+   * @param updatedUser The updated user information.
+   * @returns An observable that emits the updated user.
+   */
   editUser(userId: string, updatedUser: Object): Observable<User> {
-    const user = JSON.stringify(updatedUser)
+    // Convert the updatedUser object to JSON string
+    const user = JSON.stringify(updatedUser);
+
+    // Get the HTTP options for the request
     const httpOptions = this.getHttpOptions();
 
+    // Check if the userId is invalid
+    if (!userId) {
+      return throwError(() => new Error('Invalid userId'));
+    }
+
+    // Check if the user is not authenticated
+    if (!this.authService.isLoggedIn()) {
+      return throwError(() => new Error('User not authenticated'));
+    }
+
+    // Send a PUT request to update the user
     return this.http.put<User>(`${this.apiUrl}/${userId}`, {user: user}, httpOptions)
     .pipe(
       catchError((error: HttpErrorResponse) => {
-        return throwError('An error occurred while modifying the user.');
+        console.log(error)
+        return throwError(() => new Error('An error occurred while modifying the user'));
       })
     );
   }
 
-  // Update profile picture - params formData contains picture - userId
-  updateProfilePicture(formData: FormData, userId: string): Observable<User> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Authorization': 'Bearer ' + this.token })
-    };
 
-    return this.http.post<User>(`${this.apiUrl}/${userId}/profile-picture`, formData, httpOptions)
-    .pipe(
-      catchError((error: HttpErrorResponse) => {
-        return throwError(() => error);
-      })
-    );
-  }
-
- // Delete user - params userId
+  /**
+   * Delete the user by userId.
+   * @param userId The ID of the user to delete.
+   * @returns An observable that emits the deleted user.
+   */
   deleteUser(userId: string): Observable<User> {
+    // Get the HTTP options for the request
     const httpOptions = this.getHttpOptions();
 
+    // Check if the userId is invalid
+    if (!userId) {
+      return throwError(() => new Error('Invalid userId'));
+    }
+
+    // Check if the user is not authenticated
+    if (!this.authService.isLoggedIn()) {
+      return throwError(() => new Error('User not authenticated'));
+    }
+
+    // Send a DELETE request to delete the user
     return this.http.delete<User>(`${this.apiUrl}/${userId}`, httpOptions)
     .pipe(
       catchError((error: HttpErrorResponse) => {
-        return throwError(() => error);
+        console.log(error)
+        return throwError(() => new Error('An error occurred while deleting the user'));
       })
     );
   }
 
-  // Declare the httpOptions
+
+  /**
+   * Get the HTTP options with authorization header.
+   * @returns HTTP options with authorization header.
+   */
   getHttpOptions() {
     return {
       headers: new HttpHeaders({

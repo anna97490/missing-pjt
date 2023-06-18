@@ -165,11 +165,12 @@ textarea {
           justify-content: space-between;
   border-bottom: 1px solid #dad8d8;
   form {
+    width: 100%;
     padding: 1% 0;
   }
   form input {
-    margin-top: 3%;
     background-color: transparent;
+    width: 100%;
   }
 }
 .cont-edit-delete-comment {
