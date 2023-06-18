@@ -5,7 +5,8 @@
 }
 .signin-content {
   background-color: #fff;
-  box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.09);
+  -webkit-box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.09);
+          box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.09);
 }
 .link-index {
   position: absolute;
@@ -28,7 +29,8 @@
   .btn-signin {
     text-align: center;
     color: #fff;
-    box-shadow: 0px 0px 6px 1px rgba(0, 0, 0, 0.09);
+    -webkit-box-shadow: 0px 0px 6px 1px rgba(0, 0, 0, 0.09);
+            box-shadow: 0px 0px 6px 1px rgba(0, 0, 0, 0.09);
   }
   .btn-invalid-form {
     background-color: #edecec;
@@ -55,7 +57,7 @@ span {
 
 @media (max-width: 580px)  {
   .container-signin {
-    padding: 36% 0% 0% 0%;
+    padding: 40% 0% 0% 0%;
   }
   h1 {
     font-size: 15px;
@@ -77,4 +79,3 @@ span {
     width: 17px;
   }
 }
-

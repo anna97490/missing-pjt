@@ -1,17 +1,11 @@
 <div class="container-user">
   <!-- Back Index -->
-  <a
-    href="/posts-index" class="link-index flex items-center text-base font-normal text-gray-900
+  <a href="/posts-index" class="link-index flex items-center text-base font-normal text-gray-900
     rounded-lg dark:text-red hover:bg-gray-100 dark:hover:bg-gray-700">
     <svg aria-hidden="true" class="flex-shrink-0 w-6 h-6 text-gray-500
       transition duration-75 dark:text-gray-400
-      group-hover:text-gray-900 dark:group-hover:text-white"
-      fill="currentColor"
-      viewBox="0 0 512 512"
-      xmlns="http://www.w3.org/2000/svg">
-      <path
-        fill-rule="evenodd"
-        d="M360 224L272 224v-56c0-9.531-5.656-18.16-14.38-22C248.9 142.2 238.7
+      group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd" d="M360 224L272 224v-56c0-9.531-5.656-18.16-14.38-22C248.9 142.2 238.7
         143.9 231.7 150.4l-96 88.75C130.8 243.7
         128 250.1 128 256.8c.3125 7.781 2.875 13.25 7.844 17.75l96 87.25c7.031
         6.406 17.19 8.031 25.88 4.188s14.28-12.44
@@ -19,10 +13,9 @@
         373.3 224 360 224zM256 0C114.6 0 0 114.6
         0 256s114.6 256 256 256s256-114.6 256-256S397.4 0 256 0zM256 464c-114.7
         0-208-93.31-208-208S141.3 48 256 48s208
-        93.31 208 208S370.7 464 256 464z"
-        />
-      </svg>
-      <span class="flex-1 ml-3 whitespace-nowrap"></span>
+        93.31 208 208S370.7 464 256 464z" />
+    </svg>
+    <span class="flex-1 ml-3 whitespace-nowrap"></span>
   </a>
 
   <div class="cont-title">
@@ -30,111 +23,70 @@
   </div>
 
   <!-- Form to edit User -->
-  <form
-    [formGroup]="editUserForm"
-    enctype="multipart/form-data"
-    (submit)="editUser($event)"
-    class="border border-gray-200 rounded-lg shadow dark:border-gray-700s">
+  <form [formGroup]="editUserForm" enctype="multipart/form-data" (submit)="editUser($event)" class="border border-gray-200 rounded-lg shadow dark:border-gray-700s">
     <div class="grid md:grid-cols-2 md:gap-6">
       <!-- Firstname -->
       <div class="relative z-0 w-full mb-6 group">
-        <input
-          type="text"
-          name="floating_first_name"
-          id="floating_first_name"
-          formControlName="firstname"
-          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent
+        <input type="text" name="floating_first_name" id="floating_first_name" formControlName="firstname" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent
           border-0 border-b-2 border-gray-300
-          appearance-none dark:text-white dark:border-gray-600
+          appearance-none dark:border-gray-600
           dark:focus:border-blue-500 focus:outline-none focus:ring-0
-          focus:border-blue-600 peer"
-          placeholder="{{ user.firstname| titlecase }}"
-          (change)="checkFields()"
-        />
-        <label
-          for="floating_first_name"
-          class="peer-focus:font-medium absolute text-sm text-gray-500
+          focus:border-blue-600 peer" placeholder="{{ user.firstname| titlecase }}" (change)="checkFields()" />
+        <label for="floating_first_name" class="peer-focus:font-medium absolute text-sm text-gray-500
           dark:text-gray-400 duration-300 transform -translate-y-2
           scale-55 bottom-8 -z-10 origin-[0] peer-focus:left-0
           peer-focus:text-blue-600 peer-focus:dark:text-blue-500
           peer-placeholder-shown:scale-100
           peer-placeholder-shown:translate-y-0 peer-focus:scale-55
-          peer-focus:-translate-y-2">
-          Prénom
-        </label>
+          peer-focus:-translate-y-2"> Prénom </label>
       </div>
+
       <!-- Lastname -->
       <div class="relative z-0 w-full mb-6 group">
-        <input
-          type="text"
-          name="floating_last_name"
-          id="floating_last_name"
-          formControlName="lastname"
-          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent
+        <input type="text" name="floating_last_name" id="floating_last_name" formControlName="lastname" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent
           border-0 border-b-2 border-gray-300 appearance-none
-          dark:text-white dark:border-gray-600 dark:focus:border-blue-500
-          focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-          placeholder="{{ user.lastname | titlecase}}"
-          (change)="checkFields()"
-        />
-        <label
-          for="floating_last_name"
-          class="peer-focus:font-medium absolute text-sm text-gray-500
+          dark:border-gray-600 dark:focus:border-blue-500
+          focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder="{{ user.lastname | titlecase}}" (change)="checkFields()" />
+        <label for="floating_last_name" class="peer-focus:font-medium absolute text-sm text-gray-500
           dark:text-gray-400 duration-300 transform -translate-y-2
           scale-55 bottom-8 -z-10 origin-[0] peer-focus:left-0
           peer-focus:text-blue-600 peer-focus:dark:text-blue-500
           peer-placeholder-shown:scale-100
           peer-placeholder-shown:translate-y-0 peer-focus:scale-55
-          peer-focus:-translate-y-2">
-          Nom
-        </label>
+          peer-focus:-translate-y-2"> Nom </label>
       </div>
-       <!-- Lastname -->
-       <div class="relative z-0 w-full mb-6 group">
-        <input
-          type="text"
-          name="email"
-          id="email"
-          formControlName="email"
-          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent
+
+      <!-- Lastname -->
+      <div class="relative z-0 w-full mb-6 group">
+        <input type="text" name="email" id="email" formControlName="email" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent
           border-0 border-b-2 border-gray-300 appearance-none
-          dark:text-white dark:border-gray-600 dark:focus:border-blue-500
-          focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-          placeholder="{{ user.email }}"
-          (change)="checkFields()"
-        />
-        <label
-          for="email"
-          class="peer-focus:font-medium absolute text-sm text-gray-500
+          dark:border-gray-600 dark:focus:border-blue-500
+          focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder="{{ user.email }}" (change)="checkFields()" />
+        <label for="email" class="peer-focus:font-medium absolute text-sm text-gray-500
           dark:text-gray-400 duration-300 transform -translate-y-2
           scale-55 bottom-8 -z-10 origin-[0] peer-focus:left-0
           peer-focus:text-blue-600 peer-focus:dark:text-blue-500
           peer-placeholder-shown:scale-100
           peer-placeholder-shown:translate-y-0 peer-focus:scale-55
-          peer-focus:-translate-y-2">
-          Email
-        </label>
+          peer-focus:-translate-y-2"> Email </label>
       </div>
+
     </div>
 
     <!-- Submit button -->
     <div class="cont-submit">
-      <button
-        type="submit"
-        class="btn-submit py-2.5 px-5 mb-1 text-sm font-medium text-gray-900
+      <button type="submit" class="btn-submit py-2.5 px-5 mb-1 text-sm font-medium text-gray-900
         rounded-lg border border-gray-200
         focus:z-10 focus:ring-4 focus:outline-none focus:ring-blue-700
         focus:text-blue-700 dark:bg-gray-800
-        dark:text-gray-400 dark:border-gray-600 inline-flex items-center"
-        [ngClass]="{'color-submit': isFieldsCorrect}">
+        dark:text-gray-400 dark:border-gray-600 inline-flex items-center" [ngClass]="{'color-submit': isFieldsCorrect}">
         Enregistrer
       </button>
-      <div *ngIf="errorMessage" class="error-msg">
-        La saisie est incorrecte.
-      </div>
+      <div *ngIf="errorMessage" class="error-msg"> La saisie est incorrecte. </div>
     </div>
-  </form>  
- 
+
+  </form>
+
   <!-- Button Delete Account -->
   <div class="cont-delete">
     <span (click)="deleteUser($event)">Supprimer mon compte</span>

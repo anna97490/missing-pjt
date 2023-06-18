@@ -43,7 +43,7 @@
 
 @media (max-width: 580px)  {
   .container-login {
-    padding: 36% 0% 0% 0%;
+    padding: 45% 0% 0% 0%;
   }
   h1 {
     font-size: 15px;
@@ -52,6 +52,75 @@
     font-size: 12px !important;
   }
   input {
+    .container-login {
+      position: relative;
+      height: 100%;
+      padding: 20% 3% 0% 3%;
+    }
+    .content-login {
+      background-color: #fff;
+      -webkit-box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.09);
+              box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.09);
+    }
+    .link-index {
+      position: absolute;
+      top: 8%;
+      left: 2%;
+    }
+    .logo {
+      margin-bottom:2%;
+    }
+    .btn {
+      text-align: center;
+    }
+    .btn-login {
+      text-align: center;
+      color: #fff;
+      -webkit-box-shadow: 0px 0px 6px 1px rgba(0, 0, 0, 0.09);
+              box-shadow: 0px 0px 6px 1px rgba(0, 0, 0, 0.09);
+    }
+    .btn-invalid-form {
+      background-color: #edecec;
+    }
+    .btn-valid-form {
+      background-color: #6B7280;
+    }
+    .message {
+      margin-top: 1% !important;
+      color: red;
+      font-size: 12px;
+    }
+
+    @media (max-width: 768px)  {
+      .container-login {
+        padding: 25% 0% 0% 0%;
+      }
+    }
+
+    @media (max-width: 580px)  {
+      .container-login {
+        padding: 45% 0% 0% 0%;
+      }
+      h1 {
+        font-size: 15px;
+      }
+      label {
+        font-size: 12px !important;
+      }
+      input {
+        font-size: 12px !important;
+      }
+      p {
+        font-size: 12px !important;
+      }
+      button {
+        font-size: 12px !important;
+        padding: 4% !important;
+      }
+      svg {
+        width: 17px;
+      }
+    }
     font-size: 12px !important;
   }
   p {

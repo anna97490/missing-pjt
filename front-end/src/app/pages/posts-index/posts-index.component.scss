@@ -8,8 +8,12 @@ app-card-missing {
 }
 .cont-creation {
   width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: end;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: end;
   margin-right: 7%;
   margin-bottom: 3%;
   float: right;
@@ -35,8 +39,12 @@ app-card-missing {
   font-size: 20px;
 }
 .cont-search-bar {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   width: 100%;
   .form-search {
     width: 80%;
@@ -46,6 +54,8 @@ app-card-missing {
   width: 100%;
 }
 .cont-place-year {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   margin-bottom: 3%;
   input {
@@ -68,15 +78,24 @@ app-card-missing {
   width: 100%;
 }
 .cont-status {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: space-between;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
   width: 36%;
   margin-bottom: 4%;
 }
 .posts-lists {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   position: relative;
   margin-bottom: 52%;
   position: relative;
@@ -87,7 +106,9 @@ app-card-missing {
   width: 100%;
   top: 100%;
   border-radius: 4px;
-  box-shadow: -5px 0 5px -1px rgba(0, 0, 0, 0.09),
+  -webkit-box-shadow: -5px 0 5px -1px rgba(0, 0, 0, 0.09),
+  5px 5px 5px -1px rgba(0, 0, 0, 0.09);
+          box-shadow: -5px 0 5px -1px rgba(0, 0, 0, 0.09),
   5px 5px 5px -1px rgba(0, 0, 0, 0.09);
 }
 #area-form-comment {
@@ -109,10 +130,13 @@ app-card-missing {
   }
 }
 .cont-add-comment {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   padding: 1%;
   background-color: rgb(246 246 246);
-  box-shadow: 13px 0px 6px 3px rgba(0, 0, 0, 3%);
+  -webkit-box-shadow: 13px 0px 6px 3px rgba(0, 0, 0, 3%);
+          box-shadow: 13px 0px 6px 3px rgba(0, 0, 0, 3%);
   svg {
     width: 1rem;
     margin-right: 1%;
@@ -133,8 +157,12 @@ textarea {
   background-color: #fcfafa;
 }
 .comments-list {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: space-between;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
   border-bottom: 1px solid #dad8d8;
   form {
     padding: 1% 0;
@@ -146,6 +174,8 @@ textarea {
 }
 .cont-edit-delete-comment {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   svg {
     width: 60%;
@@ -242,6 +272,5 @@ hr {
     padding-top: 28% !important;
   }
 }
-
 
 
