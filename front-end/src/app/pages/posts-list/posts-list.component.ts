@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { User } from '../../models/User.model';
 import { Post } from '../../models/Post.model';
 import { PostService } from '../../service/post.service';
@@ -12,7 +12,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./posts-list.component.scss']
 })
 export class PostsListComponent {
-  // @Input() modalOpen: boolean = false;
   userId: any;
   postId: any;
   isLoggedIn: boolean = true;
@@ -39,7 +38,8 @@ export class PostsListComponent {
   * Get the user by ID
   */
   getUserById() {
-    this.userService.getUserById(this.userId).subscribe((user: User) => {
+    this.userService.getUserById(this.userId)
+    .subscribe((user: User) => {
       this.user = user;
     });
   }
@@ -61,7 +61,8 @@ export class PostsListComponent {
   * Get the posts for the current user
   */
   getPosts() {
-    this.postService.getPosts().subscribe((posts) => {
+    this.postService.getPosts()
+    .subscribe((posts) => {
       this.posts = posts
         .filter(post => post.userId === this.userId)
         .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());

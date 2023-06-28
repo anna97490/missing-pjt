@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../service/auth.service';
 import { User } from 'src/app/models/User.model';
 import { UserService } from '../../service/user.service';
-import { DatePipe } from '@angular/common';
-import { Router } from '@angular/router';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-user-infos',
@@ -23,7 +21,6 @@ export class UserInfosComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private userService: UserService,
-    private router: Router,
     private formBuilder: FormBuilder,
   ) {
     this.editUserForm = this.formBuilder.group({
@@ -42,7 +39,7 @@ export class UserInfosComponent implements OnInit {
 
 
   /**
-  Get the user information by userId.
+  Get the user by Id
   */
   getUser() {
     this.userService.getUserById(this.userId)
@@ -73,29 +70,8 @@ export class UserInfosComponent implements OnInit {
     return this.editUserForm.valid;
   }
 
-
   /**
-  Custom validator for minimum age
-  @param minimumAge - The minimum age allowed
-  @returns ValidatorFn - The validator function
-  */
-  minimumAgeValidator(minimumAge: number) {
-    return (control: AbstractControl) => {
-      if (control.value) {
-        const today = new Date();
-        const birthDate = new Date(control.value);
-        const age = today.getFullYear() - birthDate.getFullYear();
-        if (age < minimumAge) {
-          return { minimumAge: true };
-        }
-      }
-      return null;
-    };
-  }
-
-
-  /**
-   * Updates the user data based on the specified field.
+   * Updates the user data on the specified field.
    * @param field - The field to update (firstname, lastname, email)
    */
   updateUserData(field: string) {
@@ -125,6 +101,7 @@ export class UserInfosComponent implements OnInit {
     event.preventDefault();
 
     if (this.userId === this.user._id && this.isFieldsCorrect === true) {
+      console.log('test')
       // Get data from user
       let updatedUser = {
         firstname: this.user.firstname,
@@ -145,16 +122,16 @@ export class UserInfosComponent implements OnInit {
 
       // Call the user service
       this.userService.editUser(this.userId, updatedUser)
-        .subscribe({
-          next: (user: User) => {
-            // Update user information with new data
-            this.user = user;
-            this.getUser();
-          },
-          error: (error) => {
-            console.log(error);
-          }
-        });
+      .subscribe({
+        next: (user: User) => {
+          // Update user information with new data
+          this.user = user;
+          this.getUser();
+        },
+        error: (error) => {
+          console.log(error);
+        }
+      });
     } else {
       // Display the error message
       this.errorMessage = true;

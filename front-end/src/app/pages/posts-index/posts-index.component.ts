@@ -1,10 +1,12 @@
-import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Post } from '../../models/Post.model';
+import { User } from '../../models/User.model';
 import { Comment } from '../../models/Comment.model';
 import { PostService } from '../../service/post.service';
+import { UserService } from '../../service/user.service';
 import { AuthService } from '../../service/auth.service';
 import { CommentService } from '../../service/comment.service';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 
 
 @Component({
@@ -15,6 +17,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 export class PostsIndexComponent implements OnInit {
   @Input() modalOpen : boolean = false;
   isLoggedIn: boolean = true;
+  user: any = User;
   userId: any;
   postId: any;
   posts: Post[] = [];
@@ -31,9 +34,9 @@ export class PostsIndexComponent implements OnInit {
   constructor(
     private authService: AuthService,
     public postService: PostService,
+    public userService: UserService,
     public commentService: CommentService,
     private formBuilder: FormBuilder,
-    private changeDetectorRef: ChangeDetectorRef
   ) {
     this.areaForm = this.formBuilder.group({
       comment: ['', []],
@@ -43,7 +46,10 @@ export class PostsIndexComponent implements OnInit {
 
   ngOnInit() {
     this.isLoggedIn = this.authService.isLoggedIn();
-    this.userId = this.authService.getDecryptedUserId();
+    if (this.isLoggedIn) {
+      this.userId = this.authService.getDecryptedUserId();
+      this.user = this.userService.getUserById(this.userId);
+    }
     this.getPosts();
     this.getComments();
   }
@@ -173,17 +179,18 @@ export class PostsIndexComponent implements OnInit {
             postId: postId
           };
 
-          this.commentService.addComment(comment).subscribe(
-            response => {
+          this.commentService.addComment(comment)
+          .subscribe({
+            next: (response: Comment) => {
               // Clear the textarea
               this.areaForm.get('comment').setValue('');
               this.getPosts();
               return this.posts;
             },
-            error => {
+            error: (error: any) => {
               console.error('An error occurred while adding the comment:', error);
             }
-          );
+          });
         }
       });
     } else {
@@ -193,17 +200,18 @@ export class PostsIndexComponent implements OnInit {
 
 
   /**
-  * Retrieve comments from the server
+  * Get the comments
   */
   getComments() {
-    this.commentService.getComments().subscribe(
-      (comments: Comment[]) => {
+    this.commentService.getComments()
+    .subscribe({
+      next: (comments: Comment[]) => {
         this.comments = comments;
       },
-      (error: any) => {
+      error: (error: any) => {
         console.error('An error occurred while retrieving the comments:', error);
       }
-    );
+    });
   }
 
 
@@ -247,8 +255,8 @@ export class PostsIndexComponent implements OnInit {
   deleteComment(event: Event, commentId: string) {
     event.preventDefault();
 
-    if (confirm("Souhaitez-vous supprimer votre commentaire?")) {
-      this.commentService.deleteComment(commentId)
+    if (confirm("Souhaitez-vous supprimer votre commentaire?") && this.userId === this.comment.userId) {
+      this.commentService.deleteComment(this.userId, commentId)
       .subscribe({
         next: (response: any) => {
           this.getComments();

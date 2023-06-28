@@ -13,8 +13,8 @@ export class AuthGuard implements CanActivate {
   ) {}
 
   /**
-   * Method that determines if the user can activate the route.
-   * @returns boolean - True if the user can activate the route, otherwise False.
+   * Method that determines if the user can activate the route
+   * @returns boolean - True if the user can activate the route, otherwise False
    */
   canActivate(): boolean {
     if (this.authService.getDecryptedUserId()) {

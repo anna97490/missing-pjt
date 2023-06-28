@@ -46,16 +46,17 @@ describe('SigninComponent', () => {
       firstname: 'John',
       lastname: 'Doe',
       email: 'test@example.com',
-      birthDate: '1990-01-01',
       password: 'password'
     };
+
+    const message = 'error';
 
     spyOn(authService, 'signUp').and.returnValue(of({} as User));
 
     component.signinForm.patchValue(user);
     component.signUp(new Event('click'));
 
-    expect(authService.signUp).toHaveBeenCalledWith(user);
+    expect(authService.signUp).toHaveBeenCalledWith(user, message);
     expect(router.navigate).toHaveBeenCalledWith(['/posts-index']);
   });
 
@@ -64,18 +65,17 @@ describe('SigninComponent', () => {
       firstname: 'John',
       lastname: 'Doe',
       email: 'test@example.com',
-      birthDate: '1990-01-01',
       password: 'password'
     };
 
-    const error = { error: { message: 'Email already registered' } };
+    const message = 'error';
 
-    spyOn(authService, 'signUp').and.returnValue(throwError(error));
+    spyOn(authService, 'signUp').and.returnValue(throwError(message));
 
     component.signinForm.patchValue(user);
     component.signUp(new Event('click'));
 
-    expect(authService.signUp).toHaveBeenCalledWith(user);
+    expect(authService.signUp).toHaveBeenCalledWith(user, message);
     expect(component.errorMessage).toBe('Cet email existe déjà.');
   });
 });

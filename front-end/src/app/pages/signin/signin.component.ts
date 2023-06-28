@@ -23,7 +23,7 @@ export class SigninComponent {
 
 
   /**
-   * Method triggered when the signup form is submitted.
+   * Signup method
    * @param event - The form submission event.
    */
   signUp(event: Event) {
@@ -38,7 +38,7 @@ export class SigninComponent {
     }
 
     if (this.signinForm.valid) { // if the form is valid
-      this.authService.signUp(user)
+      this.authService.signUp(user, this.errorMessage)
       .subscribe(
         {
           next: response => {
@@ -46,9 +46,10 @@ export class SigninComponent {
             this.router.navigate(['/posts-index']);
           },
           error: error => {
-            if (error.error.message === 'Email already registered') {
-              this.errorMessage = 'Cet email existe déjà.';
-            } else {
+            if (error.message === 'Cet email existe déjà.') {
+              this.errorMessage = error.message;
+            }
+            else {
               console.log(error.error.message);
             }
           }

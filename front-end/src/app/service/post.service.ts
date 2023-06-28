@@ -25,9 +25,9 @@ export class PostService {
 
 
   /**
-   * Create a new post.
-   * @param formData - Form data containing post information.
-   * @returns Observable<Post> - The created post.
+   * Create a new post
+   * @param formData - Form data containing post information
+   * @returns Observable<Post> - The created post
    */
   createPost(formData: FormData): Observable<Post> {
     // Set the HTTP headers with authorization token
@@ -57,8 +57,8 @@ export class PostService {
 
 
   /**
-   * Get all posts.
-   * @returns Observable<Post[]> - The list of posts.
+   * Get all posts
+   * @returns Observable<Post[]> - List of posts
    */
   getPosts(): Observable<Post[]> {
     // Send a GET request to retrieve all posts
@@ -76,9 +76,9 @@ export class PostService {
 
 
   /**
-   * Get a post by its ID.
-   * @param postId - The ID of the post to retrieve.
-   * @returns Observable<Post> - The requested post.
+   * Get a post by ID
+   * @param postId - The ID of the post to get
+   * @returns Observable<Post> - The requested post
    */
   getPostById(postId: string): Observable<Post> {
     // Get the HTTP options for making requests
@@ -110,9 +110,9 @@ export class PostService {
 
   /**
    * Edit a post.
-   * @param postId - The ID of the post to edit.
-   * @param updatedPost - The updated post information.
-   * @returns Observable<Post> - The edited post.
+   * @param postId - The ID of the post to edit
+   * @param updatedPost - The updated post datas
+   * @returns Observable<Post> - The edited post
    */
   editPost(postId: string, updatedPost: Object): Observable<Post> {
     // Get the HTTP options for making requests
@@ -143,10 +143,10 @@ export class PostService {
 
 
   /**
-   * Update the picture of a post.
-   * @param formData - Form data containing the new picture.
-   * @param postId - The ID of the post to update the picture for.
-   * @returns Observable<Post> - The updated post.
+   * Update the picture of a post
+   * @param formData - Form data containing the new picture
+   * @param postId - The ID of the post to update
+   * @returns Observable<Post> - The updated post
    */
   updatePostPicture(formData: FormData, postId: string): Observable<Post> {
     // Set the HTTP options for the request
@@ -177,11 +177,11 @@ export class PostService {
 
 
   /**
-   * Delete a post.
-   * @param postId - The ID of the post to delete.
-   * @returns Observable<Post> - The deleted post.
+   * Delete a post
+   * @param postId - The ID of the post to delete
+   * @returns Observable<Post> - The deleted post
    */
-  deletePost(postId: string): Observable<Post> {
+  deletePost(postId: string, userId: string): Observable<Post> {
     // Get the HTTP options for the request
     const httpOptions = this.getHttpOptions();
 
@@ -196,7 +196,7 @@ export class PostService {
     }
 
     // Send a DELETE request to delete the post
-    return this.http.delete<Post>(`${this.apiUrl}/${postId}`, httpOptions)
+    return this.http.delete<Post>(`${this.apiUrl}/${userId}/${postId}`, httpOptions)
     .pipe(
       catchError((error: HttpErrorResponse) => {
         console.log(error);
@@ -207,8 +207,8 @@ export class PostService {
 
 
   /**
-   * Get the HTTP options for making requests.
-   * @returns Object - The HTTP options.
+   * Get the HTTP options for making requests
+   * @returns Object - The HTTP options
    */
   getHttpOptions() {
     return {

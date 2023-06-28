@@ -45,10 +45,8 @@ describe('AuthService', () => {
     _id: 'user-id',
     firstname: 'John',
     lastname: 'Doe',
-    birthDate: new Date(),
     email,
     password,
-    image: '',
     token: 'auth-token'
   };
 
@@ -87,14 +85,14 @@ describe('AuthService', () => {
       _id: 'user-id',
       firstname: 'John',
       lastname: 'Doe',
-      birthDate: new Date(),
       email: 'test@example.com',
       password: 'password',
-      image: '',
       token: 'auth-token'
     };
 
-    service.signUp(user).subscribe(response => {
+    const message = 'error'
+
+    service.signUp(user, message).subscribe(response => {
       expect(response).toEqual(user);
       expect(service.getDecryptedUserId()).toBe('user-id');
       expect(service.isLoggedIn()).toBe(true);
@@ -110,28 +108,25 @@ describe('AuthService', () => {
       _id: 'user-id',
       firstname: 'John',
       lastname: 'Doe',
-      birthDate: new Date(),
       email: 'test@example.com',
       password: 'password',
-      image: '',
       token: 'auth-token'
     };
 
-    const error = { error: { message: 'Email already exists' } };
+    const message = 'error'
 
-    service.signUp(user).pipe(
+    service.signUp(user, message).pipe(
       catchError((err) => {
-        expect(err).toEqual(error);
+        expect(err).toEqual(message);
         expect(service.getDecryptedUserId()).toBe(null);
         expect(service.isLoggedIn()).toBe(false);
         expect(router.navigate).not.toHaveBeenCalled();
-        return throwError(() => error);
+        return throwError(() => message);
       })
     ).subscribe();
 
     const request = httpMock.expectOne(`${service.apiUrl}/signup`);
     expect(request.request.method).toBe('POST');
-
   });
 
   it('should log out the user', () => {

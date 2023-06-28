@@ -1,6 +1,5 @@
-import { Component, Renderer2, ElementRef } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { DatePipe } from '@angular/common';
 import { AuthService } from '../../service/auth.service';
 import { Post } from 'src/app/models/Post.model';
 import { User } from 'src/app/models/User.model';
@@ -40,7 +39,6 @@ export class PostsEditComponent {
     private postService: PostService,
     private userService: UserService,
     private route      : ActivatedRoute,
-    private datePipe   : DatePipe,
     private formBuilder: FormBuilder,
     private el: ElementRef,
     public http: HttpClient
@@ -49,8 +47,8 @@ export class PostsEditComponent {
       firstname   : ['', [Validators.minLength(2), Validators.maxLength(40), Validators.pattern(/^[a-zA-Z]+$/)]],
       lastname    : ['', [Validators.minLength(2), Validators.maxLength(40), Validators.pattern(/^[a-zA-Z]+$/)]],
       birthDate   : ['', [this.birthDateValidator]],
-      address     : ['', [Validators.minLength(2), Validators.maxLength(70)]],
-      missingPlace: ['', [Validators.minLength(2), Validators.maxLength(70)]],
+      address     : ['', [Validators.pattern(/^[a-zA-Z -]*$/)]],
+      missingPlace: ['', [Validators.minLength(2), Validators.maxLength(70), Validators.pattern(/^[a-zA-Z -]*$/)]],
       missingDate : ['', [this.birthDateValidator]],
       description : ['', [Validators.minLength(10), Validators.maxLength(300)]],
       status      : ['', []],
@@ -63,7 +61,8 @@ export class PostsEditComponent {
     // Check if user is logged
     this.isLoggedIn = this.authService.isLoggedIn();
     // Get user
-    this.user = this.userService.getUserById(this.userId).subscribe((user: User) => {
+    this.user = this.userService.getUserById(this.userId)
+    .subscribe((user: User) => {
       this.user = user;
     });
     // Get post
@@ -71,10 +70,11 @@ export class PostsEditComponent {
   }
 
   /**
-  * Fet the post with the ID
+  * Get the post with the ID
   */
   getPost() {
-    this.postService.getPostById(this.postId).subscribe((post: Post) => {
+    this.postService.getPostById(this.postId)
+    .subscribe((post: Post) => {
       if (post) {
         this.post = post;
         // Birth date formated to age
@@ -88,18 +88,19 @@ export class PostsEditComponent {
   }
 
 
-  /**
-   * Filter the cities withe teh value
-   * @param value - The value of the input
+   /**
+   * Fetches the cities
+   * @param value - The value used to filter the cities
    */
   filteredCities(value: string) {
-    console.log(value);
     const filterValue = value.toLowerCase();
+
+    // Call the API with city value
     this.http.get<any[]>(`https://geo.api.gouv.fr/communes?nom=${filterValue}&fields=nom&format=json&geometry=centre&limit=4`)
     .subscribe({
       next: (response: any) => {
+        // Limits only 4 results
         this.filteredCitiesArray = response.slice(0, 4).map((city: any) => city.nom);
-        console.log(this.filteredCitiesArray);
       },
       error: (error: any) => {
         console.error('Une erreur s\'est produite lors de la récupération des villes:', error);
@@ -109,27 +110,27 @@ export class PostsEditComponent {
 
 
   /**
-   * Select a city
-   * @param city - The city selected
+   * Selects a city from the filtered list
+   * @param city - The selected city
    */
   selectCity(city: string) {
-    console.log('Ville sélectionnée:', city);
     this.selectedCity = city;
     this.filteredCitiesArray = [];
   }
 
   /**
-   * Filter missing places with the value
-   * @param value - The value of the input
+   * Fetches the missing places
+   * @param value - The value used to filter the missing places
    */
   filteredMissingPlaces(value: string) {
     const filterValue = value.toLowerCase();
+
+    // Call the API with city value
     this.http.get<any[]>(`https://geo.api.gouv.fr/communes?nom=${filterValue}&fields=nom&format=json&geometry=centre&limit=4`)
     .subscribe({
       next: (response: any) => {
-        console.log(response);
+        // Limits only 4 results
         this.filteredMissingPlacesArray = response.slice(0, 4).map((place: any) => place.nom);
-        console.log(this.filteredMissingPlacesArray);
       },
       error: (error: any) => {
         console.error('Une erreur s\'est produite lors de la récupération des lieux de disparition:', error);
@@ -137,9 +138,9 @@ export class PostsEditComponent {
     });
   }
 
-  /**
-   * Select a missing place
-   * @param missingPlace - Missing place selected
+ /**
+   * Selects a missing place from the filtered list
+   * @param missingPlace - The selected missing place
    */
   selectMissingPlace(missingPlace: string) {
     this.selectedMissingPlace = missingPlace;
@@ -148,7 +149,7 @@ export class PostsEditComponent {
 
 
   /**
-   * Drop down th e menu
+   * Drop down the menu
    * @param event - Click event
    */
   toggleDropdownMenu(event: Event): void {
@@ -162,6 +163,7 @@ export class PostsEditComponent {
     }
     this.isDropdownVisible = !this.isDropdownVisible;
   }
+
 
   /**
    * Custom validator for birthDate field to check if it is after the missingDate field
@@ -180,8 +182,8 @@ export class PostsEditComponent {
 
 
   /**
-   * Select a status.
-   * @param status - Selected status.
+   * Select a status
+   * @param status - Selected status
    */
   onSelectStatus(status: string): void {
     this.editPostForm.get('status').setValue(status);
@@ -190,8 +192,8 @@ export class PostsEditComponent {
 
 
   /**
-   * Function to validate that the selected date is not after today's date.
-   * @param event - The date selection event.
+   * Function to validate that the selected date is not after today's date
+   * @param event - The date selection event
    */
   validateDate(event: any) {
     const selectedDate = new Date(event.target.value);
@@ -203,7 +205,7 @@ export class PostsEditComponent {
 
 
   /**
-   * Check if the form fields are correct.
+   * Check if the form fields are correct
    */
   checkFields() {
     this.isFieldsCorrect = this.editPostForm.valid;
@@ -211,8 +213,8 @@ export class PostsEditComponent {
 
 
   /**
-   * Check if the form fields are valid.
-   * @returns boolean - True if the form fields are valid, false otherwise.
+   * Check if the form fields are valid
+   * @returns boolean - True if the form fields are valid, false otherwise
    */
   areFieldsValid() {
     return this.editPostForm.valid;
@@ -220,8 +222,8 @@ export class PostsEditComponent {
 
 
   /**
-   * Method called when a file is selected.
-   * @param event - The file selection event.
+   * Method called when a file is selected
+   * @param event - The file selection event
    */
   onFileSelected(event: Event) {
     this.image = (event.target as HTMLInputElement).files![0];
@@ -230,15 +232,14 @@ export class PostsEditComponent {
     if (this.image) {
       this.isFile = true;
       this.fileName.innerHTML = this.image.name;
-      console.log(2,this.isFile)
     }
   }
 
 
   /**
    * Edit a post.
-   * @param event - The click event.
-   * @param postId - The ID of the post to edit.
+   * @param event - The click event
+   * @param postId - The ID of the post to edit
    */
   editPost(event: Event, postId: string) {
     event.preventDefault();
@@ -250,13 +251,14 @@ export class PostsEditComponent {
         this.userId === this.user._id && this.selectedStatus) {
       // Get datas from post
       let oldPost = {
-        firstname: this.user.firstname,
-        lastname : this.user.lastname,
-        birthDate: this.user.birthDate,
-        address  : this.user.address,
-        missingPlace: this.user.missingPlace,
-        missingDate : this.user.missingDate,
-        description : this.user.description
+        firstname: this.post.firstname,
+        lastname : this.post.lastname,
+        birthDate: this.post.birthDate,
+        address  : this.post.address,
+        missingPlace: this.post.missingPlace,
+        missingDate : this.post.missingDate,
+        description : this.post.description,
+        userId: this.post.userId
       };
 
       const formValues = this.editPostForm.value;
@@ -286,23 +288,24 @@ export class PostsEditComponent {
 
 
   /**
-   * Update the picture of the post.
-   * @param event - The click event.
+   * Update the picture of the post
+   * @param event - The click event
    */
   updatePostPicture(event: Event) {
     event.preventDefault();
 
-    console.log(this.image)
     if (!this.image) {
       return;
     }
-    if (this.isFile) {
+    if (this.isFile && this.userId === this.user._id) {
       const formData = new FormData();
       formData.append('image', this.image, this.image.name);
+      formData.append('userId', this.user._id);
 
-      this.postService.updatePostPicture(formData, this.post._id).subscribe({
+      this.postService.updatePostPicture(formData, this.post._id)
+      .subscribe({
         next: (post: Post) => {
-          // Update user information with new profile picture
+          // Update user informations with new profile picture
           this.post = post;
           this.getPost();
         },

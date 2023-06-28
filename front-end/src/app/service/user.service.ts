@@ -18,9 +18,9 @@ export class UserService {
 
 
   /**
-   * Get the user by userId.
-   * @param userId The ID of the user.
-   * @returns An observable that emits the user.
+   * Get the user by userId
+   * @param userId The ID of the user
+   * @returns An observable that emits the user
    */
   getUserById(userId: string): Observable<User> {
     // Get the HTTP options for the request
@@ -31,10 +31,10 @@ export class UserService {
       return throwError(() => new Error('Invalid userId'));
     }
 
-    // Check if the user is not authenticated
-    if (!this.authService.isLoggedIn()) {
-      return throwError(() => new Error('User not authenticated'));
-    }
+    // // Check if the user is not authenticated
+    // if (!this.authService.isLoggedIn()) {
+    //   return throwError(() => new Error('User not authenticated'));
+    // }
 
     // Send a GET request to retrieve the user
     return this.http.get<User>(`${this.apiUrl}/${userId}`, httpOptions)
@@ -48,10 +48,10 @@ export class UserService {
 
 
   /**
-   * Update the user with new information.
-   * @param userId The ID of the user to update.
-   * @param updatedUser The updated user information.
-   * @returns An observable that emits the updated user.
+   * Update the user with new datas
+   * @param userId The ID of the user to update
+   * @param updatedUser The updated user datas
+   * @returns An observable that emits the updated user
    */
   editUser(userId: string, updatedUser: Object): Observable<User> {
     // Convert the updatedUser object to JSON string
@@ -82,9 +82,9 @@ export class UserService {
 
 
   /**
-   * Delete the user by userId.
-   * @param userId The ID of the user to delete.
-   * @returns An observable that emits the deleted user.
+   * Delete the user by userId
+   * @param userId The ID of the user to delete
+   * @returns An observable that emits the deleted user
    */
   deleteUser(userId: string): Observable<User> {
     // Get the HTTP options for the request
@@ -112,8 +112,8 @@ export class UserService {
 
 
   /**
-   * Get the HTTP options with authorization header.
-   * @returns HTTP options with authorization header.
+   * Get the HTTP options with authorization header
+   * @returns HTTP options with authorization header
    */
   getHttpOptions() {
     return {

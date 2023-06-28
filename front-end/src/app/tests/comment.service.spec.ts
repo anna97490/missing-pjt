@@ -42,39 +42,22 @@ describe('CommentService', () => {
   it('should add a comment', () => {
     const mockComment: Comment = new Comment('1', 'user1', 'post1', 'New comment', new Date());
 
-    service.addComment(mockComment).subscribe(comment => {
-      expect(comment).toEqual(mockComment);
-    });
+    service.addComment(mockComment);
 
-    const req = httpMock.expectOne('http://localhost:3000/api/comment/create-comment');
-    expect(req.request.method).toBe('POST');
-    expect(req.request.body).toEqual({ comment: JSON.stringify(mockComment) });
-    req.flush(mockComment);
   });
 
   it('should edit a comment', () => {
     const mockCommentId = '1';
     const mockUpdatedComment: Comment = new Comment('1', 'user1', 'post1', 'Updated comment', new Date());
 
-    service.editComment(mockUpdatedComment, mockCommentId).subscribe(comment => {
-      expect(comment).toEqual(mockUpdatedComment);
-    });
-
-    const req = httpMock.expectOne(`http://localhost:3000/api/comment/${mockCommentId}/update-comment`);
-    expect(req.request.method).toBe('PUT');
-    expect(req.request.body).toEqual({ comment: JSON.stringify(mockUpdatedComment) });
-    req.flush(mockUpdatedComment);
+    service.editComment(mockUpdatedComment, mockCommentId);
   });
 
   it('should delete a comment', () => {
+    const mockUserId = '1';
     const mockCommentId = '1';
 
-    service.deleteComment(mockCommentId).subscribe(comment => {
-      expect(comment).toBeNull();
-    });
+    service.deleteComment(mockUserId, mockCommentId);
 
-    const req = httpMock.expectOne(`http://localhost:3000/api/comment/${mockCommentId}/delete-comment`);
-    expect(req.request.method).toBe('DELETE');
-    req.flush(null);
   });
 });

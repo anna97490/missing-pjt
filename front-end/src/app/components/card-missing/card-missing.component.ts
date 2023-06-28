@@ -27,21 +27,15 @@ export class CardMissingComponent implements OnInit {
 
   ngOnInit() {
     this.isLoggedIn = this.authService.isLoggedIn();
-    this.userId = this.authService.getDecryptedUserId();
     this.calculateAge();
     this.getPosts();
-    this.getUser();
-  }
-
-  /**
-   * Get the user information based on the post's userId
-   */
-  getUser() {
-    this.userId = this.authService.getDecryptedUserId();
-
-    if (!this.userId) {
-      console.error('Invalid userId');
-      return;
+    if (this.isLoggedIn) {
+      this.userId = this.authService.getDecryptedUserId();
+      // Get user
+      this.user = this.userService.getUserById(this.userId)
+      .subscribe((user: User) => {
+        this.user = user;
+      });
     }
   }
 
@@ -75,7 +69,8 @@ export class CardMissingComponent implements OnInit {
     // Check if user is connected and if "Ok" to confirm
     if (this.isLoggedIn && confirm("Êtes-vous sûr de vouloir supprimer cette fiche?") &&
       post?.userId === this.userId) {
-      this.postService.deletePost(postId).subscribe({
+      this.postService.deletePost(postId, this.userId)
+      .subscribe({
         next: (response: any) => {
           window.location.reload(); // a supprimer
           // this.removePostFromArray(postId);
@@ -92,7 +87,8 @@ export class CardMissingComponent implements OnInit {
    * Get the posts
    */
   private getPosts() {
-    this.postService.getPosts().subscribe((posts: Post[]) => {
+    this.postService.getPosts()
+    .subscribe((posts: Post[]) => {
       // Array of posts
       this.posts = posts;
     });
@@ -100,7 +96,7 @@ export class CardMissingComponent implements OnInit {
 
 
   /**
-   * Calculate the age from birthDate and update the post's age property
+   * Calculate the age from birthDate and update the post's age
    */
   private calculateAge() {
     // Calculate age from birthDate

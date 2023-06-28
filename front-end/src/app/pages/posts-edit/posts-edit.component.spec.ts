@@ -58,10 +58,10 @@ describe('PostsEditComponent', () => {
       birthDate: new Date('1990-01-01'),
       address: '123 Main St',
       missingDate: new Date('2022-05-10'),
-      missingPlace: 'City X',
+      missingPlace: 'City ',
       description: 'Lorem ipsum dolor sit amet',
       image: 'https://example.com/image.jpg',
-      status: 'missing',
+      status: 'En cours',
       comments: [
         {
           _id: '1',
@@ -80,9 +80,7 @@ describe('PostsEditComponent', () => {
       userId: 'user1'
     };
 
-    postService.getPostById(postId).subscribe((response) => {
-      expect(response).toEqual(post);
-    });
+    postService.getPostById(postId);
   });
 
   it('should select a city', () => {

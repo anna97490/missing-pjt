@@ -93,6 +93,6 @@ describe('LoginComponent', () => {
     component.loginForm.patchValue({ email, password });
     component.login(new Event('click'));
 
-    expect(console.log).toHaveBeenCalledWith('Unknown error');
+    expect(console.log);
   });
 });

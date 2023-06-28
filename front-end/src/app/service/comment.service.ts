@@ -23,15 +23,10 @@ export class CommentService {
 
 
   /**
-   * Get all comments.
-   * @returns Observable<Comment[]> - The array of comments.
+   * Get all comments
+   * @returns Observable<Comment[]> - The array of comments
    */
   getComments(): Observable<Comment[]> {
-    // Check if the user is not authenticated
-    if (!this.authService.isLoggedIn()) {
-      return throwError(() => new Error('User not authenticated'));
-    }
-
     // Send a GET request to retrieve the comments
     return this.http.get<Comment[]>(this.apiUrl)
     .pipe(
@@ -47,9 +42,9 @@ export class CommentService {
 
 
   /**
-   * Create a comment.
-   * @param comment - The comment object to create.
-   * @returns Observable<Comment> - The created comment.
+   * Create a comment
+   * @param comment - The comment object to create
+   * @returns Observable<Comment> - The created comment
    */
   addComment(comment: Object): Observable<Comment> {
     // Convert the comment object to JSON string
@@ -76,10 +71,10 @@ export class CommentService {
 
 
   /**
-   * Edit a comment.
-   * @param updatedComment - The updated comment object.
-   * @param commentId - The ID of the comment to edit.
-   * @returns Observable<Comment> - The edited comment.
+   * Edit a comment
+   * @param updatedComment - The updated comment object
+   * @param commentId - The ID of the comment to edit
+   * @returns Observable<Comment> - The edited comment
    */
   editComment(updatedComment: Object, commentId: string): Observable<Comment> {
     // Convert the updated comment object to JSON string
@@ -111,11 +106,11 @@ export class CommentService {
 
 
   /**
-   * Delete a comment.
-   * @param commentId - The ID of the comment to delete.
-   * @returns Observable<Comment> - The deleted comment.
+   * Delete a comment
+   * @param commentId - The ID of the comment to delete
+   * @returns Observable<Comment> - The deleted comment
    */
-  deleteComment(commentId: string): Observable<Comment> {
+  deleteComment(userId: string, commentId: string): Observable<Comment> {
     const httpOptions = this.getHttpOptions();
 
     // Check if the user is not authenticated
@@ -129,7 +124,7 @@ export class CommentService {
     }
 
     // Send a DELETE request to delete the comment
-    return this.http.delete<Comment>(`${this.apiUrl}/${commentId}/delete-comment`, httpOptions)
+    return this.http.delete<Comment>(`${this.apiUrl}/${userId}/${commentId}/delete-comment`, httpOptions)
     .pipe(
       map((response: any) => {
         return response;
@@ -143,8 +138,8 @@ export class CommentService {
 
 
   /**
-   * Get the HTTP options with authorization header.
-   * @returns any - The HTTP options object.
+   * Get the HTTP options with authorization header
+   * @returns any - The HTTP options object
    */
   getHttpOptions() {
     return {

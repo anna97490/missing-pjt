@@ -34,7 +34,9 @@ export class LoginComponent {
     const email = this.loginForm.get('email').value;
     const password = this.loginForm.get('password').value;
 
+    // Check if email and password are valid
     if (email && password && this.loginForm.valid) {
+      // Call the authService
       this.authService.login(email, password)
       .subscribe({
         next: (response) => {

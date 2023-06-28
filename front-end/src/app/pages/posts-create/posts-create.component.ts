@@ -40,12 +40,12 @@ export class PostsCreateComponent {
   ) {
     // Datas from form
     this.createPostForm = this.formBuilder.group({
-      firstname   : ['', [Validators.required, Validators.minLength(2), Validators.maxLength(70)]],
-      lastname    : ['', [Validators.required, Validators.minLength(2), Validators.maxLength(70)]],
+      firstname   : ['', [Validators.required, Validators.minLength(2), Validators.maxLength(70), Validators.pattern(/^[a-zA-Z]+$/)]],
+      lastname    : ['', [Validators.required, Validators.minLength(2), Validators.maxLength(70), Validators.pattern(/^[a-zA-Z]+$/)]],
       birthDate   : ['', [Validators.required, this.birthDateValidator]],
-      address     : ['', [Validators.required]],
-      missingPlace: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(70)]],
-      missingDate : ['', [Validators.required]],
+      address     : ['', [Validators.required, Validators.pattern(/^[a-zA-Z -]*$/)]],
+      missingPlace: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(70), Validators.pattern(/^[a-zA-Z -]*$/)]],
+      missingDate : ['', [Validators.required, this.birthDateValidator]],
       description : ['', [Validators.required, Validators.minLength(10), Validators.maxLength(300)]],
       status      : ['', [Validators.required]],
     });
@@ -65,17 +65,18 @@ export class PostsCreateComponent {
   }
 
   /**
-   * Fetches the cities based on the provided value
+   * Fetches the cities
    * @param value - The value used to filter the cities
    */
   filteredCities(value: string) {
-    console.log(value);
     const filterValue = value.toLowerCase();
+
+    // Call the API with city value
     this.http.get<any[]>(`https://geo.api.gouv.fr/communes?nom=${filterValue}&fields=nom&format=json&geometry=centre&limit=4`)
     .subscribe({
       next: (response: any) => {
+        // Limits only 4 results
         this.filteredCitiesArray = response.slice(0, 4).map((city: any) => city.nom);
-        console.log(this.filteredCitiesArray);
       },
       error: (error: any) => {
         console.error('Une erreur s\'est produite lors de la récupération des villes:', error);
@@ -89,25 +90,24 @@ export class PostsCreateComponent {
    * @param city - The selected city
    */
   selectCity(city: string) {
-    console.log('Ville sélectionnée:', city);
     this.selectedCity = city;
     this.filteredCitiesArray = [];
   }
 
 
   /**
-   * Fetches the missing places based on the provided value
+   * Fetches the missing places
    * @param value - The value used to filter the missing places
    */
   filteredMissingPlaces(value: string) {
-    console.log(value);
     const filterValue = value.toLowerCase();
+
+    // Call the API with city value
     this.http.get<any[]>(`https://geo.api.gouv.fr/communes?nom=${filterValue}&fields=nom&format=json&geometry=centre&limit=4`)
     .subscribe({
       next: (response: any) => {
-        console.log(response);
+        // Limits only 4 results
         this.filteredMissingPlacesArray = response.slice(0, 4).map((place: any) => place.nom);
-        console.log(this.filteredMissingPlacesArray);
       },
       error: (error: any) => {
         console.error('Une erreur s\'est produite lors de la récupération des lieux de disparition:', error);
@@ -127,7 +127,7 @@ export class PostsCreateComponent {
 
 
   /**
-   * Toggles the visibility of the dropdown menu
+   * Toggles the dropdown menu
    * @param event - The click event
    */
   toggleDropdownMenu(event: Event): void {
@@ -167,7 +167,7 @@ export class PostsCreateComponent {
 
 
   /**
-   * Custom validator for birthDate field to check if it is after the missingDate field
+   * Validator for birthDate field to check if it is after the missingDate field
    * @param control - The birthDate form control
    * @returns Validation error if birthDate is after missingDate, null otherwise
    */
@@ -200,7 +200,7 @@ export class PostsCreateComponent {
 
 
   /**
-   * Creates a new post based on the form inputs
+   * Creates a new post
    * @param event - The form submission event
    */
   createPost(event: Event) {

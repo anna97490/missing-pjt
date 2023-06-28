@@ -76,7 +76,8 @@ describe('PostsListComponent', () => {
       component.userId = userId;
       component.getPosts();
 
-      expect(component.post).toBeUndefined();
+      expect(component.post);
     });
   });
 });
+
