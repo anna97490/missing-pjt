@@ -20,6 +20,6 @@ router.put('/:id', auth, multer, postController.updatePost);
 router.post('/:id/post-picture', auth, multer, postController.updatePostPicture);
   
 // Delete post
-router.delete('/:id', auth, postController.deletePost);
+router.delete('/:userId/:id', auth, postController.deletePost);
  
 module.exports = router;
