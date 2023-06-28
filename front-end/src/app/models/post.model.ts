@@ -2,7 +2,7 @@ export class Post {
   _id         : string;
   firstname   : string;
   lastname    : string;
-  birthDate   : Date;
+  age         : Number;
   address     : string;
   missingDate : Date;
   missingPlace: string;
@@ -22,7 +22,7 @@ export class Post {
     _id         : string,
     firstname   : string,
     lastname    : string,
-    birthDate   : Date,
+    age         : Number,
     address     : string,
     missingDate : Date,
     missingPlace: string,
@@ -41,7 +41,7 @@ export class Post {
     this._id          = _id;
     this.firstname    = firstname;
     this.lastname     = lastname;
-    this.birthDate    = birthDate;
+    this.age          = age;
     this.address      = address;
     this.missingDate  = missingDate;
     this.missingPlace = missingPlace;

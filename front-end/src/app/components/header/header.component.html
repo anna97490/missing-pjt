@@ -41,10 +41,6 @@
         <a><i class="fa-solid fa-person-circle-plus"></i></a>
       </div>
 
-      <!-- User posts  -->
-      <a *ngIf="isLoggedIn" class="nav-links" routerLink="/list-posts/{{ userId }}">
-        Mes fiches disparition
-      </a>
       <!-- Icon user posts  -->
       <div *ngIf="isLoggedIn" class="icon-header" routerLink="/list-posts/{{ userId }}">
         <a><i class="fa-solid fa-users-rectangle"></i></a>

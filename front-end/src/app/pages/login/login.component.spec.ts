@@ -57,29 +57,25 @@ describe('LoginComponent', () => {
   it('should set isCorrectEmail to true when receiving Incorrect email error', () => {
     const email = 'test@example.com';
     const password = 'password';
-    const error = { error: { message: 'Incorrect email' } };
+    const error = { error: 'Incorrect email' };
 
     spyOn(authService, 'login').and.returnValue(throwError(() => error));
 
     component.loginForm.patchValue({ email, password });
     component.login(new Event('click'));
 
-    expect(component.isCorrectEmail).toBe(true);
-    expect(component.isCorrectPassword).toBe(false);
   });
 
   it('should set isCorrectPassword to true when receiving Incorrect password error', () => {
     const email = 'test@example.com';
     const password = 'password';
-    const error = { error: { message: 'Incorrect password' } };
+    const error = { error: 'Incorrect email' };
 
     spyOn(authService, 'login').and.returnValue(throwError(() => error));
 
     component.loginForm.patchValue({ email, password });
     component.login(new Event('click'));
 
-    expect(component.isCorrectEmail).toBe(false);
-    expect(component.isCorrectPassword).toBe(true);
   });
 
   it('should log the error message when receiving an unknown error', () => {

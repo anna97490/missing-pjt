@@ -48,14 +48,13 @@ describe('PostsEditComponent', () => {
     expect(component).toBeTruthy();
   });
 
-
   it('should retrieve the post by id', () => {
     const postId = '1';
     const post: Post = {
       _id: '1',
       firstname: 'John',
       lastname: 'Doe',
-      birthDate: new Date('1990-01-01'),
+      age: 33,
       address: '123 Main St',
       missingDate: new Date('2022-05-10'),
       missingPlace: 'City ',
@@ -138,7 +137,7 @@ describe('PostsEditComponent', () => {
     const formValue = {
       firstname: 'John',
       lastname: 'Doe',
-      birthDate: '1990-01-01',
+      age: 33,
       address: '123 Main St',
       missingPlace: 'City X',
       missingDate: '2022-05-10',

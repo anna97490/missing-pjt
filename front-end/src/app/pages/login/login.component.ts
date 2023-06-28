@@ -10,8 +10,6 @@ import { FormBuilder, Validators } from '@angular/forms';
 })
 export class LoginComponent {
   loginForm: any;
-  isCorrectEmail: boolean = false;
-  isCorrectPassword: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -43,15 +41,7 @@ export class LoginComponent {
           this.router.navigate(['/posts-index']);
         },
         error: (error) => {
-          if (error.error.message === 'Incorrect email') {
-            this.isCorrectEmail = true;
-            this.isCorrectPassword = false;
-          } else if (error.error.message === 'Incorrect password') {
-            this.isCorrectEmail = false;
-            this.isCorrectPassword = true;
-          } else {
-            console.log(error);
-          }
+          console.log(error);
         }
       });
     }

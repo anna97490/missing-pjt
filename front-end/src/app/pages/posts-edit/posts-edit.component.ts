@@ -46,7 +46,7 @@ export class PostsEditComponent {
     this.editPostForm = this.formBuilder.group({
       firstname   : ['', [Validators.minLength(2), Validators.maxLength(40), Validators.pattern(/^[a-zA-Z]+$/)]],
       lastname    : ['', [Validators.minLength(2), Validators.maxLength(40), Validators.pattern(/^[a-zA-Z]+$/)]],
-      birthDate   : ['', [this.birthDateValidator]],
+      age         : ['', [ Validators.max(105)]],
       address     : ['', [Validators.pattern(/^[a-zA-Z -]*$/)]],
       missingPlace: ['', [Validators.minLength(2), Validators.maxLength(70), Validators.pattern(/^[a-zA-Z -]*$/)]],
       missingDate : ['', [this.birthDateValidator]],
@@ -247,8 +247,9 @@ export class PostsEditComponent {
     this.editPostForm.get('address').value = this.selectedCity;
     this.editPostForm.get('missingPlace').value = this.selectedMissingPlace;
 
-    if (this.userId === this.user._id && this.isFieldsCorrect === true ||
-        this.userId === this.user._id && this.selectedStatus) {
+    if (this.userId === this.user._id && this.isFieldsCorrect === true
+      || this.userId === this.user._id && this.selectedStatus
+      || this.user.status === 'admin') {
       // Get datas from post
       let oldPost = {
         firstname: this.post.firstname,

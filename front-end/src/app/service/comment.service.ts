@@ -71,41 +71,6 @@ export class CommentService {
 
 
   /**
-   * Edit a comment
-   * @param updatedComment - The updated comment object
-   * @param commentId - The ID of the comment to edit
-   * @returns Observable<Comment> - The edited comment
-   */
-  editComment(updatedComment: Object, commentId: string): Observable<Comment> {
-    // Convert the updated comment object to JSON string
-    const commentToSend = JSON.stringify(updatedComment);
-    const httpOptions = this.getHttpOptions();
-
-    // Check if the user is not authenticated
-    if (!this.authService.isLoggedIn()) {
-      return throwError(() => new Error('User not authenticated'));
-    }
-
-    // Check if the commentId is invalid
-    if (!commentId) {
-      return throwError(() => new Error('Invalid commentId'));
-    }
-
-    // Send a PUT request to update the comment
-    return this.http.put<Comment>(`${this.apiUrl}/${commentId}/update-comment`, {comment: commentToSend}, httpOptions)
-    .pipe(
-      map((response: any) => {
-        return response;
-      }),
-      catchError(error => {
-        console.log(error);
-        return throwError(() => new Error('An error occurred while editing the comment'));
-      })
-    );
-  }
-
-
-  /**
    * Delete a comment
    * @param commentId - The ID of the comment to delete
    * @returns Observable<Comment> - The deleted comment

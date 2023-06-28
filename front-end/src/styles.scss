@@ -9,7 +9,6 @@ html, body {
 
 body {
   background-color: rgba(219, 219, 219, 0.0784313725);
-  height: 155vh;
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
@@ -53,4 +52,12 @@ button:hover {
   width: 5rem;
   height: 5rem;
 }
+
+.link-index {
+  position: absolute;
+  top: 12%;
+  left: 2%;
+}
+
+
 

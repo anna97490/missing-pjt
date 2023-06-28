@@ -34,7 +34,12 @@ export class UserInfosComponent implements OnInit {
     this.isLoggedIn = this.authService.isLoggedIn();
     this.userId = this.authService.getDecryptedUserId();
     // Get the user to display infos
-    this.getUser();
+     // Get user
+     this.user = this.userService.getUserById(this.userId)
+     .subscribe((user: User) => {
+       this.user = user;
+     });
+
   }
 
 
@@ -101,7 +106,6 @@ export class UserInfosComponent implements OnInit {
     event.preventDefault();
 
     if (this.userId === this.user._id && this.isFieldsCorrect === true) {
-      console.log('test')
       // Get data from user
       let updatedUser = {
         firstname: this.user.firstname,
@@ -147,7 +151,7 @@ export class UserInfosComponent implements OnInit {
     event.preventDefault();
 
     // Confirmation before deleting the account
-    const confirmDelete = confirm('Are you sure you want to delete your account?');
+    const confirmDelete = confirm('Etes-vous sur de vouloir supprimer votre compte?');
 
     if (confirmDelete && this.userId === this.user._id) {
       // Call the service method to delete the user

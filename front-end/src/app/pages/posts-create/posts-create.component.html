@@ -62,19 +62,19 @@
     </div>
 
     <div class="grid md:grid-cols-2 md:gap-6">
-      <!-- Birth date -->
+      <!-- Age -->
       <div class="relative z-0 w-full mb-6 group">
-        <input type="date" name="birthDate" id="birthDate" formControlName="birthDate" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent
+        <input type="number" name="age" id="age" formControlName="age" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent
           border-0 border-b-2 border-gray-300 appearance-none
           dark:border-gray-600 dark:focus:border-blue-500
-          focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder="" (input)="validateDate($event)" />
-        <label for="birthDate" class="peer-focus:font-medium absolute text-sm text-gray-500
+          focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=""/>
+        <label for="age" class="peer-focus:font-medium absolute text-sm text-gray-500
           dark:text-gray-400 duration-300 transform -translate-y-2
           scale-55 bottom-8 -z-10 origin-[0] peer-focus:left-0
           peer-focus:text-blue-600 peer-focus:dark:text-blue-500
           peer-placeholder-shown:scale-100
           peer-placeholder-shown:translate-y-0 peer-focus:scale-55
-          peer-focus:-translate-y-2"> Date de naissance </label>
+          peer-focus:-translate-y-2"> Age au moment de la disparition </label>
       </div>
       <!-- Address -->
       <div class="relative z-0 w-full mb-6 group">
@@ -201,7 +201,7 @@
           </div>
 
           <p id="file-name"></p>
-          <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+          <p class="text-xs text-gray-500">PNG, JPG up to 10MB</p>
         </div>
       </div>
     </div>
@@ -212,10 +212,10 @@
       focus:z-10 focus:ring-4 focus:outline-none focus:ring-blue-700
       focus:text-blue-700 dark:bg-gray-800
       dark:text-gray-400 dark:border-gray-600 inline-flex items-center"
-      [ngClass]="{ 'btn-valid-form': createPostForm.valid && this.isFileSelected === true }">
+      [disabled]="createPostForm.invalid"
+      [ngClass]="{ 'btn-valid-form': createPostForm.valid }">
       Créer
     </button>
 
-    <div *ngIf="errorMessage" class="error-msg"> La saisie est incorrecte. </div>
   </form>
 </div>

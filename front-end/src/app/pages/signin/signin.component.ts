@@ -17,10 +17,9 @@ export class SigninComponent {
       firstname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(40), Validators.pattern(/^[a-zA-Z]+$/)]],
       lastname : ['', [Validators.required, Validators.minLength(2), Validators.maxLength(40), Validators.pattern(/^[a-zA-Z]+$/)]],
       email    : ['', [Validators.required, Validators.email, Validators.pattern(/^\w+([\.-]?\w+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z]{2,3}$/i)]],
-      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(50), Validators.pattern(/^[a-zA-Z0-9]+$/)]],
+      password : ['', [Validators.required, Validators.minLength(8), Validators.maxLength(50), Validators.pattern(/^[a-zA-Z0-9]+$/)]],
     });
   }
-
 
   /**
    * Signup method
@@ -37,7 +36,7 @@ export class SigninComponent {
       password : this.signinForm.get('password').value
     }
 
-    if (this.signinForm.valid) { // if the form is valid
+    if (this.signinForm.valid) {
       this.authService.signUp(user, this.errorMessage)
       .subscribe(
         {

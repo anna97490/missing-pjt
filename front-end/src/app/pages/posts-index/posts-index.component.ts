@@ -48,11 +48,15 @@ export class PostsIndexComponent implements OnInit {
     this.isLoggedIn = this.authService.isLoggedIn();
     if (this.isLoggedIn) {
       this.userId = this.authService.getDecryptedUserId();
-      this.user = this.userService.getUserById(this.userId);
+      // Get the user
+      this.user = this.userService.getUserById(this.userId).subscribe((user: User) => {
+        this.user = user;
+      })
     }
     this.getPosts();
     this.getComments();
   }
+
 
   // Modal for non-connected or registered users
   openModal(event: Event) {
@@ -216,38 +220,6 @@ export class PostsIndexComponent implements OnInit {
 
 
   /**
-  * Edit a comment
-  * @param event - The click event
-  * @param commentId - The ID of the comment to edit
-  */
-  editComment(event: Event, commentId: string) {
-    event.preventDefault();
-    const commentString = this.areaForm.get('commentUpdated').value;
-
-    const index = this.comments.findIndex((comment: any) => comment._id === commentId);
-
-    if (index !== -1 && commentString !== '') {
-      let updatedComment = {
-        _id: commentId,
-        comment: commentString,
-        userId: this.userId,
-        postId: this.postId
-      }
-
-      this.commentService.editComment(updatedComment, commentId)
-      .subscribe({
-        next: (response: any) => {
-          this.getComments();
-        },
-        error: (error: any) => {
-          console.error('An error occurred while editing the comment:', error);
-        }
-      });
-    }
-  }
-
-
-  /**
   * Delete a comment
   * @param event - The click event
   * @param commentId - The ID of the comment to delete
@@ -255,7 +227,7 @@ export class PostsIndexComponent implements OnInit {
   deleteComment(event: Event, commentId: string) {
     event.preventDefault();
 
-    if (confirm("Souhaitez-vous supprimer votre commentaire?") && this.userId === this.comment.userId) {
+    if (confirm("Souhaitez-vous supprimer votre commentaire?")) { // add function getCommentById to check the userId
       this.commentService.deleteComment(this.userId, commentId)
       .subscribe({
         next: (response: any) => {
@@ -268,16 +240,5 @@ export class PostsIndexComponent implements OnInit {
         }
       });
     }
-  }
-
-  /**
-   * Filter comments by date
-   */
-  sortCommentsByDate() {
-    this.posts.forEach(post => {
-      post.comments.sort((a, b) => {
-        return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
-      });
-    });
   }
 }

@@ -12,13 +12,13 @@
         <!-- Status  -->
         <span class="status" [ngClass]="{'status-current': post.status == 'En cours'}">{{ post.status }}</span>
         <!-- Author and date of creation  -->
-        <span class="author" [ngClass]="{'author-margin': isLoggedIn && userId === post.userId}">
+        <span class="author" [ngClass]="{'author-margin': isLoggedIn && userId === post.userId || user.status === 'admin'}">
           Créé par {{ user.firstname | titlecase }} le {{ post.createdAt | date: 'dd/MM/yyyy'}}
         </span>
       </div>
 
       <!-- Name  -->
-      <span class="field-disappearance">{{ post.firstname | titlecase }} &nbsp; {{post.lastname | titlecase }}, &nbsp; {{ post.age }} ans</span>
+      <span class="field-disappearance">{{ post.firstname | titlecase }} &nbsp; {{post.lastname | titlecase }}, &nbsp; {{ post.age }} ans au moment de la disparition</span>
 
       <div class="cont-place-date">
         <!-- MissingDate  -->
@@ -39,7 +39,10 @@
   <!-- Edit and Delete buttons -->
   <div class="cont-edit-delete">
     <!-- Edit Post button -->
-    <button class="no-effect" aria-label="Edit post button" *ngIf="isLoggedIn && userId === post.userId" (click)="editPost($event)">
+    <button class="no-effect"
+      aria-label="Edit post button"
+      *ngIf="isLoggedIn && userId === post.userId || user.status === 'admin'"
+      (click)="editPost($event)">
       <svg aria-hidden="true" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75
         dark:text-gray-400 group-hover:text-gray-900
         dark:group-hover:text-white" fill="currentColor" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
@@ -56,7 +59,7 @@
     </button>
 
     <!-- Delete Post button -->
-    <button aria-label="Delete post button" *ngIf="isLoggedIn && userId === post.userId" class="btn-close no-effect" (click)="deletePost($event, post._id)">
+    <button aria-label="Delete post button" *ngIf="user.status === 'admin'" class="btn-close no-effect" (click)="deletePost($event, post._id)">
       <svg aria-hidden="true" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75
         dark:text-gray-400 group-hover:text-gray-900
         dark:group-hover:text-white" fill="currentColor" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg">

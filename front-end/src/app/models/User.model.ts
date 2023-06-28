@@ -4,6 +4,7 @@ export class User {
   firstname: string;
   email    : string;
   password : string;
+  status   : string;
   token    : string;
 
   constructor(
@@ -12,6 +13,7 @@ export class User {
     lastname : string,
     email    : string,
     password : string,
+    status   : string,
     token    : string
      ) {
       this._id       = _id;
@@ -19,6 +21,7 @@ export class User {
       this.firstname = firstname;
       this.email     = email;
       this.password  = password;
+      this.status    = status;
       this.token     = token;
   }
 }

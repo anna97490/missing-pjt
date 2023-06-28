@@ -39,10 +39,6 @@
                 dark:focus:ring-blue-500
                 dark:focus:border-blue-500" placeholder="Votre email" required="true">
             </div>
-            <!-- Error Message  -->
-            <div *ngIf="isCorrectEmail" class="message">
-              <span>L'email n'existe pas.</span>
-            </div>
 
             <!-- Password -->
             <div>
@@ -52,10 +48,6 @@
                 focus:border-primary-600 block w-full p-2.5  bg-gray-100
                 dark:border-gray-600 dark:placeholder-gray-400
                 dark:focus:ring-blue-500 dark:focus" required="true">
-            </div>
-            <!-- Error Message  -->
-            <div *ngIf="isCorrectPassword" class="message">
-              <span>Votre mot de passe n'est pas valide.</span>
             </div>
 
             <!-- Login button -->

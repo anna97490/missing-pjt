@@ -27,7 +27,6 @@ export class PostsCreateComponent {
   selectedCity: string = "";
   selectedMissingPlace: string = "";
   filteredMissingPlacesArray: string[] = [];
-  errorMessage: boolean = false;
 
   constructor(
     private router: Router,
@@ -42,10 +41,10 @@ export class PostsCreateComponent {
     this.createPostForm = this.formBuilder.group({
       firstname   : ['', [Validators.required, Validators.minLength(2), Validators.maxLength(70), Validators.pattern(/^[a-zA-Z]+$/)]],
       lastname    : ['', [Validators.required, Validators.minLength(2), Validators.maxLength(70), Validators.pattern(/^[a-zA-Z]+$/)]],
-      birthDate   : ['', [Validators.required, this.birthDateValidator]],
+      age         : ['', [Validators.required, Validators.min(1), Validators.max(105)]],
       address     : ['', [Validators.required, Validators.pattern(/^[a-zA-Z -]*$/)]],
-      missingPlace: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(70), Validators.pattern(/^[a-zA-Z -]*$/)]],
-      missingDate : ['', [Validators.required, this.birthDateValidator]],
+      missingPlace: ['', [Validators.required, Validators.maxLength(70), Validators.pattern(/^[a-zA-Z -]*$/)]],
+      missingDate : ['', [Validators.required]],
       description : ['', [Validators.required, Validators.minLength(10), Validators.maxLength(300)]],
       status      : ['', [Validators.required]],
     });
@@ -167,22 +166,6 @@ export class PostsCreateComponent {
 
 
   /**
-   * Validator for birthDate field to check if it is after the missingDate field
-   * @param control - The birthDate form control
-   * @returns Validation error if birthDate is after missingDate, null otherwise
-   */
-  birthDateValidator(control: AbstractControl): { [key: string]: boolean } | null {
-    const birthDate = new Date(control.value);
-    const missingDateControl = control.root.get('missingDate');
-
-    if (missingDateControl && birthDate > new Date(missingDateControl.value)) {
-      return { 'birthDateAfterMissingDate': true };
-    }
-    return null;
-  }
-
-
-  /**
    * Handles the file selection event
    * @param event - The file input change event
    */
@@ -205,12 +188,18 @@ export class PostsCreateComponent {
    */
   createPost(event: Event) {
     event.preventDefault();
+    const confirmText = confirm('Pour des soucis de recoupement dans les affaires, les fiches ne pourront être supprimeés que par l\'administrateur. Pour cela veuillez vous référer à l\onglet "Contact".');
 
-    if (this.createPostForm.valid  && this.userId === this.user._id  && this.isFileSelected) {
+
+    if (this.createPostForm.valid
+      && this.userId === this.user._id
+      && this.isFileSelected
+      && confirmText) {
       const formData = new FormData();
+
       formData.append('firstname', this.createPostForm.get('firstname').value);
       formData.append('lastname', this.createPostForm.get('lastname').value);
-      formData.append('birthDate', this.createPostForm.get('birthDate').value);
+      formData.append('age', this.createPostForm.get('age').value);
       formData.append('address', this.createPostForm.get('address').value);
       formData.append('missingPlace', this.createPostForm.get('missingPlace').value);
       formData.append('missingDate',this.createPostForm.get('missingDate').value);
@@ -231,7 +220,7 @@ export class PostsCreateComponent {
         }
       });
     } else {
-      this.errorMessage = true;
+      console.log('Le formulaire n\'est pas valide.');
     }
   }
 }

@@ -49,7 +49,6 @@ export class PostService {
         return response;
       }),
       catchError(error => {
-        console.log(error)
         return throwError(() => new Error('An error occurred while creating the post'));
       })
     );

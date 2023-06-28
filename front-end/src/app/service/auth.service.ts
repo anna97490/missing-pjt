@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { User } from '../models/User.model';
 import { Router } from '@angular/router';
 import { catchError, map, Observable, throwError } from 'rxjs';
@@ -47,7 +47,6 @@ export class AuthService {
         return response;
       }),
       catchError(error => {
-        console.log(error);
         return throwError(() => new Error('An error occurred while connecting the user'));
       })
     );

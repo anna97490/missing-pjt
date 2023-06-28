@@ -47,7 +47,8 @@ describe('AuthService', () => {
     lastname: 'Doe',
     email,
     password,
-    token: 'auth-token'
+    token: 'auth-token',
+    status: 'admin'
   };
 
   service.login(email, password).subscribe(response => {
@@ -87,7 +88,8 @@ describe('AuthService', () => {
       lastname: 'Doe',
       email: 'test@example.com',
       password: 'password',
-      token: 'auth-token'
+      token: 'auth-token',
+      status: 'admin'
     };
 
     const message = 'error'
@@ -110,7 +112,8 @@ describe('AuthService', () => {
       lastname: 'Doe',
       email: 'test@example.com',
       password: 'password',
-      token: 'auth-token'
+      token: 'auth-token',
+      status: 'admin'
     };
 
     const message = 'error'

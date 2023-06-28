@@ -26,8 +26,8 @@ describe('PostService', () => {
 
   it('should retrieve all posts', () => {
     const mockPosts: Post[] = [
-      new Post('1', 'John', 'Doe', new Date(), '123 Main St', new Date(), 'Park', 'Description 1', 'image1.jpg', 'open', [], new Date(), 'user1'),
-      new Post('2', 'Jane', 'Smith', new Date(), '456 Elm St', new Date(), 'Street', 'Description 2', 'image2.jpg', 'closed', [], new Date(), 'user2')
+      new Post('1', 'John', 'Doe', 33, '123 Main St', new Date(), 'Park', 'Description 1', 'image1.jpg', 'open', [], new Date(), 'user1'),
+      new Post('2', 'Jane', 'Smith', 33, '456 Elm St', new Date(), 'Street', 'Description 2', 'image2.jpg', 'closed', [], new Date(), 'user2')
     ];
 
     service.getPosts().subscribe(posts => {
@@ -41,7 +41,7 @@ describe('PostService', () => {
 
   it('should retrieve a post by ID', () => {
     const postId = '1';
-    const mockPost: Post = new Post('1', 'John', 'Doe', new Date(), '123 Main St', new Date(), 'Park', 'Description 1', 'image1.jpg', 'open', [], new Date(), 'user1');
+    const mockPost: Post = new Post('1', 'John', 'Doe', 33, '123 Main St', new Date(), 'Park', 'Description 1', 'image1.jpg', 'open', [], new Date(), 'user1');
 
     service.getPostById(postId);
 
@@ -66,7 +66,7 @@ describe('PostService', () => {
 
   it('should edit a post', () => {
     const postId = '1';
-    const mockUpdatedPost: Post = new Post('1', 'John', 'Doe', new Date(), '123 Main St', new Date(), 'Park', 'Updated description', 'image1.jpg', 'open', [], new Date(), 'user1');
+    const mockUpdatedPost: Post = new Post('1', 'John', 'Doe', 33, '123 Main St', new Date(), 'Park', 'Updated description', 'image1.jpg', 'open', [], new Date(), 'user1');
 
     service.editPost(postId, mockUpdatedPost);
 

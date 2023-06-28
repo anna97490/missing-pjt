@@ -27,7 +27,6 @@ export class CardMissingComponent implements OnInit {
 
   ngOnInit() {
     this.isLoggedIn = this.authService.isLoggedIn();
-    this.calculateAge();
     this.getPosts();
     if (this.isLoggedIn) {
       this.userId = this.authService.getDecryptedUserId();
@@ -68,12 +67,11 @@ export class CardMissingComponent implements OnInit {
 
     // Check if user is connected and if "Ok" to confirm
     if (this.isLoggedIn && confirm("Êtes-vous sûr de vouloir supprimer cette fiche?") &&
-      post?.userId === this.userId) {
+      post?.userId === this.userId || this.user.status === 'admin' ) {
       this.postService.deletePost(postId, this.userId)
       .subscribe({
         next: (response: any) => {
           window.location.reload(); // a supprimer
-          // this.removePostFromArray(postId);
         },
         error: (error: any) => {
           console.log(error);
@@ -86,36 +84,11 @@ export class CardMissingComponent implements OnInit {
   /**
    * Get the posts
    */
-  private getPosts() {
+  getPosts() {
     this.postService.getPosts()
     .subscribe((posts: Post[]) => {
       // Array of posts
       this.posts = posts;
     });
-  }
-
-
-  /**
-   * Calculate the age from birthDate and update the post's age
-   */
-  private calculateAge() {
-    // Calculate age from birthDate
-    const birthDate = new Date(this.post.birthDate);
-    const today = new Date();
-    const age = Math.floor((today.getTime() - birthDate.getTime()) / (365.25 * 24 * 60 * 60 * 1000));
-    this.post.age = age;
-  }
-
-
-  /**
-   * Update the posts array after deleting a post
-   * @param postId - The ID of the post to remove from the array
-   */
-  private removePostFromArray(postId: string) {
-    this.getPosts();
-    const index = this.posts.findIndex(post => post._id === postId);
-    if (index !== -1) {
-      this.posts.splice(index, 1);
-    }
   }
 }

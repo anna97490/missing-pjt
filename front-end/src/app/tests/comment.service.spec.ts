@@ -46,13 +46,6 @@ describe('CommentService', () => {
 
   });
 
-  it('should edit a comment', () => {
-    const mockCommentId = '1';
-    const mockUpdatedComment: Comment = new Comment('1', 'user1', 'post1', 'Updated comment', new Date());
-
-    service.editComment(mockUpdatedComment, mockCommentId);
-  });
-
   it('should delete a comment', () => {
     const mockUserId = '1';
     const mockCommentId = '1';

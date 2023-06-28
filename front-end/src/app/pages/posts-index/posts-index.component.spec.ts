@@ -102,7 +102,6 @@ describe('PostsIndexComponent', () => {
     };
 
     spyOn(commentService, 'addComment').and.returnValue(of(mockResponse));
-    spyOn(window, 'alert');
 
     // Set the component's isLoggedIn and userId properties
     component.isLoggedIn = true;
@@ -114,7 +113,7 @@ describe('PostsIndexComponent', () => {
         _id: '1',
         firstname: 'test',
         lastname: 'test',
-        birthDate: new Date('2023-06-11'),
+        age: 33,
         address: 'test',
         missingDate: new Date('2023-06-11'),
         missingPlace: 'Paris',
@@ -145,7 +144,6 @@ describe('PostsIndexComponent', () => {
 
   it('should display an alert when not logged in', () => {
     spyOn(commentService, 'addComment');
-    spyOn(window, 'alert');
 
     component.isLoggedIn = false;
     component.addComment(new Event('submit'), '1');
@@ -181,48 +179,7 @@ describe('PostsIndexComponent', () => {
     expect(component.comments).toEqual(mockComments);
   });
 
-  it('should edit a comment', () => {
-    const commentId = '1';
-    const commentString = 'Updated comment';
-    const mockResponse: Comment = {
-      _id: '1',
-      userId: '1',
-      postId: '1',
-      comment: 'Updated comment',
-      createdAt: new Date('2023-06-11')
-    };
-
-    spyOn(commentService, 'editComment').and.returnValue(of(mockResponse));
-
-    // Set the component's userId
-    component.userId = '1';
-
-    // Set the component's comments data
-    component.comments = [
-      {
-        _id: '1',
-        comment: 'Old comment',
-        userId: '1',
-        postId: '1',
-        createdAt: new Date('2023-06-11')
-      }
-    ];
-
-    // Set the comment form value
-    component.areaForm.get('commentUpdated').setValue(commentString);
-
-    // Verify the commentService.editComment method is called with the correct parameters
-    expect(commentService.editComment);
-
-    // Verify the comment is updated in the comments data
-    expect(component.comments[0].comment);
-
-    // Verify that the comment form value is set to the response comment
-    expect(component.areaForm.get('commentUpdated').value).toEqual(mockResponse.comment);
-  });
-
   it('should delete a comment', () => {
-    const commentId = '1';
     spyOn(window, 'confirm').and.returnValue(true);
     spyOn(commentService, 'deleteComment').and.returnValue(of({} as Comment));
 

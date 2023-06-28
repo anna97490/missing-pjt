@@ -24,9 +24,9 @@ import { ModalComponent } from './components/modal/modal.component';
 import { UserInfosComponent } from './pages/user-infos/user-infos.component';
 import { DatePipe } from '@angular/common';
 import { PostsIndexComponent } from './pages/posts-index/posts-index.component';
-import { PostsListComponent } from './pages/posts-list/posts-list.component';
 import { PostsCreateComponent } from './pages/posts-create/posts-create.component';
 import { PostsEditComponent } from './pages/posts-edit/posts-edit.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -39,9 +39,9 @@ import { PostsEditComponent } from './pages/posts-edit/posts-edit.component';
     ModalComponent,
     UserInfosComponent,
     PostsIndexComponent,
-    PostsListComponent,
     PostsCreateComponent,
     PostsEditComponent,
+    FooterComponent,
   ],
   imports: [
     HttpClientModule,
