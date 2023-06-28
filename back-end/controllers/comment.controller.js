@@ -73,65 +73,6 @@ exports.getAllComments = async (req, res, next) => {
 };
 
 
-
-/**
- * Update a comment by ID.
- * @param req.params.id - The ID of the comment to update.
- * @returns JSON response indicating the status of the operation.
- */
-exports.updateComment = async (req, res, next) => {
-    const commentReq = JSON.parse(req.body.comment);
-  
-    try {
-      const comment = await Comment.findById(req.params.id);
-      const post = await Post.findById(comment.postId);
-      const user = await User.findById(commentReq.userId);
-  
-      // Check if the post or comment is not found
-      if (!post || !comment) {
-        return res.status(404).json({ message: errorMessage.notFound });
-      }
-  
-      // Check if the userId in the request body === the id of the user
-      if (commentReq.userId !== user._id.toString()) {
-        return res.status(403).json({ message: errorMessage.unauthorized });
-      }
-  
-      // Check if the comment id in the request body === the id of the comment
-      if (commentReq._id !== comment._id.toString()) {
-        return res.status(403).json({ message: errorMessage.unauthorized });
-      }
-  
-      const commentObject = { ...commentReq };
-  
-      // Update the comment
-      await Comment.findByIdAndUpdate(commentReq._id, commentObject, {
-        new: true,
-        overwrite: false,
-      });
-  
-      post.comments.forEach(async (postComment, index) => {
-        const commentIdString = postComment._id.toString();
-  
-        if (commentIdString === commentReq._id) {
-          const updatedComments = [...post.comments];
-  
-          updatedComments[index] = commentObject;
-  
-          await Post.findByIdAndUpdate(post._id, { comments: updatedComments }, {
-            new: true,
-            overwrite: false,
-          });
-        }
-      });
-  
-      res.status(200).json({ message: 'Comment updated!', comment: commentReq.comment });
-    } catch (error) {
-      res.status(500).json({ error: errorMessage.serverError });
-    }
-  };
-
-
 /**
  * Delete a comment by ID
  * @param req.params.userId - The ID of the user in the params

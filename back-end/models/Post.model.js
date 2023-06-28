@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const postSchema = mongoose.Schema({
     firstname   : { type: String, required: true },
     lastname    : { type: String, required: true },
-    birthDate   : { type: Date, required: true },
+    age         : { type: Number, required: true },
     address     : { type: String, required: true },
     missingDate : { type: Date, required: true },
     missingPlace: { type: String, required: true },

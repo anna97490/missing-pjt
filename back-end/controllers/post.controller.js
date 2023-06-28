@@ -4,7 +4,7 @@ const User = require('../models/User.model');
 const fs = require('fs');
 
 const errorMessage = {
-  notFound: 'Post not found!',
+  notFound: 'Not found!',
   unauthorized: 'Not authorized!',
   serverError: 'Server Error!',
 };
@@ -163,14 +163,20 @@ exports.deletePost = async (req, res, next) => {
 
   try {
     const post = await Post.findById(postId);
+    const user = await User.findById(userId);
 
     if (!post) {
       // The post does not exist
       return res.status(404).json({ message: errorMessage.notFound });
     }
 
+    if (!user) {
+      // The user does not exist
+      return res.status(404).json({ message: errorMessage.notFound });
+    }
+    
     // Check if the user ID matches the one in the post
-    if (userId !== post.userId) {
+    if (user.status !== 'admin') {
       // The user is not authorized to delete this post
       return res.status(403).json({ message: errorMessage.unauthorized });
     }
