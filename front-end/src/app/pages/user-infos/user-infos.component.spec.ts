@@ -40,7 +40,8 @@ describe('UserInfosComponent', () => {
       lastname: 'Doe',
       email: 'john@example.com',
       password: 'password',
-      token: 'token'
+      token: 'token',
+      status: 'admin'
     };
 
     spyOn(authService, 'getDecryptedUserId').and.returnValue(mockUser._id);
@@ -62,7 +63,8 @@ describe('UserInfosComponent', () => {
       lastname: 'Doe',
       email: 'john@example.com',
       password: 'password',
-      token: 'token'
+      token: 'token',
+      status: 'admin'
     };
     const updatedUser = {
       firstname: 'John',
@@ -94,7 +96,8 @@ describe('UserInfosComponent', () => {
       lastname: 'Doe',
       email: 'john@example.com',
       password: 'password',
-      token: 'token'
+      token: 'token',
+      status: 'admin'
     };
 
     spyOn(authService, 'getDecryptedUserId').and.returnValue(mockUser._id);
@@ -151,3 +154,6 @@ describe('UserInfosComponent', () => {
     expect(authService.logout).not.toHaveBeenCalled();
   });
 });
+
+
+

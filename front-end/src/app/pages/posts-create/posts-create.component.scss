@@ -68,6 +68,9 @@ form {
 }
 .bckgrd {
   background-color: #fff !important;
+  li {
+    cursor: pointer;
+  }
 }
 .error-msg {
   display: -webkit-box;

@@ -31,23 +31,20 @@ export class CardMissingComponent implements OnInit {
     if (this.isLoggedIn) {
       this.userId = this.authService.getDecryptedUserId();
       // Get user
-      this.user = this.userService.getUserById(this.userId)
-      .subscribe((user: User) => {
-        this.user = user;
-      });
+      this.getUser();
     }
   }
 
 
   /**
-   * Edit the post
-   * @param event - The event object
-   */
+  * Edit the post
+  * @param event - The event object
+  */
   editPost(event: Event) {
     event.preventDefault();
 
     if (this.isLoggedIn) {
-      const post = this.posts.find(post => post.userId === this.userId && post._id === this.post._id);
+      const post = this.posts.find(post => post._id === this.post._id);
 
       if (post) {
         this.router.navigate(['/edit-post/', post.userId, post._id], { state: { post: post }});
@@ -57,10 +54,10 @@ export class CardMissingComponent implements OnInit {
 
 
   /**
-   * Delete the post with postId
-   * @param event - The event object
-   * @param postId - The ID of the post to delete
-   */
+  * Delete the post with postId
+  * @param event - The event object
+  * @param postId - The ID of the post to delete
+  */
   deletePost(event: Event, postId: string) {
     event.preventDefault();
     const post = this.posts.find(post => post.userId === this.userId && post._id === this.post._id);
@@ -72,6 +69,8 @@ export class CardMissingComponent implements OnInit {
       .subscribe({
         next: (response: any) => {
           window.location.reload(); // a supprimer
+          // this.getPosts();
+          // return this.posts;
         },
         error: (error: any) => {
           console.log(error);
@@ -80,10 +79,26 @@ export class CardMissingComponent implements OnInit {
     }
   }
 
+  /**
+  Get the user by Id
+  */
+  getUser() {
+    this.userService.getUserById(this.userId)
+    .subscribe({
+      next: (user: User) => {
+        this.user = user;
+        console.log(this.user.status)
+      },
+      error: (error) => {
+        console.error('An error occurred while getting user:', error);
+      }
+    });
+  }
+
 
   /**
-   * Get the posts
-   */
+  * Get the posts
+  */
   getPosts() {
     this.postService.getPosts()
     .subscribe((posts: Post[]) => {

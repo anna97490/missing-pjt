@@ -40,7 +40,6 @@ export class PostsIndexComponent implements OnInit {
   ) {
     this.areaForm = this.formBuilder.group({
       comment: ['', []],
-      commentUpdated: ['', []],
     });
   }
 
@@ -49,12 +48,44 @@ export class PostsIndexComponent implements OnInit {
     if (this.isLoggedIn) {
       this.userId = this.authService.getDecryptedUserId();
       // Get the user
-      this.user = this.userService.getUserById(this.userId).subscribe((user: User) => {
-        this.user = user;
-      })
+      this.getUser();
     }
     this.getPosts();
     this.getComments();
+  }
+
+
+  /**
+  Get the user by Id
+  */
+  getUser() {
+    this.userService.getUserById(this.userId)
+    .subscribe({
+      next: (user: User) => {
+        this.user = user;
+      },
+      error: (error) => {
+        console.error('An error occurred while getting user:', error);
+      }
+    });
+  }
+
+
+  /**
+  * Get the posts
+  */
+   getPosts() {
+    this.postService.getPosts().subscribe({
+      next: (posts: Post[]) => {
+        this.posts = posts;
+        this.posts = posts.sort((a, b) => {
+          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+        });
+      },
+      error: (error: any) => {
+        console.error('An error occurred while retrieving the posts:', error);
+      }
+    });
   }
 
 
@@ -140,22 +171,6 @@ export class PostsIndexComponent implements OnInit {
     }
   }
 
-  /**
-  * Get the posts
-  */
-  getPosts() {
-    this.postService.getPosts().subscribe(
-      (posts: Post[]) => {
-        this.posts = posts;
-        this.posts = posts.sort((a, b) => {
-          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-        });
-      },
-      (error: any) => {
-        console.error('An error occurred while retrieving the posts:', error);
-      }
-    );
-  }
 
 
   // -------------------------------------- Comments --------------------------------------------
@@ -227,7 +242,9 @@ export class PostsIndexComponent implements OnInit {
   deleteComment(event: Event, commentId: string) {
     event.preventDefault();
 
-    if (confirm("Souhaitez-vous supprimer votre commentaire?")) { // add function getCommentById to check the userId
+    if (confirm("Souhaitez-vous supprimer votre commentaire?") ||
+      confirm("Souhaitez-vous supprimer votre commentaire?") && this.user.status === 'admin') {
+        console.log('test')
       this.commentService.deleteComment(this.userId, commentId)
       .subscribe({
         next: (response: any) => {

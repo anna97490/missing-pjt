@@ -34,12 +34,7 @@ export class UserInfosComponent implements OnInit {
     this.isLoggedIn = this.authService.isLoggedIn();
     this.userId = this.authService.getDecryptedUserId();
     // Get the user to display infos
-     // Get user
-     this.user = this.userService.getUserById(this.userId)
-     .subscribe((user: User) => {
-       this.user = user;
-     });
-
+    this.getUser();
   }
 
 

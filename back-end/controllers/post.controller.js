@@ -84,23 +84,24 @@ exports.updatePost = async (req, res, next) => {
 
   try {
     const post = await Post.findById(req.params.id);
+    const user = await User.findById(postReq.userId);
 
     // Check if post exists
     if (!post) {
       return res.status(404).json({ message: errorMessage.notFound });
     }
 
-    // Check if the userId in postReq === the userId in the post document
-    if (post.userId !== postReq.userId) {
+    if (user.status === 'admin' || postReq.userId === post.userId.toString()) {
+      await Post.findByIdAndUpdate(req.params.id, postReq, {
+        new: true,
+        overwrite: false,
+      });
+  
+      res.status(200).json({ message: 'Post updated!' });
+    } else {
+      // not authorized
       return res.status(401).json({ message: errorMessage.unauthorized });
     }
-
-    await Post.findByIdAndUpdate(req.params.id, postReq, {
-      new: true,
-      overwrite: false,
-    });
-
-    res.status(200).json({ message: 'Post updated!' });
   } catch (error) {
     res.status(500).json({ error: errorMessage.serverError });
   }
@@ -115,36 +116,37 @@ exports.updatePost = async (req, res, next) => {
 exports.updatePostPicture = async (req, res, next) => {
   try {
     const post = await Post.findById(req.params.id);
+    const user = await User.findById(req.body.userId);
 
     // Check if the post exists
     if (!post) {
       return res.status(404).json({ message: errorMessage.notFound });
     }
 
-    // Check if the userId in the request body === the userId of the post
-    if (req.body.userId !== post.userId) {
-      return res.status(403).json({ message: errorMessage.unauthorized });
-    }
+    if (user.status === 'admin' || req.body.userId === post.userId.toString()) {
 
-    // Check if a file is uploaded
-    if (req.file) {
-      if (post.image) {
-        // If the post already has an image, delete the old image file
-        const filename = post.image.split('/images/')[1];
-        await fs.promises.unlink(`images/${filename}`);
+      // Check if a file is uploaded
+      if (req.file) {
+        if (post.image) {
+          // If the post already has an image, delete the old image file
+          const filename = post.image.split('/images/')[1];
+          await fs.promises.unlink(`images/${filename}`);
+        }
+
+        // Set the image URL for the post to the new uploaded image
+        const image = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+        post.image = image;
+      } else {
+        return res.status(400).json({ message: errorMessage.invalidData });
       }
 
-      // Set the image URL for the post to the new uploaded image
-      const image = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
-      post.image = image;
+      // Save the post
+      await post.save();
+
+      res.status(200).json({ message: 'Post picture updated!' });
     } else {
-      return res.status(400).json({ message: errorMessage.invalidData });
+      return res.status(403).json({ message: errorMessage.unauthorized });
     }
-
-    // Save the post
-    await post.save();
-
-    res.status(200).json({ message: 'Post picture updated!' });
   } catch (error) {
     res.status(500).json({ error: errorMessage.serverError });
   }

@@ -212,8 +212,8 @@
       focus:z-10 focus:ring-4 focus:outline-none focus:ring-blue-700
       focus:text-blue-700 dark:bg-gray-800
       dark:text-gray-400 dark:border-gray-600 inline-flex items-center"
-      [disabled]="createPostForm.invalid"
-      [ngClass]="{ 'btn-valid-form': createPostForm.valid }">
+      [disabled]="createPostForm.invalid && !this.isFileSelected"
+      [ngClass]="{ 'btn-valid-form': createPostForm.valid && this.isFileSelected}">
       Créer
     </button>
 

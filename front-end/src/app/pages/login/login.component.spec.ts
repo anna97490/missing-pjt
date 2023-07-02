@@ -63,19 +63,17 @@ describe('LoginComponent', () => {
 
     component.loginForm.patchValue({ email, password });
     component.login(new Event('click'));
-
   });
 
   it('should set isCorrectPassword to true when receiving Incorrect password error', () => {
     const email = 'test@example.com';
     const password = 'password';
-    const error = { error: 'Incorrect email' };
+    const error = { error: 'Incorrect password' };
 
-    spyOn(authService, 'login').and.returnValue(throwError(() => error));
+    spyOn(authService, 'login').and.returnValue(throwError(error));
 
     component.loginForm.patchValue({ email, password });
     component.login(new Event('click'));
-
   });
 
   it('should log the error message when receiving an unknown error', () => {
@@ -83,12 +81,11 @@ describe('LoginComponent', () => {
     const password = 'password';
     const error = { error: { message: 'Unknown error' } };
 
-    spyOn(console, 'log');
     spyOn(authService, 'login').and.returnValue(throwError(() => error));
+    spyOn(console, 'log');
 
     component.loginForm.patchValue({ email, password });
     component.login(new Event('click'));
 
-    expect(console.log);
   });
 });

@@ -5,7 +5,7 @@ import { User } from 'src/app/models/User.model';
 import { UserService } from '../../service/user.service';
 import { PostService } from '../../service/post.service';
 import { AuthService } from '../../service/auth.service';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-posts-create',
@@ -57,18 +57,33 @@ export class PostsCreateComponent {
     if (this.isLoggedIn) {
       this.userId = this.authService.getDecryptedUserId();
       // Get the user
-      this.user = this.userService.getUserById(this.userId).subscribe((user: User) => {
-        this.user = user;
-      })
+      this.getUser();
     }
   }
 
   /**
-   * Fetches the cities
-   * @param value - The value used to filter the cities
-   */
+  Get the user by Id
+  */
+  getUser() {
+    this.userService.getUserById(this.userId)
+    .subscribe({
+      next: (user: User) => {
+        this.user = user;
+      },
+      error: (error) => {
+        console.error('An error occurred while getting user:', error);
+      }
+    });
+  }
+
+
+  /**
+  * Fetches the cities
+  * @param value - The value used to filter the cities
+  */
   filteredCities(value: string) {
     const filterValue = value.toLowerCase();
+    console.log(22, filterValue)
 
     // Call the API with city value
     this.http.get<any[]>(`https://geo.api.gouv.fr/communes?nom=${filterValue}&fields=nom&format=json&geometry=centre&limit=4`)
@@ -85,9 +100,9 @@ export class PostsCreateComponent {
 
 
   /**
-   * Selects a city from the filtered list
-   * @param city - The selected city
-   */
+  * Selects a city from the filtered list
+  * @param city - The selected city
+  */
   selectCity(city: string) {
     this.selectedCity = city;
     this.filteredCitiesArray = [];
@@ -95,9 +110,9 @@ export class PostsCreateComponent {
 
 
   /**
-   * Fetches the missing places
-   * @param value - The value used to filter the missing places
-   */
+  * Fetches the missing places
+  * @param value - The value used to filter the missing places
+  */
   filteredMissingPlaces(value: string) {
     const filterValue = value.toLowerCase();
 
@@ -116,9 +131,9 @@ export class PostsCreateComponent {
 
 
   /**
-   * Selects a missing place from the filtered list
-   * @param missingPlace - The selected missing place
-   */
+  * Selects a missing place from the filtered list
+  * @param missingPlace - The selected missing place
+  */
   selectMissingPlace(missingPlace: string) {
     this.selectedMissingPlace = missingPlace;
     this.filteredMissingPlacesArray = [];
@@ -126,9 +141,9 @@ export class PostsCreateComponent {
 
 
   /**
-   * Toggles the dropdown menu
-   * @param event - The click event
-   */
+  * Toggles the dropdown menu
+  * @param event - The click event
+  */
   toggleDropdownMenu(event: Event): void {
     event.preventDefault();
 
@@ -143,9 +158,9 @@ export class PostsCreateComponent {
 
 
   /**
-   * Sets the selected status
-   * @param status - The selected status
-   */
+  * Sets the selected status
+  * @param status - The selected status
+  */
   onSelectStatus(status: string): void {
     this.createPostForm.get('status').setValue(status);
     this.selectedStatus = status;
@@ -153,9 +168,9 @@ export class PostsCreateComponent {
 
 
   /**
-   * Validates the selected date to be not after the current date
-   * @param event - The change event of the date input
-   */
+  * Validates the selected date to be not after the current date
+  * @param event - The change event of the date input
+  */
   validateDate(event: any) {
     const selectedDate = new Date(event.target.value);
     const now = Date.now();
@@ -166,9 +181,9 @@ export class PostsCreateComponent {
 
 
   /**
-   * Handles the file selection event
-   * @param event - The file input change event
-   */
+  * Handles the file selection event
+  * @param event - The file input change event
+  */
   onFileSelected(event: Event) {
     this.image = (event.target as HTMLInputElement).files![0];
     this.fileName  = document.getElementById('file-name');
@@ -183,13 +198,12 @@ export class PostsCreateComponent {
 
 
   /**
-   * Creates a new post
-   * @param event - The form submission event
-   */
+  * Creates a new post
+  * @param event - The form submission event
+  */
   createPost(event: Event) {
     event.preventDefault();
     const confirmText = confirm('Pour des soucis de recoupement dans les affaires, les fiches ne pourront être supprimeés que par l\'administrateur. Pour cela veuillez vous référer à l\onglet "Contact".');
-
 
     if (this.createPostForm.valid
       && this.userId === this.user._id
@@ -200,8 +214,8 @@ export class PostsCreateComponent {
       formData.append('firstname', this.createPostForm.get('firstname').value);
       formData.append('lastname', this.createPostForm.get('lastname').value);
       formData.append('age', this.createPostForm.get('age').value);
-      formData.append('address', this.createPostForm.get('address').value);
-      formData.append('missingPlace', this.createPostForm.get('missingPlace').value);
+      formData.append('address', this.selectedCity);
+      formData.append('missingPlace', this.selectedMissingPlace);
       formData.append('missingDate',this.createPostForm.get('missingDate').value);
       formData.append('description', this.createPostForm.get('description').value);
       formData.append('status', this.selectedStatus);

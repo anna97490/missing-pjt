@@ -41,11 +41,6 @@
         <a><i class="fa-solid fa-person-circle-plus"></i></a>
       </div>
 
-      <!-- Icon user posts  -->
-      <div *ngIf="isLoggedIn" class="icon-header" routerLink="/list-posts/{{ userId }}">
-        <a><i class="fa-solid fa-users-rectangle"></i></a>
-      </div>
-
       <!-- Logout  -->
       <a *ngIf="isLoggedIn" class="nav-links" (click)="logout($event)">
         Se déconnecter

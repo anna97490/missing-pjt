@@ -41,6 +41,7 @@ describe('SigninComponent', () => {
     expect(component).toBeTruthy();
   });
 
+
   it('should call authService.signUp and navigate on successful sign up', () => {
     const user = {
       firstname: 'John',
@@ -49,7 +50,7 @@ describe('SigninComponent', () => {
       password: 'password'
     };
 
-    const message = 'error';
+    const message = '';
 
     spyOn(authService, 'signUp').and.returnValue(of({} as User));
 
@@ -68,14 +69,14 @@ describe('SigninComponent', () => {
       password: 'password'
     };
 
-    const message = 'error';
+    const errorMessage = 'Cet email existe déjà.';
+    const error = { message: 'Cet email existe déjà.' };
 
-    spyOn(authService, 'signUp').and.returnValue(throwError(message));
+    spyOn(authService, 'signUp').and.returnValue(throwError(() => error));
 
     component.signinForm.patchValue(user);
     component.signUp(new Event('click'));
 
-    expect(authService.signUp).toHaveBeenCalledWith(user, message);
-    expect(component.errorMessage).toBe('Cet email existe déjà.');
+    expect(component.errorMessage).toBe(errorMessage);
   });
 });

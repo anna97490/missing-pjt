@@ -77,7 +77,6 @@ export class CommentService {
    */
   deleteComment(userId: string, commentId: string): Observable<Comment> {
     const httpOptions = this.getHttpOptions();
-
     // Check if the user is not authenticated
     if (!this.authService.isLoggedIn()) {
       return throwError(() => new Error('User not authenticated'));

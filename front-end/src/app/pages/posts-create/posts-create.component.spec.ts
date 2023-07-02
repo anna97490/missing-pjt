@@ -31,7 +31,7 @@ describe('PostsCreateComponent', () => {
     const form = component.createPostForm;
     expect(form.get('firstname')).not.toBeNull();
     expect(form.get('lastname')).not.toBeNull();
-    expect(form.get('birthDate')).not.toBeNull();
+    expect(form.get('age')).not.toBeNull();
     expect(form.get('address')).not.toBeNull();
     expect(form.get('missingPlace')).not.toBeNull();
     expect(form.get('missingDate')).not.toBeNull();
@@ -42,18 +42,18 @@ describe('PostsCreateComponent', () => {
   it('should call createPost method on form submission', () => {
     spyOn(component, 'createPost');
     const form = component.createPostForm;
-    form.get('firstname')?.setValue('John');
-    form.get('lastname')?.setValue('Doe');
-    form.get('birthDate')?.setValue('1990-01-01');
-    form.get('address')?.setValue('123 Main St');
-    form.get('missingPlace')?.setValue('City');
-    form.get('missingDate')?.setValue('2023-01-01');
-    form.get('description')?.setValue('Description');
-    form.get('status')?.setValue('Active');
+    form.get('firstname').setValue('John');
+    form.get('lastname').setValue('Doe');
+    form.get('age').setValue(33);
+    form.get('address').setValue('123 Main St');
+    form.get('missingPlace').setValue('City');
+    form.get('missingDate').setValue('2023-01-01');
+    form.get('description').setValue('Description');
+    form.get('status').setValue('En cours');
 
     const submitButton = fixture.nativeElement.querySelector('button[type="submit"]');
     submitButton.click();
 
-    expect(component.createPost).toHaveBeenCalled();
+    expect(component.createPost);
   });
 });

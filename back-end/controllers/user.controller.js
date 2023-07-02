@@ -1,7 +1,6 @@
 const User = require('../models/User.model');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const fs = require('fs');
 require('dotenv').config();
 
 const errorMessage = {

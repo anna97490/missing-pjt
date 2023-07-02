@@ -31,11 +31,6 @@ export class UserService {
       return throwError(() => new Error('Invalid userId'));
     }
 
-    // // Check if the user is not authenticated
-    // if (!this.authService.isLoggedIn()) {
-    //   return throwError(() => new Error('User not authenticated'));
-    // }
-
     // Send a GET request to retrieve the user
     return this.http.get<User>(`${this.apiUrl}/${userId}`, httpOptions)
     .pipe(

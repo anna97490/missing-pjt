@@ -24,9 +24,9 @@ export class HeaderComponent implements OnInit {
   }
 
   /**
-   * Logout the user
-   * @param event - The event object
-   */
+  * Logout the user
+  * @param event - The event object
+  */
   logout(event: Event) {
     event.preventDefault();
 

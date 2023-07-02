@@ -6,7 +6,7 @@ import { User } from 'src/app/models/User.model';
 import { UserService } from '../../service/user.service';
 import { PostService } from '../../service/post.service';
 import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators, AbstractControl, } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-posts-edit',
@@ -46,10 +46,10 @@ export class PostsEditComponent {
     this.editPostForm = this.formBuilder.group({
       firstname   : ['', [Validators.minLength(2), Validators.maxLength(40), Validators.pattern(/^[a-zA-Z]+$/)]],
       lastname    : ['', [Validators.minLength(2), Validators.maxLength(40), Validators.pattern(/^[a-zA-Z]+$/)]],
-      age         : ['', [ Validators.max(105)]],
+      age         : ['', [Validators.min(1), Validators.max(105)]],
       address     : ['', [Validators.pattern(/^[a-zA-Z -]*$/)]],
       missingPlace: ['', [Validators.minLength(2), Validators.maxLength(70), Validators.pattern(/^[a-zA-Z -]*$/)]],
-      missingDate : ['', [this.birthDateValidator]],
+      missingDate : ['', []],
       description : ['', [Validators.minLength(10), Validators.maxLength(300)]],
       status      : ['', []],
     });
@@ -61,12 +61,24 @@ export class PostsEditComponent {
     // Check if user is logged
     this.isLoggedIn = this.authService.isLoggedIn();
     // Get user
-    this.user = this.userService.getUserById(this.userId)
-    .subscribe((user: User) => {
-      this.user = user;
-    });
-    // Get post
+    this.getUser();
+    // Get posts
     this.getPost();
+  }
+
+  /**
+  Get the user by Id
+  */
+  getUser() {
+    this.userService.getUserById(this.userId)
+    .subscribe({
+      next: (user: User) => {
+        this.user = user;
+      },
+      error: (error) => {
+        console.error('An error occurred while getting user:', error);
+      }
+    });
   }
 
   /**
@@ -77,21 +89,16 @@ export class PostsEditComponent {
     .subscribe((post: Post) => {
       if (post) {
         this.post = post;
-        // Birth date formated to age
-        const birthDate = new Date(this.post.birthDate);
-        const today = new Date();
-        const age = Math.floor((today.getTime() - birthDate.getTime()) / (365.25 * 24 * 60 * 60 * 1000));
-        this.post.age = age;
       }
       return this.post;
     });
   }
 
 
-   /**
-   * Fetches the cities
-   * @param value - The value used to filter the cities
-   */
+  /**
+  * Fetches the cities
+  * @param value - The value used to filter the cities
+  */
   filteredCities(value: string) {
     const filterValue = value.toLowerCase();
 
@@ -110,18 +117,18 @@ export class PostsEditComponent {
 
 
   /**
-   * Selects a city from the filtered list
-   * @param city - The selected city
-   */
+  * Selects a city from the filtered list
+  * @param city - The selected city
+  */
   selectCity(city: string) {
     this.selectedCity = city;
     this.filteredCitiesArray = [];
   }
 
   /**
-   * Fetches the missing places
-   * @param value - The value used to filter the missing places
-   */
+  * Fetches the missing places
+  * @param value - The value used to filter the missing places
+  */
   filteredMissingPlaces(value: string) {
     const filterValue = value.toLowerCase();
 
@@ -138,10 +145,10 @@ export class PostsEditComponent {
     });
   }
 
- /**
-   * Selects a missing place from the filtered list
-   * @param missingPlace - The selected missing place
-   */
+  /**
+  * Selects a missing place from the filtered list
+  * @param missingPlace - The selected missing place
+  */
   selectMissingPlace(missingPlace: string) {
     this.selectedMissingPlace = missingPlace;
     this.filteredMissingPlacesArray = [];
@@ -149,9 +156,9 @@ export class PostsEditComponent {
 
 
   /**
-   * Drop down the menu
-   * @param event - Click event
-   */
+  * Drop down the menu
+  * @param event - Click event
+  */
   toggleDropdownMenu(event: Event): void {
     event.preventDefault();
 
@@ -166,35 +173,20 @@ export class PostsEditComponent {
 
 
   /**
-   * Custom validator for birthDate field to check if it is after the missingDate field
-   * @param control - The birthDate form control
-   * @returns Validation error if birthDate is after missingDate, null otherwise
-   */
-  birthDateValidator(control: AbstractControl): { [key: string]: boolean } | null {
-    const birthDate = new Date(control.value);
-    const missingDateControl = control.root.get('missingDate');
-
-    if (missingDateControl && birthDate > new Date(missingDateControl.value)) {
-      return { 'birthDateAfterMissingDate': true };
-    }
-    return null;
-  }
-
-
-  /**
-   * Select a status
-   * @param status - Selected status
-   */
+  * Select a status
+  * @param status - Selected status
+  */
   onSelectStatus(status: string): void {
     this.editPostForm.get('status').setValue(status);
     this.selectedStatus = status;
+    this.isFieldsCorrect = true;
   }
 
 
   /**
-   * Function to validate that the selected date is not after today's date
-   * @param event - The date selection event
-   */
+  * Function to validate that the selected date is not after today's date
+  * @param event - The date selection event
+  */
   validateDate(event: any) {
     const selectedDate = new Date(event.target.value);
     const now = Date.now();
@@ -205,26 +197,17 @@ export class PostsEditComponent {
 
 
   /**
-   * Check if the form fields are correct
-   */
+  * Check if the form fields are correct
+  */
   checkFields() {
     this.isFieldsCorrect = this.editPostForm.valid;
   }
 
 
   /**
-   * Check if the form fields are valid
-   * @returns boolean - True if the form fields are valid, false otherwise
-   */
-  areFieldsValid() {
-    return this.editPostForm.valid;
-  }
-
-
-  /**
-   * Method called when a file is selected
-   * @param event - The file selection event
-   */
+  * Method called when a file is selected
+  * @param event - The file selection event
+  */
   onFileSelected(event: Event) {
     this.image = (event.target as HTMLInputElement).files![0];
     this.fileName  = document.getElementById('file-name');
@@ -237,10 +220,10 @@ export class PostsEditComponent {
 
 
   /**
-   * Edit a post.
-   * @param event - The click event
-   * @param postId - The ID of the post to edit
-   */
+  * Edit a post.
+  * @param event - The click event
+  * @param postId - The ID of the post to edit
+  */
   editPost(event: Event, postId: string) {
     event.preventDefault();
     postId = this.postId;
@@ -248,23 +231,24 @@ export class PostsEditComponent {
     this.editPostForm.get('missingPlace').value = this.selectedMissingPlace;
 
     if (this.userId === this.user._id && this.isFieldsCorrect === true
-      || this.userId === this.user._id && this.selectedStatus
-      || this.user.status === 'admin') {
+      || this.user.status === 'admin' && this.isFieldsCorrect === true) {
       // Get datas from post
       let oldPost = {
         firstname: this.post.firstname,
         lastname : this.post.lastname,
-        birthDate: this.post.birthDate,
+        age: this.post.age,
         address  : this.post.address,
         missingPlace: this.post.missingPlace,
         missingDate : this.post.missingDate,
         description : this.post.description,
-        userId: this.post.userId
+        status: this.post.status,
+        userId: this.userId
       };
 
       const formValues = this.editPostForm.value;
       formValues.address = this.selectedCity;
       formValues.missingPlace = this.selectedMissingPlace;
+
       const nonEmptyValues = Object.fromEntries(
         Object.entries(formValues).filter(([key, value]) => value !== '')
       );
@@ -289,16 +273,17 @@ export class PostsEditComponent {
 
 
   /**
-   * Update the picture of the post
-   * @param event - The click event
-   */
+  * Update the picture of the post
+  * @param event - The click event
+  */
   updatePostPicture(event: Event) {
     event.preventDefault();
 
     if (!this.image) {
       return;
     }
-    if (this.isFile && this.userId === this.user._id) {
+    if (this.isFile && this.userId === this.user._id
+      || this.isFile && this.user.status === 'admin') {
       const formData = new FormData();
       formData.append('image', this.image, this.image.name);
       formData.append('userId', this.user._id);

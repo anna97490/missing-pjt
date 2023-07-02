@@ -24,9 +24,9 @@ export class LoginComponent {
 
 
   /**
-   * Method triggered when the login form is submitted.
-   * @param event - The form submission event.
-   */
+  * Method triggered when the login form is submitted.
+  * @param event - The form submission event.
+  */
   login(event: Event) {
     event.preventDefault();
     const email = this.loginForm.get('email').value;

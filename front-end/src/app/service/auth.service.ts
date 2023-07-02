@@ -20,11 +20,11 @@ export class AuthService {
 
 
   /**
-   * Login method
-   * @param email - The user's email
-   * @param password - The user's password
-   * @returns Observable<User> - The connected user
-   */
+  * Login method
+  * @param email - The user's email
+  * @param password - The user's password
+  * @returns Observable<User> - The connected user
+  */
   login(email: string, password: string): Observable<User> {
     // Send a POST request to sign up the user
     return this.http.post<any>(`${this.apiUrl}/login`, { email, password }).pipe(
@@ -53,10 +53,10 @@ export class AuthService {
   }
 
   /**
-   * Signup method
-   * @param user - The user object containing user datas
-   * @returns Observable<User> - The signed-up user
-   */
+  * Signup method
+  * @param user - The user object containing user datas
+  * @returns Observable<User> - The signed-up user
+  */
   signUp(user: Object, errorMessage : string): Observable<User> {
     // Send a POST request to sign up the user
     return this.http.post<User>(`${this.apiUrl}/signup`, user).pipe(
@@ -89,27 +89,27 @@ export class AuthService {
 
 
   /**
-   * Logout the user
-   * Clears authentication data, sets the `loggedIn` to false
-   * and redirects to the home page
-   */
+  * Logout the user
+  * Clears authentication data, sets the `loggedIn` to false
+  * and redirects to the home page
+  */
   logout(): void {
     this.loggedIn = false;
     try {
-        this.removeAuthData();
-        // Redirect to the home page
-        this.router.navigate(['/']);
-        location.href = '/';
+      this.removeAuthData();
+      // Redirect to the home page
+      this.router.navigate(['/']);
+      location.href = '/';
     } catch (error) {
-        console.error('An error occurred while logging out:', error);
+      console.error('An error occurred while logging out:', error);
     }
   }
 
 
   /**
-   * Check if the user is logged in
-   * @returns boolean - True if the user is logged in, false otherwise
-   */
+  * Check if the user is logged in
+  * @returns boolean - True if the user is logged in, false otherwise
+  */
   isLoggedIn(): boolean {
     const isLoggedIn = localStorage.getItem('loggedIn');
     return isLoggedIn === 'true';
@@ -117,27 +117,27 @@ export class AuthService {
 
 
   /**
-   * Get the authentication token from Local Storage
-   * @returns string | null - The authentication token
-   */
+  * Get the authentication token from Local Storage
+  * @returns string | null - The authentication token
+  */
   getAuthToken(): string | null {
     return localStorage.getItem('token');
   }
 
 
   /**
-   * Get the encrypted userId from Local Storage
-   * @returns string | null - The encrypted userId
-   */
+  * Get the encrypted userId from Local Storage
+  * @returns string | null - The encrypted userId
+  */
   getUserIdLs(): string | null  {
     return localStorage.getItem('encryptedUserId');
   }
 
 
   /**
-   * Decrypt the userId from Local Storage
-   * @returns string | null - The decrypted userId
-   */
+  * Decrypt the userId from Local Storage
+  * @returns string | null - The decrypted userId
+  */
   getDecryptedUserId(): string | null {
     const encryptedUserId = this.getUserIdLs();
 
@@ -151,20 +151,20 @@ export class AuthService {
 
 
   /**
-   * Encrypts the data
-   * @param data - The data to be encrypted
-   * @returns The encrypted data as a string
-   */
+  * Encrypts the data
+  * @param data - The data to be encrypted
+  * @returns The encrypted data as a string
+  */
   private encryptData(data: string): string {
     return CryptoJS.AES.encrypt(data, 'Secret Passphrase').toString();
   }
 
 
   /**
-   * Store authentication data in the local storage
-   * @param token - The authentication token to be stored
-   * @param encryptedUserId - The encrypted user ID to be stored
-   */
+  * Store authentication data in the local storage
+  * @param token - The authentication token to be stored
+  * @param encryptedUserId - The encrypted user ID to be stored
+  */
   private storeAuthData(token: string, encryptedUserId: string) {
     localStorage.setItem('token', token);
     localStorage.setItem('encryptedUserId', encryptedUserId);
@@ -173,9 +173,9 @@ export class AuthService {
 
 
   /**
-   * Remove authentication datas from the local storage
-   * Clears the authentication token, encrypted user ID, and sets the `loggedIn` to false
-   */
+  * Remove authentication datas from the local storage
+  * Clears the authentication token, encrypted user ID, and sets the `loggedIn` to false
+  */
   private removeAuthData() {
     localStorage.removeItem('token');
     localStorage.removeItem('encryptedUserId');

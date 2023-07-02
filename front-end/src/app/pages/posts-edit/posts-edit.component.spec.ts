@@ -6,7 +6,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
-import { DatePipe } from '@angular/common';
 import { Post } from '../../models/Post.model';
 import { AuthService } from '../../service/auth.service';
 import { UserService } from '../../service/user.service';
@@ -26,7 +25,6 @@ describe('PostsEditComponent', () => {
       UserService,
       PostService,
       FormBuilder,
-      DatePipe,
       {
         provide: ActivatedRoute,
         useValue: { snapshot: { paramMap: { get: () => '1' } } }

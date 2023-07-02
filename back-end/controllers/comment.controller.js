@@ -83,29 +83,33 @@ exports.deleteComment = async (req, res, next) => {
     try {
       const comment = await Comment.findById(req.params.id);
       const post = await Post.findById(comment.postId);
+      const user = await User.findById(comment.userId);
   
       // Check if the comment or post is not found
       if (!comment || !post) {
         return res.status(404).json({ message: errorMessage.notFound });
       }
   
-      // Check if the userId in req.params === the userId of the comment
-      if (req.params.userId !== comment.userId.toString()) {
+      if (user.status !== 'admin' || req.params.userId !== comment.userId.toString()) {
+        // Check if the commentId in req.params === the commentId of the comment
+        if (req.params.id !== comment._id.toString()) {
+          return res.status(403).json({ message: errorMessage.unauthorized });
+        }
+
+        await comment.deleteOne({ _id: req.params.id });
+  
+        // Filter out the deleted comment from the post's comments array
+        post.comments = post.comments.filter((c) => c._id.toString() !== req.params.id);
+        await post.save();
+    
+        res.status(200).json({ message: 'Comment deleted!' });
+      } else {
+        // not authorized
         return res.status(403).json({ message: errorMessage.unauthorized });
       }
+    
 
-    // Check if the commentId in req.params === the commentId of the comment
-    if (req.params.id !== comment._id.toString()) {
-        return res.status(403).json({ message: errorMessage.unauthorized });
-    }
-  
-      await comment.deleteOne({ _id: req.params.id });
-  
-      // Filter out the deleted comment from the post's comments array
-      post.comments = post.comments.filter((c) => c._id.toString() !== req.params.id);
-      await post.save();
-  
-      res.status(200).json({ message: 'Comment deleted!' });
+    
     } catch (error) {
       res.status(500).json({ error: errorMessage.serverError });
     }

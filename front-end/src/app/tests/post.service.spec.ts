@@ -1,7 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { PostService } from '../service/post.service';
+import { AuthService } from '../service/auth.service';
 import { Post } from '../models/Post.model';
+import { throwError } from 'rxjs';
 
 describe('PostService', () => {
   let service: PostService;
@@ -51,17 +53,16 @@ describe('PostService', () => {
     const mockFormData = new FormData();
     mockFormData.append('firstname', 'John');
     mockFormData.append('lastname', 'Doe');
-    mockFormData.append('birthDate', '1990-01-01');
+    mockFormData.append('age', '33');
     mockFormData.append('address', 'Nice');
-    mockFormData.append('missingPlace', 'Paris');
-    mockFormData.append('missingDate', '2023-06-11');
     mockFormData.append('description', 'Description 1');
     mockFormData.append('status', 'En cours');
     mockFormData.append('image', 'image1.jpg');
     mockFormData.append('userId', 'user1');
 
-    service.createPost(mockFormData);
-
+    service.createPost(mockFormData).subscribe(response => {
+      expect(response).toBeTruthy();
+    });
   });
 
   it('should edit a post', () => {
