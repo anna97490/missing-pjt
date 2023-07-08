@@ -38,7 +38,7 @@ describe('UserInfosComponent', () => {
       _id: '123',
       firstname: 'John',
       lastname: 'Doe',
-      email: 'john@example.com',
+      email: 'john@doe.com',
       password: 'password',
       token: 'token',
       status: 'admin'
@@ -61,7 +61,7 @@ describe('UserInfosComponent', () => {
       _id: '123',
       firstname: 'John',
       lastname: 'Doe',
-      email: 'john@example.com',
+      email: 'john@doe.com',
       password: 'password',
       token: 'token',
       status: 'admin'
@@ -69,7 +69,7 @@ describe('UserInfosComponent', () => {
     const updatedUser = {
       firstname: 'John',
       lastname: 'Doe',
-      email: 'john@example.com',
+      email: 'john@doe.com',
     };
 
     spyOn(authService, 'getDecryptedUserId').and.returnValue(mockUser._id);
@@ -94,7 +94,7 @@ describe('UserInfosComponent', () => {
       _id: '123',
       firstname: 'John',
       lastname: 'Doe',
-      email: 'john@example.com',
+      email: 'john@doe.com',
       password: 'password',
       token: 'token',
       status: 'admin'

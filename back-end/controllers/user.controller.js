@@ -53,6 +53,7 @@ exports.signUp = async (req, res, next) => {
  * @returns An observable that emits the authenticated user
  */
 exports.login = async (req, res, next) => {
+  console.log(req.body)
   try {
     const user = await User.findOne({ email: req.body.email });
     const valid = await bcrypt.compare(req.body.password, user.password);

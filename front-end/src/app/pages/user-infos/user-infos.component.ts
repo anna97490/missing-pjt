@@ -70,6 +70,7 @@ export class UserInfosComponent implements OnInit {
     return this.editUserForm.valid;
   }
 
+
   /**
    * Updates the user data on the specified field.
    * @param field - The field to update (firstname, lastname, email)

@@ -26,7 +26,7 @@ describe('UserService', () => {
 
   it('should retrieve a user by ID', () => {
     const userId = '1';
-    const mockUser: User = new User('1', 'John', 'Doe', 'john@example.com', 'password', 'token123', 'admin');
+    const mockUser: User = new User('1', 'John', 'Doe', 'john@doe.com', 'password', 'token123', 'admin');
 
     service.getUserById(userId)
 
@@ -34,7 +34,7 @@ describe('UserService', () => {
 
   it('should edit a user', () => {
     const userId = '1';
-    const mockUpdatedUser: User = new User('1', 'John', 'Doe', 'john@example.com', 'newpassword', 'token123', 'admin');
+    const mockUpdatedUser: User = new User('1', 'John', 'Doe', 'john@doe.com', 'newpassword', 'token123', 'admin');
 
     service.editUser(userId, mockUpdatedUser);
   });

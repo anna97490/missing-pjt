@@ -46,7 +46,7 @@ describe('SigninComponent', () => {
     const user = {
       firstname: 'John',
       lastname: 'Doe',
-      email: 'test@example.com',
+      email: 'john@doe.com',
       password: 'password'
     };
 
@@ -65,7 +65,7 @@ describe('SigninComponent', () => {
     const user = {
       firstname: 'John',
       lastname: 'Doe',
-      email: 'test@example.com',
+      email: 'john@doe.com',
       password: 'password'
     };
 

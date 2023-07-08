@@ -30,6 +30,8 @@ export class PostsIndexComponent implements OnInit {
   searchText: string = '';
   selection: string = '';
   selectionYear: number = 0;
+  isSearchMatches: boolean = false;
+  noPostMessage: string = "";
 
   constructor(
     private authService: AuthService,
@@ -108,9 +110,12 @@ export class PostsIndexComponent implements OnInit {
           post.missingPlace.toLowerCase().includes(this.selection.toLowerCase())
         );
         this.posts = this.allPosts;
+
+        this.updateSearchResults();
       }
     } else {
       this.getPosts();
+      this.isSearchMatches = false;
     }
   }
 
@@ -131,13 +136,15 @@ export class PostsIndexComponent implements OnInit {
           const year = date.getFullYear().toString().substring(0, 4);
           return true;
         }
-
         return false;
       });
 
       this.posts = this.allPosts;
+
+      this.updateSearchResults();
     } else {
       this.getPosts();
+      this.isSearchMatches = false;
     }
   }
 
@@ -151,8 +158,11 @@ export class PostsIndexComponent implements OnInit {
     if (checkbox.checked) {
       this.allPosts = this.posts.filter(post => post.status === 'En cours');
       this.posts = this.allPosts;
+
+      this.updateSearchResults();
     } else {
       this.getPosts();
+      this.isSearchMatches = false;
     }
   }
 
@@ -166,11 +176,24 @@ export class PostsIndexComponent implements OnInit {
     if (checkbox.checked) {
       this.allPosts = this.posts.filter(post => post.status === 'Retrouvé(e)');
       this.posts = this.allPosts;
+
+      this.updateSearchResults();
     } else {
       this.getPosts();
+      this.isSearchMatches = false;
     }
   }
 
+  // If the search not matches
+  updateSearchResults() {
+    if (this.posts.length === 0) {
+      this.isSearchMatches = true;
+      this.noPostMessage = "Aucune fiche ne correspond à votre recherche";
+    } else {
+      this.isSearchMatches = false;
+      this.noPostMessage = "";
+    }
+  }
 
 
   // -------------------------------------- Comments --------------------------------------------

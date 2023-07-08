@@ -87,7 +87,6 @@ export class CardMissingComponent implements OnInit {
     .subscribe({
       next: (user: User) => {
         this.user = user;
-        console.log(this.user.status)
       },
       error: (error) => {
         console.error('An error occurred while getting user:', error);

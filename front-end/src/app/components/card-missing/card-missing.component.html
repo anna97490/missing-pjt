@@ -13,7 +13,7 @@
         <span class="status" [ngClass]="{'status-current': post.status == 'En cours'}">{{ post.status }}</span>
         <!-- Author and date of creation  -->
         <span class="author" [ngClass]="{'author-margin': isLoggedIn && userId === post.userId || user.status === 'admin'}">
-          Créé par {{ user.firstname | titlecase }} le {{ post.createdAt | date: 'dd/MM/yyyy'}}
+          Créé le {{ post.createdAt | date: 'dd/MM/yyyy'}}
         </span>
       </div>
 

@@ -83,7 +83,6 @@ export class PostsCreateComponent {
   */
   filteredCities(value: string) {
     const filterValue = value.toLowerCase();
-    console.log(22, filterValue)
 
     // Call the API with city value
     this.http.get<any[]>(`https://geo.api.gouv.fr/communes?nom=${filterValue}&fields=nom&format=json&geometry=centre&limit=4`)
@@ -203,7 +202,7 @@ export class PostsCreateComponent {
   */
   createPost(event: Event) {
     event.preventDefault();
-    const confirmText = confirm('Pour des soucis de recoupement dans les affaires, les fiches ne pourront être supprimeés que par l\'administrateur. Pour cela veuillez vous référer à l\onglet "Contact".');
+    const confirmText = confirm('Pour des soucis de recoupements dans les affaires, les fiches ne pourront être supprimeés que par l\'administrateur. Pour cela veuillez vous référer à l\onglet "Contact".');
 
     if (this.createPostForm.valid
       && this.userId === this.user._id

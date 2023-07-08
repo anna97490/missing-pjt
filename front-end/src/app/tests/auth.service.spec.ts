@@ -65,7 +65,7 @@ describe('AuthService', () => {
   it('should handle login API error', () => {
     const email = 'test@example.com';
     const password = 'password';
-    const error = { error: { message: 'Invalid credentials' } };
+    const error = { error: { message: 'Invalid' } };
 
     service.login(email, password).pipe(
       catchError((err) => {

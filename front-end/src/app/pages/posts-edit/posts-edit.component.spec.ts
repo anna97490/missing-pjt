@@ -57,7 +57,7 @@ describe('PostsEditComponent', () => {
       missingDate: new Date('2022-05-10'),
       missingPlace: 'City ',
       description: 'Lorem ipsum dolor sit amet',
-      image: 'https://example.com/image.jpg',
+      image: 'https://image/image.jpg',
       status: 'En cours',
       comments: [
         {
@@ -109,20 +109,20 @@ describe('PostsEditComponent', () => {
     const value = 'city';
 
     const response = [
-      { nom: 'City X' },
-      { nom: 'City Y' },
-      { nom: 'City Z' }
+      { nom: 'City 1' },
+      { nom: 'City 2' },
+      { nom: 'City 3' }
     ];
 
     spyOn(component.http, 'get').and.returnValue(of(response));
 
     component.filteredMissingPlaces(value);
 
-    expect(component.filteredMissingPlacesArray).toEqual(['City X', 'City Y', 'City Z']);
+    expect(component.filteredMissingPlacesArray).toEqual(['City 1', 'City 2', 'City 3']);
   });
 
   it('should select a missing place', () => {
-    const missingPlace = 'City X';
+    const missingPlace = 'City 1';
 
     component.selectMissingPlace(missingPlace);
 
@@ -136,15 +136,15 @@ describe('PostsEditComponent', () => {
       firstname: 'John',
       lastname: 'Doe',
       age: 33,
-      address: '123 Main St',
-      missingPlace: 'City X',
+      address: '123 address',
+      missingPlace: 'City',
       missingDate: '2022-05-10',
       description: 'Lorem ipsum dolor sit amet',
       status: 'missing'
     };
 
-    component.selectedCity = 'City X';
-    component.selectedMissingPlace = 'City Y';
+    component.selectedCity = 'City';
+    component.selectedMissingPlace = 'City';
 
     component.editPostForm.setValue(formValue);
 
