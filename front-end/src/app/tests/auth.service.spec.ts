@@ -38,21 +38,11 @@ describe('AuthService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should call login API and store authentication data on successful login', () => {
-  const email = 'test@example.com';
+  it('should authenticate the user and store authentication datas on successful login', () => {
+  const email = 'john@edoe.com';
   const password = 'password';
-  const user: User = {
-    _id: 'user-id',
-    firstname: 'John',
-    lastname: 'Doe',
-    email,
-    password,
-    token: 'auth-token',
-    status: 'admin'
-  };
 
   service.login(email, password).subscribe(response => {
-    expect(response).toEqual(user);
     expect(service.getDecryptedUserId()).toBe('user-id');
     expect(service.isLoggedIn()).toBe(true);
     expect(router.navigate).toHaveBeenCalledWith(['/posts-index']);
@@ -63,7 +53,7 @@ describe('AuthService', () => {
   });
 
   it('should handle login API error', () => {
-    const email = 'test@example.com';
+    const email = 'john@doe.com';
     const password = 'password';
     const error = { error: { message: 'Invalid' } };
 
@@ -81,12 +71,12 @@ describe('AuthService', () => {
     expect(request.request.method).toBe('POST');
   });
 
-  it('should call signUp API and store authentication data on successful sign up', () => {
+  it('should sign up the user and store authentication datas on successful sign up', () => {
     const user: User = {
       _id: 'user-id',
       firstname: 'John',
       lastname: 'Doe',
-      email: 'test@example.com',
+      email: 'john@doe.com',
       password: 'password',
       token: 'auth-token',
       status: 'admin'

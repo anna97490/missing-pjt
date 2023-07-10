@@ -208,7 +208,7 @@ export class PostsIndexComponent implements OnInit {
     if (this.isLoggedIn) {
       const commentString = this.areaForm.get('comment').value;
 
-      if (commentString.trim() === '') {
+      if (commentString === '') {
         alert('Veuillez saisir un commentaire.');
         return;
       }
@@ -249,6 +249,7 @@ export class PostsIndexComponent implements OnInit {
     .subscribe({
       next: (comments: Comment[]) => {
         this.comments = comments;
+        console.log( 11, this.comments)
       },
       error: (error: any) => {
         console.error('An error occurred while retrieving the comments:', error);
@@ -263,6 +264,7 @@ export class PostsIndexComponent implements OnInit {
   * @param commentId - The ID of the comment to delete
   */
   deleteComment(event: Event, commentId: string) {
+    console.log(commentId)
     event.preventDefault();
 
     if (confirm("Souhaitez-vous supprimer votre commentaire?") ||

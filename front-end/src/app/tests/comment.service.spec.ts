@@ -1,19 +1,22 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { CommentService } from '../service/comment.service';
+import { AuthService } from '../service/auth.service';
 import { Comment } from '../models/Comment.model';
 
 describe('CommentService', () => {
   let service: CommentService;
   let httpMock: HttpTestingController;
+  let authService: AuthService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [CommentService]
+      providers: [CommentService, AuthService]
     });
     service = TestBed.inject(CommentService);
     httpMock = TestBed.inject(HttpTestingController);
+    authService = TestBed.inject(AuthService);
   });
 
   afterEach(() => {
@@ -40,17 +43,29 @@ describe('CommentService', () => {
   });
 
   it('should add a comment', () => {
+    spyOn(authService, 'isLoggedIn').and.returnValue(true);
     const mockComment: Comment = new Comment('1', 'user1', 'post1', 'New comment', new Date());
 
-    service.addComment(mockComment);
+    service.addComment(mockComment).subscribe(comment => {
+      expect(comment).toEqual(mockComment);
+    });
 
+    const req = httpMock.expectOne('http://localhost:3000/api/comment/create-comment');
+    expect(req.request.method).toBe('POST');
+    req.flush(mockComment);
   });
 
   it('should delete a comment', () => {
+    spyOn(authService, 'isLoggedIn').and.returnValue(true);
     const mockUserId = '1';
     const mockCommentId = '1';
 
-    service.deleteComment(mockUserId, mockCommentId);
+    service.deleteComment(mockUserId, mockCommentId).subscribe(comment => {
+      expect(comment).toBeTruthy();
+    });
 
+    const req = httpMock.expectOne(`http://localhost:3000/api/comment/${mockUserId}/${mockCommentId}/delete-comment`);
+    expect(req.request.method).toBe('DELETE');
+    req.flush({});
   });
 });

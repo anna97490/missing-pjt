@@ -45,7 +45,7 @@ export class PostsCreateComponent {
       address     : ['', [Validators.required, Validators.pattern(/^[a-zA-Z -]*$/)]],
       missingPlace: ['', [Validators.required, Validators.maxLength(70), Validators.pattern(/^[a-zA-Z -]*$/)]],
       missingDate : ['', [Validators.required]],
-      description : ['', [Validators.required, Validators.minLength(10), Validators.maxLength(300)]],
+      description : ['', [Validators.required, Validators.minLength(10), Validators.maxLength(500)]],
       status      : ['', [Validators.required]],
     });
   }
@@ -207,7 +207,8 @@ export class PostsCreateComponent {
     if (this.createPostForm.valid
       && this.userId === this.user._id
       && this.isFileSelected
-      && confirmText) {
+      && confirmText
+      && this.isLoggedIn) {
       const formData = new FormData();
 
       formData.append('firstname', this.createPostForm.get('firstname').value);

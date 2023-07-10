@@ -115,7 +115,7 @@ describe('UserInfosComponent', () => {
   it('should handle error when getting user', () => {
     spyOn(authService, 'getDecryptedUserId').and.returnValue('123');
     spyOn(authService, 'isLoggedIn').and.returnValue(true);
-    spyOn(userService, 'getUserById').and.returnValue(throwError('Error occurred'));
+    spyOn(userService, 'getUserById').and.returnValue(throwError(() => 'Error'));
 
     component.ngOnInit();
 
@@ -131,7 +131,7 @@ describe('UserInfosComponent', () => {
     };
 
     spyOn(authService, 'getDecryptedUserId').and.returnValue('123');
-    spyOn(userService, 'editUser').and.returnValue(throwError('Error occurred'));
+    spyOn(userService, 'editUser').and.returnValue(throwError(() => 'Error'));
     spyOn(component, 'getUser');
 
     component.editUserForm.setValue(updatedUser);
@@ -145,7 +145,7 @@ describe('UserInfosComponent', () => {
   it('should handle error when deleting user', () => {
     spyOn(authService, 'getDecryptedUserId').and.returnValue('123');
     spyOn(window, 'confirm').and.returnValue(true);
-    spyOn(userService, 'deleteUser').and.returnValue(throwError('Error occurred'));
+    spyOn(userService, 'deleteUser').and.returnValue(throwError(() => 'Error'));
     spyOn(authService, 'logout');
 
     component.deleteUser(new Event('click'));

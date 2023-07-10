@@ -10,7 +10,7 @@ router.post('/signup', userController.signUp);
 router.post('/login', userController.login)
 
 // Get user by id
-router.get('/:id', auth, userController.getUser);
+router.get('/:id', userController.getUser);
 
 // Update user
 router.put('/:id', auth, userController.updateUser);

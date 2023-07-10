@@ -36,7 +36,7 @@ describe('AuthGuard', () => {
     expect(guard).toBeTruthy();
   });
 
-  it('should allow activation if authenticated', () => {
+  it('should allow access if authenticated', () => {
     (authService.getDecryptedUserId as jasmine.Spy).and.returnValue('user-id');
 
     const canActivate = guard.canActivate();

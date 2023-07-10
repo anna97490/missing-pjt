@@ -2,7 +2,7 @@ import { Injectable} from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../service/auth.service';
 import { User } from '../models/User.model';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, map, Observable, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +23,7 @@ export class UserService {
    * @returns An observable that emits the user
    */
   getUserById(userId: string): Observable<User> {
+
     // Get the HTTP options for the request
     const httpOptions = this.getHttpOptions();
 
@@ -34,6 +35,9 @@ export class UserService {
     // Send a GET request to retrieve the user
     return this.http.get<User>(`${this.apiUrl}/${userId}`, httpOptions)
     .pipe(
+      map((response: any) => {
+        return response;
+      }),
       catchError((error: HttpErrorResponse) => {
         console.log(error)
         return throwError(() => new Error('An error occurred while getting the user'));

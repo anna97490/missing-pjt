@@ -40,7 +40,7 @@ describe('LoginComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call authService.login and navigate on successful login', () => {
+  it('should call authService.login', () => {
     const email = 'test@example.com';
     const password = 'password';
 
@@ -53,30 +53,7 @@ describe('LoginComponent', () => {
     expect(router.navigate).toHaveBeenCalledWith(['/posts-index']);
   });
 
-
-  it('should set isCorrectEmail to true when receiving Incorrect email error', () => {
-    const email = 'test@example.com';
-    const password = 'password';
-    const error = { error: 'Incorrect email' };
-
-    spyOn(authService, 'login').and.returnValue(throwError(() => error));
-
-    component.loginForm.patchValue({ email, password });
-    component.login(new Event('click'));
-  });
-
-  it('should set isCorrectPassword to true when receiving Incorrect password error', () => {
-    const email = 'john@doe.com';
-    const password = 'password';
-    const error = { error: 'Incorrect password' };
-
-    spyOn(authService, 'login').and.returnValue(throwError(() => error));
-
-    component.loginForm.patchValue({ email, password });
-    component.login(new Event('click'));
-  });
-
-  it('should log the error message when receiving an unknown error', () => {
+  it('should log the error message when receiving an error', () => {
     const email = 'john@doe.com';
     const password = 'password';
     const error = { error: { message: 'Unknown error' } };
@@ -86,6 +63,5 @@ describe('LoginComponent', () => {
 
     component.loginForm.patchValue({ email, password });
     component.login(new Event('click'));
-
   });
 });

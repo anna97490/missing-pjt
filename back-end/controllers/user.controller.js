@@ -33,13 +33,21 @@ exports.signUp = async (req, res, next) => {
       password: hash,
     });
 
-    // Generate Token
-    const token = generateToken(user._id);
-
     // Save the new user
     await user.save();
 
-    res.status(201).json({ message: 'User created!', token, _id: user._id });
+    // Get the new user
+    const email = user.email;
+    const newUser = await User.findOne({ email });
+    
+    // Generate Token
+    const token = jwt.sign(
+      { userId: newUser._id, isAdmin: user.status },
+        process.env.SECRET_TOKEN,
+      { expiresIn: '24h',}
+    )
+
+    res.status(201).json({ message: 'User created!', token, _id: newUser._id });
   } catch (error) {
     res.status(500).json({ message: errorMessage.serverError });
   }
@@ -53,7 +61,6 @@ exports.signUp = async (req, res, next) => {
  * @returns An observable that emits the authenticated user
  */
 exports.login = async (req, res, next) => {
-  console.log(req.body)
   try {
     const user = await User.findOne({ email: req.body.email });
     const valid = await bcrypt.compare(req.body.password, user.password);
@@ -69,7 +76,12 @@ exports.login = async (req, res, next) => {
     }
 
     // Generate token
-    const token = generateToken(user._id);
+    // const token = generateToken(user._id);
+    const token = jwt.sign(
+      { userId: user._id, isAdmin: user.status },
+        process.env.SECRET_TOKEN,
+      { expiresIn: '24h',}
+    )
 
     res.status(200).json({ message: 'Authentication successful', token, _id: user._id });
   } catch (error) {

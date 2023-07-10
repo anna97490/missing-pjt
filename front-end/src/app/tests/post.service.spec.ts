@@ -109,8 +109,7 @@ describe('PostService', () => {
 
     const req = httpMock.expectOne(`http://localhost:3000/api/post/${postId}/post-picture`);
     expect(req.request.method).toBe('POST');
-    req.flush({}); // Empty response
-
+    req.flush({});
   });
 
   it('should delete a post', () => {

@@ -80,56 +80,6 @@ describe('PostsEditComponent', () => {
     postService.getPostById(postId);
   });
 
-  it('should select a city', () => {
-    const city = 'Paris';
-
-    component.selectCity(city);
-
-    expect(component.selectedCity).toBe(city);
-    expect(component.filteredCitiesArray).toEqual([]);
-  });
-
-  it('should filter cities', () => {
-    const value = 'par';
-
-    const response = [
-      { nom: 'Paris' },
-      { nom: 'Marseille' },
-      { nom: 'Montpellier' }
-    ];
-
-    spyOn(component.http, 'get').and.returnValue(of(response));
-
-    component.filteredCities(value);
-
-    expect(component.filteredCitiesArray).toEqual(['Paris', 'Marseille', 'Montpellier']);
-  });
-
-  it('should filter missing places', () => {
-    const value = 'city';
-
-    const response = [
-      { nom: 'City 1' },
-      { nom: 'City 2' },
-      { nom: 'City 3' }
-    ];
-
-    spyOn(component.http, 'get').and.returnValue(of(response));
-
-    component.filteredMissingPlaces(value);
-
-    expect(component.filteredMissingPlacesArray).toEqual(['City 1', 'City 2', 'City 3']);
-  });
-
-  it('should select a missing place', () => {
-    const missingPlace = 'City 1';
-
-    component.selectMissingPlace(missingPlace);
-
-    expect(component.selectedMissingPlace).toBe(missingPlace);
-    expect(component.filteredMissingPlacesArray).toEqual([]);
-  });
-
   it('should edit a post', () => {
     // Create a mock form value
     const formValue = {

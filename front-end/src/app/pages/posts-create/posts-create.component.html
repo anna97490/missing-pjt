@@ -31,10 +31,9 @@
     <div class="grid md:grid-cols-2 md:gap-6">
       <!-- Firstname -->
       <div class="relative z-0 w-full mb-6 group">
-        <input type="text" name="floating_first_name" id="floating_first_name" formControlName="firstname" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent
-          border-0 border-b-2 border-gray-300
-          appearance-none dark:border-gray-600
-          dark:focus:border-blue-500 focus:outline-none focus:ring-0
+        <input type="text" name="floating_first_name" id="floating_first_name" formControlName="firstname"
+          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300
+          appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0
           focus:border-blue-600 peer" placeholder="" />
         <label for="floating_first_name" class="peer-focus:font-medium absolute text-sm text-gray-500
           dark:text-gray-400 duration-300 transform -translate-y-2
@@ -47,10 +46,9 @@
 
       <!-- Lastname -->
       <div class="relative z-0 w-full mb-6 group">
-        <input type="text" name="floating_last_name" id="floating_last_name" formControlName="lastname" class="form-control block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent
-          border-0 border-b-2 border-gray-300 appearance-none
-          dark:border-gray-600 dark:focus:border-blue-500
-          focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder="" />
+        <input type="text" name="floating_last_name" id="floating_last_name" formControlName="lastname"
+          class="form-control block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none
+          dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder="" />
         <label for="floating_last_name" class="peer-focus:font-medium absolute text-sm text-gray-500
           dark:text-gray-400 duration-300 transform -translate-y-2
           scale-55 bottom-8 -z-10 origin-[0] peer-focus:left-0
@@ -65,8 +63,7 @@
       <!-- Age -->
       <div class="relative z-0 w-full mb-6 group">
         <input type="number" name="age" id="age" formControlName="age" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent
-          border-0 border-b-2 border-gray-300 appearance-none
-          dark:border-gray-600 dark:focus:border-blue-500
+          border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500
           focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=""/>
         <label for="age" class="peer-focus:font-medium absolute text-sm text-gray-500
           dark:text-gray-400 duration-300 transform -translate-y-2
@@ -78,10 +75,9 @@
       </div>
       <!-- Address -->
       <div class="relative z-0 w-full mb-6 group">
-        <input type="text" name="address" id="address" formControlName="address" [value]="selectedCity" (keyup)="filteredCities($event.target.value)" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent
-          border-0 border-b-2 border-gray-300 appearance-none
-          dark:border-gray-600 dark:focus:border-blue-500
-          focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder="" />
+        <input type="text" name="address" id="address" formControlName="address" [value]="selectedCity" (keyup)="filteredCities($event.target.value)"
+          class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none
+          dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder="" />
         <label for="address" class="peer-focus:font-medium absolute text-sm text-gray-500
           dark:text-gray-400 duration-300 transform -translate-y-2
           scale-55 bottom-8 -z-10 origin-[0] peer-focus:left-0
@@ -98,9 +94,9 @@
     <div class="grid md:grid-cols-2 md:gap-6">
       <!-- MissingPlace -->
       <div class="relative z-0 w-full mb-6 group">
-        <input type="text" name="missingPlace" id="missingPlace" formControlName="missingPlace" [value]="selectedMissingPlace" (keyup)="filteredMissingPlaces($event.target.value)" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent
-          border-0 border-b-2 border-gray-300 appearance-none
-          dark:border-gray-600 dark:focus:border-blue-500
+        <input type="text" name="missingPlace" id="missingPlace" formControlName="missingPlace" [value]="selectedMissingPlace"
+          (keyup)="filteredMissingPlaces($event.target.value)" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent
+          border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500
           focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder="" />
         <label for="missingPlace" class="peer-focus:font-medium absolute text-sm text-gray-500
           dark:text-gray-400 duration-300 transform -translate-y-2
@@ -133,10 +129,9 @@
     <div class="relative z-0 w-full mb-6 group">
       <div class="relative z-0 w-full mb-6 group">
         <textarea type="text" name="description" id="description" formControlName="description" class="description-txt block py-2.5 px-0 w-full text-sm
-          text-gray-900 bg-transparent border-0 border-b-2 border-gray-300
-          appearance-none
-          dark:border-gray-600 dark:focus:border-blue-500
-          focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=""></textarea>
+          text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none
+          dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder="">
+        </textarea>
         <label for="description" class="font-description peer-focus:font-medium absolute text-sm text-gray-500
           dark:text-gray-400 duration-300 transform -translate-y-6
           scale-75 top-3 -z-10 origin-[0] peer-focus:left-0
@@ -190,9 +185,7 @@
           <!-- Upload the picture  -->
           <div class="flex text-sm text-gray-600">
             <label for="image" class="relative cursor-pointer rounded-md bg-white font-medium
-              focus-within:outline-none
-              focus-within:ring-2 focus-within:ring-indigo-500
-              focus-within:ring-offset-2 hover:text-indigo-500">
+              focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500">
               <span class="font-medium dark:text-primary-500
                 text-primary-600 upload-text">Upload a file</span>
               <input id="image" name="image" type="file" enctype="multipart/form-data" (change)="onFileSelected($event)" class="sr-only" required="true" />

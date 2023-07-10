@@ -90,7 +90,7 @@ exports.deleteComment = async (req, res, next) => {
         return res.status(404).json({ message: errorMessage.notFound });
       }
   
-      if (user.status !== 'admin' || req.params.userId !== comment.userId.toString()) {
+      if (user.status === 'admin' || req.params.userId === comment.userId.toString()) {
         // Check if the commentId in req.params === the commentId of the comment
         if (req.params.id !== comment._id.toString()) {
           return res.status(403).json({ message: errorMessage.unauthorized });
@@ -107,8 +107,6 @@ exports.deleteComment = async (req, res, next) => {
         // not authorized
         return res.status(403).json({ message: errorMessage.unauthorized });
       }
-    
-
     
     } catch (error) {
       res.status(500).json({ error: errorMessage.serverError });

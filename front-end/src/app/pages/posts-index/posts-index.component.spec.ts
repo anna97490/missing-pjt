@@ -103,11 +103,9 @@ describe('PostsIndexComponent', () => {
 
     spyOn(commentService, 'addComment').and.returnValue(of(mockResponse));
 
-    // Set the component's isLoggedIn and userId properties
     component.isLoggedIn = true;
     component.userId = 'user1';
 
-    // Mock the posts data
     component.posts = [
       {
         _id: '1',
@@ -135,10 +133,9 @@ describe('PostsIndexComponent', () => {
     // Call the addComment method
     component.addComment(new Event('submit'), postId);
 
-    // Verify the commentService.addComment method is called with the correct parameters
+    // Verify the commentService.addComment method is called
     expect(commentService.addComment);
 
-    // Verify the getPosts method is called to update the posts data
     expect(component.getPosts);
   });
 
