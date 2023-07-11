@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientModule } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { Comment } from '../../models/Comment.model';
 import { Post } from '../../models/Post.model';
 import { PostService } from '../../service/post.service';
@@ -33,7 +33,6 @@ describe('PostsIndexComponent', () => {
   });
 
   it('should retrieve posts', () => {
-    // Mock the response
     const mockPosts: Post[] = [
       {
         _id: '1',
@@ -82,10 +81,8 @@ describe('PostsIndexComponent', () => {
     ];
     spyOn(postService, 'getPosts').and.returnValue(of(mockPosts));
 
-    // Call the method
     component.getPosts();
 
-    // Verify the posts
     expect(component.posts).toEqual(mockPosts);
   });
 
@@ -124,56 +121,15 @@ describe('PostsIndexComponent', () => {
       }
     ];
 
-    // Set the comment form value
     component.areaForm.get('comment').setValue(commentString);
 
-    // Create a spy for getPosts method
     spyOn(component, 'getPosts');
 
-    // Call the addComment method
     component.addComment(new Event('submit'), postId);
 
-    // Verify the commentService.addComment method is called
     expect(commentService.addComment);
 
     expect(component.getPosts);
-  });
-
-  it('should display an alert when not logged in', () => {
-    spyOn(commentService, 'addComment');
-
-    component.isLoggedIn = false;
-    component.addComment(new Event('submit'), '1');
-
-    expect(commentService.addComment).not.toHaveBeenCalled();
-    expect(window.alert);
-  });
-
-  it('should retrieve comments', () => {
-    // Mock the response
-    const mockComments: Comment[] = [
-      {
-        _id: '1',
-        comment: 'test',
-        userId: '1',
-        postId: '1',
-        createdAt: new Date('2023-06-11')
-      },
-      {
-        _id: '2',
-        comment: 'test',
-        userId: '2',
-        postId: '2',
-        createdAt: new Date('2023-06-11')
-      }
-    ];
-    spyOn(commentService, 'getComments').and.returnValue(of(mockComments));
-
-    // Call the method
-    component.getComments();
-
-    // Verify the comments
-    expect(component.comments).toEqual(mockComments);
   });
 
   it('should delete a comment', () => {

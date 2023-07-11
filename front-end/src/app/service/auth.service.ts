@@ -155,7 +155,7 @@ export class AuthService {
   * @param data - The data to be encrypted
   * @returns The encrypted data as a string
   */
-  private encryptData(data: string): string {
+  encryptData(data: string): string {
     return CryptoJS.AES.encrypt(data, 'Secret Passphrase').toString();
   }
 
@@ -165,7 +165,7 @@ export class AuthService {
   * @param token - The authentication token to be stored
   * @param encryptedUserId - The encrypted user ID to be stored
   */
-  private storeAuthData(token: string, encryptedUserId: string) {
+  storeAuthData(token: string, encryptedUserId: string) {
     localStorage.setItem('token', token);
     localStorage.setItem('encryptedUserId', encryptedUserId);
     localStorage.setItem('loggedIn', 'true');
@@ -176,7 +176,7 @@ export class AuthService {
   * Remove authentication datas from the local storage
   * Clears the authentication token, encrypted user ID, and sets the `loggedIn` to false
   */
-  private removeAuthData() {
+  removeAuthData() {
     localStorage.removeItem('token');
     localStorage.removeItem('encryptedUserId');
     localStorage.setItem('loggedIn', 'false');

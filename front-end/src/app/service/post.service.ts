@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../service/auth.service';
 import { Post } from '../models/Post.model';
@@ -8,7 +8,7 @@ import { catchError, map, Observable, throwError } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class PostService {
+export class PostService implements OnInit {
   private posts : Post[] = [];
   private apiUrl: string = 'http://localhost:3000/api/post';
   private token : any = this.authService.getAuthToken();

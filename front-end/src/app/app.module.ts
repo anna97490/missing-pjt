@@ -6,7 +6,6 @@ import { UserService } from './service/user.service';
 import { PostService } from './service/post.service';
 import { CommentService } from './service/comment.service';
 import { HttpClientModule } from '@angular/common/http';
-// import jwt_decode from 'jwt-decode';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';

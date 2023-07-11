@@ -91,6 +91,13 @@ export class PostsIndexComponent implements OnInit {
   }
 
 
+  /**
+  * Get the event of the child card-missing
+  */
+  postDeleted(event: Event, postId: string) {
+    this.posts = this.posts.filter(post => post._id !== postId);
+  }
+
   // Modal for non-connected or registered users
   openModal(event: Event) {
     event.preventDefault();

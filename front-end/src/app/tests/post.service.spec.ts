@@ -3,7 +3,6 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { PostService } from '../service/post.service';
 import { AuthService } from '../service/auth.service';
 import { Post } from '../models/Post.model';
-import { throwError } from 'rxjs';
 
 describe('PostService', () => {
   let service: PostService;

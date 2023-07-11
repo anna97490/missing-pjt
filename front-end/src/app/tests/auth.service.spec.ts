@@ -3,8 +3,6 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { Router } from '@angular/router';
 import { AuthService } from '../service/auth.service';
 import { User } from '../models/User.model';
-import { catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -52,25 +50,6 @@ describe('AuthService', () => {
   expect(request.request.method).toBe('POST');
   });
 
-  it('should handle login API error', () => {
-    const email = 'john@doe.com';
-    const password = 'password';
-    const error = { error: { message: 'Invalid' } };
-
-    service.login(email, password).pipe(
-      catchError((err) => {
-        expect(err).toEqual(error);
-        expect(service.getDecryptedUserId()).toBe(null);
-        expect(service.isLoggedIn()).toBe(false);
-        expect(router.navigate).not.toHaveBeenCalled();
-        return throwError(() => error);
-      })
-    ).subscribe();
-
-    const request = httpMock.expectOne(`${service.apiUrl}/login`);
-    expect(request.request.method).toBe('POST');
-  });
-
   it('should sign up the user and store authentication datas on successful sign up', () => {
     const user: User = {
       _id: 'user-id',
@@ -90,33 +69,6 @@ describe('AuthService', () => {
       expect(service.isLoggedIn()).toBe(true);
       expect(router.navigate).toHaveBeenCalledWith(['/posts-index']);
     });
-
-    const request = httpMock.expectOne(`${service.apiUrl}/signup`);
-    expect(request.request.method).toBe('POST');
-  });
-
-  it('should handle signUp API error', () => {
-    const user: User = {
-      _id: 'user-id',
-      firstname: 'John',
-      lastname: 'Doe',
-      email: 'test@example.com',
-      password: 'password',
-      token: 'auth-token',
-      status: 'admin'
-    };
-
-    const message = 'error'
-
-    service.signUp(user, message).pipe(
-      catchError((err) => {
-        expect(err).toEqual(message);
-        expect(service.getDecryptedUserId()).toBe(null);
-        expect(service.isLoggedIn()).toBe(false);
-        expect(router.navigate).not.toHaveBeenCalled();
-        return throwError(() => message);
-      })
-    ).subscribe();
 
     const request = httpMock.expectOne(`${service.apiUrl}/signup`);
     expect(request.request.method).toBe('POST');

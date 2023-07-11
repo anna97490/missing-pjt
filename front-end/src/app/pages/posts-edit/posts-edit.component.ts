@@ -1,4 +1,4 @@
-import { Component, ElementRef } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../service/auth.service';
 import { Post } from 'src/app/models/Post.model';
@@ -13,7 +13,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   templateUrl: './posts-edit.component.html',
   styleUrls: ['./posts-edit.component.scss']
 })
-export class PostsEditComponent {
+export class PostsEditComponent implements OnInit {
   isLoggedIn: boolean = false;
   user: any = User;
   userId: any;

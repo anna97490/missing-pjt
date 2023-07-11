@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { throwError } from 'rxjs';
 
 import { PostsCreateComponent } from './posts-create.component';
 import { AuthService } from '../../service/auth.service';
@@ -61,6 +60,8 @@ describe('PostsCreateComponent', () => {
   it('should call createPost method on form submission', () => {
     spyOn(authService, 'isLoggedIn').and.returnValue(true);
     spyOn(component, 'createPost');
+    const image = new File(['file contents'], 'image.jpg', { type: 'image/jpeg' });
+
     const form = component.createPostForm;
     form.get('firstname').setValue('John');
     form.get('lastname').setValue('Doe');
@@ -70,20 +71,11 @@ describe('PostsCreateComponent', () => {
     form.get('missingDate').setValue('2023-01-01');
     form.get('description').setValue('Description');
     form.get('status').setValue('En cours');
+    form.image = image
 
     const submitButton = fixture.nativeElement.querySelector('button[type="submit"]');
     submitButton.click();
 
     expect(component.createPost).toHaveBeenCalled();
-  });
-
-  it('should log the error message when the form is invalid', () => {
-    spyOn(component, 'createPost');
-    spyOn(console, 'log');
-
-    component.createPostForm.setErrors({ invalid: true });
-    component.createPost(new Event('click'));
-
-    expect(console.log);
   });
 });

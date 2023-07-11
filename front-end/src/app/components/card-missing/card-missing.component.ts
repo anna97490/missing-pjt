@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { Post } from 'src/app/models/Post.model';
 import { User } from 'src/app/models/User.model';
@@ -13,6 +13,7 @@ import { AuthService } from '../../service/auth.service';
 })
 export class CardMissingComponent implements OnInit {
   @Input() post: any;
+  @Output() postDeleted: EventEmitter<string> = new EventEmitter<string>();
   isLoggedIn = false;
   userId: any;
   user: any = User;
@@ -47,7 +48,7 @@ export class CardMissingComponent implements OnInit {
       const post = this.posts.find(post => post._id === this.post._id);
 
       if (post) {
-        this.router.navigate(['/edit-post/', post.userId, post._id], { state: { post: post }});
+        this.router.navigate(['/edit-post/', post.userId, post._id]);
       }
     }
   }
@@ -68,9 +69,7 @@ export class CardMissingComponent implements OnInit {
       this.postService.deletePost(postId, this.userId)
       .subscribe({
         next: (response: any) => {
-          window.location.reload(); // a supprimer
-          // this.getPosts();
-          // return this.posts;
+          this.postDeleted.emit(this.post._id);
         },
         error: (error: any) => {
           console.log(error);

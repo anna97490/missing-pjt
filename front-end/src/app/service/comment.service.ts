@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../service/auth.service';
 import { Comment } from '../models/Comment.model';
@@ -7,7 +7,7 @@ import { catchError, map, Observable, throwError } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class CommentService {
+export class CommentService implements OnInit {
   private comment: Comment[] = [];
   private apiUrl : string = 'http://localhost:3000/api/comment';
   private token  : any = this.authService.getAuthToken();

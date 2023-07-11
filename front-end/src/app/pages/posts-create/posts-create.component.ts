@@ -1,4 +1,4 @@
-import { Component, ElementRef } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/User.model';
@@ -13,7 +13,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./posts-create.component.scss']
 })
 
-export class PostsCreateComponent {
+export class PostsCreateComponent implements OnInit {
   isLoggedIn: boolean = false;
   private userId: any;
   user: any = User;
@@ -227,7 +227,6 @@ export class PostsCreateComponent {
         next: (response) => {
           // Post creation successful
           this.router.navigate(['/posts-index']);
-          this.createPostForm.reset();
         },
         error: (error) => {
           console.error('An error occurred while creating the post:', error);

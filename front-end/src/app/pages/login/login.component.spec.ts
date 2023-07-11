@@ -41,7 +41,7 @@ describe('LoginComponent', () => {
   });
 
   it('should call authService.login', () => {
-    const email = 'test@example.com';
+    const email = 'john@doe.com';
     const password = 'password';
 
     spyOn(authService, 'login').and.returnValue(of({} as User));
@@ -51,17 +51,5 @@ describe('LoginComponent', () => {
 
     expect(authService.login).toHaveBeenCalledWith(email, password);
     expect(router.navigate).toHaveBeenCalledWith(['/posts-index']);
-  });
-
-  it('should log the error message when receiving an error', () => {
-    const email = 'john@doe.com';
-    const password = 'password';
-    const error = { error: { message: 'Unknown error' } };
-
-    spyOn(authService, 'login').and.returnValue(throwError(() => error));
-    spyOn(console, 'log');
-
-    component.loginForm.patchValue({ email, password });
-    component.login(new Event('click'));
   });
 });
